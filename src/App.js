@@ -1,25 +1,29 @@
-import logo from './logo.svg';
+import { useState } from 'react';
 import './App.css';
+import { BrowserRouter as Routes, Route, Redirect } from 'react-router-dom';
+import Pools from './components/Pools/Pools';
+import MyAccount from './components/MyAccount/MyAccount';
+import LeaderBoard from './components/LeaderBoard/LeaderBoard';
+import Header from './components/Header/Header';
+import Sidebar from './components/Sidebar/Sidebar';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const App = () => {
+	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
+
+	return (
+	  	<Routes>
+			<Header selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
+			<div className='app-wrapper'>
+				<Sidebar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
+				<div className='app-content'>
+					<Route path="/" component={Pools} exact />
+					<Route path="/my-account" component={MyAccount} exact />
+					<Route path="/leaderboard" component={LeaderBoard} exact />
+					<Route render={() => <Redirect to="/" />} />
+				</div>
+			</div>
+		</Routes>
+	);
 }
 
 export default App;
