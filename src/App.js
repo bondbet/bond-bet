@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import './App.css';
+import './assets/css/App.css';
+import './assets/css/Header.css';
+import './assets/css/Sidebar.css';
+import './assets/css/Pools.css';
+import './assets/css/Responsive.css';
 import { BrowserRouter as Routes, Route, Redirect } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
 import MyAccount from './components/MyAccount/MyAccount';

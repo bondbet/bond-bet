@@ -4,11 +4,6 @@ import MobileSidebar from '../Mobile/MobileSidebar';
 const Header = ({selectedMenuItem, setSelectedMenuItem}) => {
     const [toggleSidebar, setToggleSidebar] = useState(false);
 
-    // const handleMenuClick = (idx) => {
-    //     setSelectedMenuItem(idx);
-    //     setToggleSidebar(!toggleSidebar);
-    // }
-
     return (
         <header>
             <div className='app-logo'>

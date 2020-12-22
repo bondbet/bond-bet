@@ -1,0 +1,78 @@
+@media only screen and (max-width: 1200px) {
+    .pools-box-buttons {
+        grid-template-columns: 200px 200px;
+    }
+    .no-loss-lottery h4, .no-loss-lottery-mobile h4 {
+        font-size: 14px;
+    }
+    .connect-wallet button, .connect-wallet-mobile button {
+        font-size: 11px;
+    }
+    .lottery-pools-section .title {
+        font-size: 26px;
+    }
+    .pools-box-inner-title {
+        font-size: 17px;
+    }
+    .pools-box-screen-inner {
+        font-size: 28px;
+    }
+}
+
+@media only screen and (max-width: 993px) {
+    header {
+        grid-template-columns: 180px 1fr 230px;
+        padding: 18px;
+    }
+    .app-content {
+        padding: 47px 15px;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    header {
+        grid-template-columns: 1fr 45px;
+    }
+    .no-loss-lottery,
+    .connect-wallet,
+    .app-sidebar {
+        display: none;
+    }
+    .mobile-menu {
+        display: block;
+    }
+    .no-loss-lottery-mobile h4 {
+        font-size: 14px;
+    }
+    .connect-wallet-mobile button {
+        width: 100%;
+        margin-bottom: 40px;
+        padding: 12px 50px;
+    }
+    .pools-box-buttons {
+        grid-template-columns: 100%;
+        grid-gap: 20px;
+    }
+    .pools-box-inner {
+        padding: 40px 10px;
+    }
+    .pools-box-inner-title {
+        font-size: 14px;
+    }
+    .pools-box-screen-inner {
+        font-size: 20px;
+    }
+    .in-road {
+        font-size: 9px;
+    }
+    .pools-box-buttons button {
+        font-size: 12px;
+    }
+    .lottery-pools-section .title {
+        font-size: 18px;
+    }
+    .progress-bar img {
+        top: -32px;
+        width: 47px;
+    }
+}

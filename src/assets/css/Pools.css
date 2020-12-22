@@ -1,0 +1,135 @@
+.lottery-pools-section .title {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 36px;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+}
+
+.pools-box {
+    background: linear-gradient(0deg, #EFEFEF, #EFEFEF), #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+}
+
+.pools-box-header {
+    background: #D8D8D8;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 7px;
+    display: flex;
+    align-items: center;
+}
+
+.pools-box-header-text {
+    font-family: pixChicago;
+    font-size: 10px;
+    color: #000000;
+    font-weight: normal;
+    text-align: center;
+    white-space: nowrap;
+    padding: 0 26px;
+}
+
+.pools-box-header-text-left-lines,
+.pools-box-header-text-right-lines {
+    width: 100%;
+}
+
+.pools-box-header-text-left-lines div,
+.pools-box-header-text-right-lines div {
+    height: 1px;
+    background-color: #727475;
+    margin-bottom: 2px;
+}
+
+.pools-box-content {
+    padding: 13px 16px 25px;
+}
+
+.pools-box-inner {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 40px 60px;
+    margin-bottom: 25px;
+}
+
+.pools-box-buttons {
+    display: grid;
+    grid-template-columns: 338px 338px;
+    grid-gap: 30px;
+    justify-content: center;
+}
+
+.pools-box-buttons button {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 17px;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.pools-box-inner-title {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 24px;
+    color: #000000;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.pools-box-screen {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+    padding: 22px;
+    margin-bottom: 20px;
+}
+
+.pools-box-screen-inner {
+    background-color: #000;
+    width: 100%;
+    text-align: center;
+    font-size: 40px;
+    font-family: pixChicago;
+    text-transform: uppercase;
+    color: #26CD73;
+    padding: 20px;
+}
+
+.pools-box-progress {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+    padding: 15px 28px;
+}
+
+.in-road {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 10px;
+    color: #000000;
+    margin-bottom: 7px;
+}
+
+.progress-bar {
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px rgba(0, 0, 0, 0.5), inset -2px -2px 0px rgba(255, 255, 255, 0.7);
+    height: 10px;
+    position: relative;
+}
+
+.progress-bar img {
+    position: absolute;
+    top: -50px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    background-color: #000;
+}

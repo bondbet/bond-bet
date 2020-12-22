@@ -1,0 +1,50 @@
+@font-face {
+    font-family: pixChicago;
+    src: url('../fonts/pixChicago/pixChicago.woff');
+}
+
+@font-face {
+    font-family: spaceGroteskBold;
+    src: url('../fonts/spaceGrotesk/SpaceGrotesk-Bold.ttf');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+button:focus,
+input:focus,
+textarea:focus {
+    outline: none;
+}
+
+body {
+    background-color: #6567CC;
+    overflow: hidden;
+}
+
+.app-wrapper {
+    display: flex;
+    height: 91vh;
+}
+
+.app-sidebar {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    width: 300px;
+    height: 100%;
+    left: 0;
+    top: 0;
+    background: #EFEFEF;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 84px 10px 40px;
+}
+
+.app-content {
+    padding: 47px 108px;
+    width: 100%;
+}

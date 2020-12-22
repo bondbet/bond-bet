@@ -1,0 +1,92 @@
+.close-sidebar {
+    height: 100%;
+    width: 100%;
+    font-size: 26px;
+    cursor: pointer;
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+    padding: 3px 0;
+}
+
+.sidebar-on-mobile {
+    position: absolute;
+    width: 300px;
+    height: 100vh;
+    right: 0;
+    top: 0;
+    background: #EFEFEF;
+    box-shadow: inset -1px -1px 0px 0px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    z-index: 2;
+}
+
+.sidebar-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 1;
+    height: 100vh;
+    background: rgba(0,0,0,0.6);
+}
+
+.sidebar-header {
+    display: grid;
+    grid-template-columns: 1fr 45px;
+    padding: 21px;
+    border-bottom: 1px solid #000000;
+    height: 9vh;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 40px 21px;
+    background: #EFEFEF;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    height: 91vh;
+}
+
+.sidebar-copyright {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.sidebar-copyright i {
+    font-size: 30px;
+    margin-right: 15px;
+}
+
+.sidebar-copyright p {
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    color: #000000;
+}
+
+ul.sidebar-menu {
+    list-style: none;
+}
+
+ul.sidebar-menu a {
+    display: flex;
+    align-items: center;
+    padding: 24px 53px;
+    font-size: 18px;
+    color: #000;
+    font-family: spaceGroteskBold;
+    text-decoration: none;
+    margin-bottom: 10px;
+}
+
+ul.sidebar-menu a.active {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+}
+
+ul.sidebar-menu a i {
+    margin-right: 10px;
+    font-size: 24px;
+}
