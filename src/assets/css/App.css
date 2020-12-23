@@ -8,6 +8,21 @@
     src: url('../fonts/spaceGrotesk/SpaceGrotesk-Bold.ttf');
 }
 
+@font-face {
+    font-family: spaceGroteskRegular;
+    src: url('../fonts/spaceGrotesk/SpaceGrotesk-Regular.ttf');
+}
+
+@font-face {
+    font-family: spaceGroteskLight;
+    src: url('../fonts/spaceGrotesk/SpaceGrotesk-Light.ttf');
+}
+
+@font-face {
+    font-family: spaceGroteskMedium;
+    src: url('../fonts/spaceGrotesk/SpaceGrotesk-Medium.ttf');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -47,4 +62,5 @@ body {
 .app-content {
     padding: 47px 108px;
     width: 100%;
+    overflow: auto;
 }

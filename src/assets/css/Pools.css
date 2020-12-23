@@ -1,9 +1,15 @@
-.lottery-pools-section .title {
+.lottery-pools-container .title {
     font-family: pixChicago;
     font-weight: normal;
     font-size: 36px;
     color: #FFFFFF;
     margin-bottom: 15px;
+}
+
+.lottery-pools-section {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 30px;
 }
 
 .pools-box {
@@ -57,7 +63,7 @@
 
 .pools-box-buttons {
     display: grid;
-    grid-template-columns: 338px 338px;
+    grid-template-columns: minmax(auto, 338px) minmax(auto, 338px);
     grid-gap: 30px;
     justify-content: center;
 }
@@ -76,7 +82,7 @@
 .pools-box-inner-title {
     font-family: pixChicago;
     font-weight: normal;
-    font-size: 24px;
+    font-size: 18px;
     color: #000000;
     text-align: center;
     margin-bottom: 25px;
@@ -94,7 +100,7 @@
     background-color: #000;
     width: 100%;
     text-align: center;
-    font-size: 40px;
+    font-size: 30px;
     font-family: pixChicago;
     text-transform: uppercase;
     color: #26CD73;
@@ -106,6 +112,7 @@
     border: 1px solid #000000;
     box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
     padding: 15px 28px;
+    margin-bottom: 30px;
 }
 
 .in-road {
@@ -132,4 +139,40 @@
 .progress-bar-fill {
     height: 100%;
     background-color: #000;
+}
+
+.pools-box-countdown {
+    display: grid;
+    grid-template-columns: repeat(4, auto);
+    justify-content: center;
+    grid-gap: 10px;
+}
+
+.pools-box-countdown-cubes-n {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pools-box-countdown-cubes-n div {
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+    font-family: spaceGroteskRegular;
+    font-size: 25px;
+    color: #000000;
+    width: 40px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pools-box-countdown-cubes-l {
+    font-family: spaceGroteskRegular;
+    font-size: 10px;
+    text-align: center;
+    text-transform: uppercase;
+    color: #000000;
+    margin-top: 3px;
 }

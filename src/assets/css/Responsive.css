@@ -11,11 +11,17 @@
     .lottery-pools-section .title {
         font-size: 26px;
     }
+    .pools-box-inner {
+        padding: 40px 15px;
+    }
     .pools-box-inner-title {
         font-size: 17px;
     }
     .pools-box-screen-inner {
         font-size: 28px;
+    }
+    .lottery-pools-section {
+        grid-template-columns: auto;
     }
 }
 
@@ -68,11 +74,25 @@
     .pools-box-buttons button {
         font-size: 12px;
     }
-    .lottery-pools-section .title {
+    .lottery-pools-container .title {
         font-size: 18px;
     }
     .progress-bar img {
         top: -32px;
         width: 47px;
+    }
+    .pools-box-countdown-cubes-n div {
+        width: 34.57px;
+        height: 32.84px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .pools-box-countdown-cubes-n div {
+        width: 27px;
+        height: 27px;
+    }
+    .pools-box-countdown-cubes-n div {
+        font-size: 22px;
     }
 }
