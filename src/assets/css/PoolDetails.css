@@ -1,0 +1,83 @@
+.reward-pool-details-title {
+    display: flex;
+    align-items: center;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 24px;
+    color: #FFFFFF;
+    margin-bottom: 30px;
+}
+
+.reward-pool-details-title img {
+    width: 47px;
+    height: 47px;
+    margin-right: 20px;
+}
+
+.breadcrumbs {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    justify-content: flex-start;
+    grid-gap: 10px;
+    align-items: center;
+    margin-bottom: 70px;
+}
+
+.breadcrumbs a {
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.breadcrumbs label {
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    color: #FFFFFF;
+}
+
+.pools-box-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 30px;
+}
+
+.pools-box.required-changes {
+    margin: 73px 0;
+}
+
+.pools-box-content.required-changes {
+    padding: 12px;
+}
+
+.pools-box-inner.required-changes {
+    margin-bottom: 0;
+    padding: 12px;
+}
+
+.pools-box-inner.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 17px;
+    width: 100%;
+}
+
+.pools-box-inner-title.required-changes {
+    justify-content: flex-start;
+    margin-bottom: 17px;
+}
+
+.pools-box-screen.required-changes {
+    margin-bottom: 0;
+}
+
+.pools-box-progress.required-changes {
+    margin-bottom: 20px;
+}
+
+.pools-box-inner-description {
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    color: #000000;
+    margin-bottom: 17px;
+}

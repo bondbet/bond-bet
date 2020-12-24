@@ -17,7 +17,9 @@
     .pools-box-screen-inner {
         font-size: 28px;
     }
-    .lottery-pools-section {
+    .lottery-pools-section,
+    .pools-box-container,
+    .pools-box-inner.grid {
         grid-template-columns: auto;
     }
 }
@@ -29,6 +31,14 @@
     }
     .app-content {
         padding: 47px 15px;
+    }
+    .reward-pool-details-title {
+        font-size: 16px;
+    }
+    .reward-pool-details-title img {
+        width: 40px;
+        height: 40px;
+        margin-right: 10px;
     }
 }
 
@@ -60,9 +70,6 @@
     .pools-box-inner {
         padding: 40px 10px;
     }
-    .pools-box-inner-title {
-        font-size: 10px;
-    }
     .pools-box-screen-inner {
         font-size: 20px;
     }
@@ -92,5 +99,25 @@
     }
     .pools-box-countdown-cubes-n div {
         font-size: 22px;
+    }
+    .breadcrumbs {
+        margin-bottom: 20px;
+    }
+    .breadcrumbs a, 
+    .breadcrumbs label,
+    .reward-pool-details-title {
+        font-size: 12px;
+    }
+    .breadcrumbs img {
+        width: 15px;
+    }
+    .pools-box.required-changes {
+        margin: 20px 0;
+    }
+    .pools-box-container {
+        grid-gap: 20px;
+    }
+    .pools-box-inner-description {
+        font-size: 16px;
     }
 }

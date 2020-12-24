@@ -3,6 +3,7 @@ import MobileSidebar from '../Mobile/MobileSidebar';
 import appLogo from '../../assets/images/app-logo.png';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
 import hamburgerIcon from '../../assets/images/hamburger.png';
+import { Link } from 'react-router-dom';
 
 const Header = ({selectedMenuItem, setSelectedMenuItem}) => {
     const [toggleSidebar, setToggleSidebar] = useState(false);
@@ -10,7 +11,9 @@ const Header = ({selectedMenuItem, setSelectedMenuItem}) => {
     return (
         <header>
             <div className='app-logo'>
-                <img src={appLogo} alt='app-logo' />
+                <Link to='/'>
+                    <img src={appLogo} alt='app-logo' />
+                </Link>
             </div>
             <div className='no-loss-lottery'>
                 <img src={noLossLotteryImg} alt='No Loss Lottery' />
