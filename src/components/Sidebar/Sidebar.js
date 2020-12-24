@@ -1,5 +1,6 @@
 import React from 'react'
 import MenuItems from '../Mobile/MenuItems'
+import arrowToLeftImg from '../../assets/images/arrowToLeft.png';
 
 const Sidebar = ({selectedMenuItem, setSelectedMenuItem}) => {
 
@@ -12,7 +13,7 @@ const Sidebar = ({selectedMenuItem, setSelectedMenuItem}) => {
                 />
             </ul>
             <div className='sidebar-copyright'>
-                <i className="fal fa-long-arrow-left"></i>
+                <img src={arrowToLeftImg} alt='Left arrow' />
                 <p>bond.bet © {new Date().getFullYear()}</p>
             </div>
         </div>

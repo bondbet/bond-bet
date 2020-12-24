@@ -1,5 +1,8 @@
 import React from 'react';
 import MenuItems from './MenuItems';
+import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
+import arrowToLeftImg from '../../assets/images/arrowToLeft.png';
+import closeIcon from '../../assets/images/close.png';
 
 const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setSelectedMenuItem }) => {
     return (
@@ -7,11 +10,10 @@ const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setS
             <div className='sidebar-on-mobile'>
                 <div className='sidebar-header'>
                     <div className='no-loss-lottery-mobile'>
-                        <i className='fal fa-gift'></i>
-                        <h4>No Loss Lottery</h4>
+                        <img src={noLossLotteryImg} alt='No Loss Lottery' />
                     </div>
                     <button className='close-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
-                        <i className="fas fa-times"></i>
+                        <img src={closeIcon} alt='Close Sidebar Icon' />
                     </button>
                 </div>
             <div className='sidebar-content'>
@@ -29,7 +31,7 @@ const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setS
                         </ul>
                     </div>
                     <div className='sidebar-copyright'>
-                        <i className="fal fa-long-arrow-left"></i>
+                        <img src={arrowToLeftImg} alt='Left arrow' />
                         <p>bond.bet © {new Date().getFullYear()}</p>
                     </div>
                 </div>

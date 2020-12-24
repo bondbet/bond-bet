@@ -14,9 +14,6 @@
     .pools-box-inner {
         padding: 40px 15px;
     }
-    .pools-box-inner-title {
-        font-size: 17px;
-    }
     .pools-box-screen-inner {
         font-size: 28px;
     }
@@ -27,7 +24,7 @@
 
 @media only screen and (max-width: 993px) {
     header {
-        grid-template-columns: 180px 1fr 230px;
+        grid-template-columns: 250px 1fr 230px;
         padding: 18px;
     }
     .app-content {
@@ -46,6 +43,7 @@
     }
     .mobile-menu {
         display: block;
+        height: 90%;
     }
     .no-loss-lottery-mobile h4 {
         font-size: 14px;
@@ -63,7 +61,7 @@
         padding: 40px 10px;
     }
     .pools-box-inner-title {
-        font-size: 14px;
+        font-size: 10px;
     }
     .pools-box-screen-inner {
         font-size: 20px;

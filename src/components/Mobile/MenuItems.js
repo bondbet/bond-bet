@@ -1,20 +1,23 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import poolsImg from '../../assets/images/pools.png';
+import myAccountImg from '../../assets/images/my-account.png';
+import leaderboardImg from '../../assets/images/leaderboard.png';
 
 const MenuItems = ({selectedMenuItem, setSelectedMenuItem, toggleSidebar, setToggleSidebar}) => {
     const menuItems = [
         {
-            icon: 'fab fa-product-hunt fa-fw',
+            icon: poolsImg,
             text: 'Pools',
             path: '/',
         },
         {
-            icon: 'fas fa-user-circle fa-fw',
+            icon: myAccountImg,
             text: 'My Account',
             path: '/my-account',
         },
         {
-            icon: 'fas fa-clipboard-list fa-fw',
+            icon: leaderboardImg,
             text: 'Leaderboard',
             path: '/leaderboard',
         },
@@ -26,7 +29,7 @@ const MenuItems = ({selectedMenuItem, setSelectedMenuItem, toggleSidebar, setTog
                 return (
                     <li key={index}>
                         <Link to={menu.path} className={selectedMenuItem === index ? 'active' : ''} onClick={() => { setSelectedMenuItem(index); toggleSidebar && setToggleSidebar(!toggleSidebar) }}>
-                            <i className={menu.icon}></i> {menu.text}
+                            <img src={menu.icon} alt={menu.text} /> {menu.text}
                         </Link>
                     </li>
                 )    

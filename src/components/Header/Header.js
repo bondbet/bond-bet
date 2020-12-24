@@ -1,5 +1,8 @@
 import React, {useState} from 'react'
 import MobileSidebar from '../Mobile/MobileSidebar';
+import appLogo from '../../assets/images/app-logo.png';
+import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
+import hamburgerIcon from '../../assets/images/hamburger.png';
 
 const Header = ({selectedMenuItem, setSelectedMenuItem}) => {
     const [toggleSidebar, setToggleSidebar] = useState(false);
@@ -7,11 +10,10 @@ const Header = ({selectedMenuItem, setSelectedMenuItem}) => {
     return (
         <header>
             <div className='app-logo'>
-                <h1>Logo Here</h1>
+                <img src={appLogo} alt='app-logo' />
             </div>
             <div className='no-loss-lottery'>
-                <i className='fal fa-gift'></i>
-                <h4>No Loss Lottery</h4>
+                <img src={noLossLotteryImg} alt='No Loss Lottery' />
             </div>
             <div className='connect-wallet'>
                 <button>Connect wallet</button>
@@ -19,7 +21,7 @@ const Header = ({selectedMenuItem, setSelectedMenuItem}) => {
 
             <div className='mobile-menu'>
                 <button className='open-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
-                    <i className='fas fa-bars'></i>
+                    <img src={hamburgerIcon} alt='Hamburger Icon' />
                 </button>
                 {toggleSidebar &&
                     <MobileSidebar

@@ -7,6 +7,9 @@
     border: 1px solid #000000;
     box-shadow: inset 0px 0px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
     padding: 3px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .sidebar-on-mobile {
@@ -35,7 +38,7 @@
     grid-template-columns: 1fr 45px;
     padding: 21px;
     border-bottom: 1px solid #000000;
-    height: 9vh;
+    height: 9.5vh;
 }
 
 .sidebar-content {
@@ -54,8 +57,7 @@
     justify-content: center;
 }
 
-.sidebar-copyright i {
-    font-size: 30px;
+.sidebar-copyright img {
     margin-right: 15px;
 }
 
@@ -86,7 +88,6 @@ ul.sidebar-menu a.active {
     box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
 }
 
-ul.sidebar-menu a i {
+ul.sidebar-menu a img {
     margin-right: 10px;
-    font-size: 24px;
 }

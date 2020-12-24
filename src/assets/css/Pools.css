@@ -82,10 +82,17 @@
 .pools-box-inner-title {
     font-family: pixChicago;
     font-weight: normal;
-    font-size: 18px;
+    font-size: 16px;
     color: #000000;
     text-align: center;
     margin-bottom: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pools-box-inner-title img {
+    margin-right: 12px;
 }
 
 .pools-box-screen {

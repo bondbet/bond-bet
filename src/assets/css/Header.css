@@ -10,26 +10,16 @@ header {
     display: grid;
     grid-template-columns: 300px 1fr 300px;
     height: 9vh;
+    align-items: center;
 }
 
-.no-loss-lottery,
 .no-loss-lottery-mobile {
     display: flex;
     align-items: center;
 }
 
-.no-loss-lottery h4,
-.no-loss-lottery-mobile h4 {
-    font-family: pixChicago;
-    font-size: 18px;
-    color: #000000;
-    margin-left: 15px;
-    font-weight: normal;
-}
-
-.no-loss-lottery i,
-.no-loss-lottery-mobile i {
-    font-size: 26px;
+.no-loss-lottery-mobile img {
+    width: 200px;
 }
 
 .connect-wallet button,
@@ -59,4 +49,7 @@ header {
     background: #FFFFFF;
     border: 1px solid #000000;
     box-shadow: inset -1px -1px 0px 0px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }

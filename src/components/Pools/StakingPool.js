@@ -1,6 +1,7 @@
 import React from 'react'
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
+import onlyLogo from '../../assets/images/onlyLogo.png';
 
 const StakingPool = ({percentageTimePassed, countdown}) => {
     return (
@@ -18,7 +19,9 @@ const StakingPool = ({percentageTimePassed, countdown}) => {
 
             <div className='pools-box-content'>
                 <div className='pools-box-inner'>
-                    <h1 className='pools-box-inner-title'>DAO Staking Pool</h1>
+                    <h1 className='pools-box-inner-title'>
+                        <img src={onlyLogo} alt='DAO Staking Pool' /> DAO Staking Pool
+                    </h1>
 
                     <div className='pools-box-screen'>
                         <div className='pools-box-screen-inner'>
