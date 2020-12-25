@@ -5,6 +5,7 @@ import './assets/css/Sidebar.css';
 import './assets/css/Pools.css';
 import './assets/css/PoolDetails.css';
 import './assets/css/MyAccount.css';
+import './assets/css/Leaderboard.css';
 import './assets/css/Responsive.css';
 import { BrowserRouter as Routes, Route, Redirect, Switch } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
@@ -18,6 +19,7 @@ import StakingPoolDetails from './components/Pools/StakingPool/StakingPoolDetail
 const App = () => {
 	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
+	const [connected, setConnected] = useState(true);
 
 	const setNewTime = (setCountdown) => {
         const currentTime = new Date().getTime();
@@ -53,7 +55,7 @@ const App = () => {
 
 	return (
 	  	<Routes>
-			<Header selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
+			<Header selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} connected={connected} setConnected={setConnected} />
 			<div className='app-wrapper'>
 				<Sidebar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
 				<div className='app-content'>

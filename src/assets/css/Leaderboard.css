@@ -1,0 +1,23 @@
+.leaderboard-title {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 36px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.leaderboard-desc {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 14px;
+    color: #FFFFFF;
+    margin-bottom: 15px;
+}
+
+.seperateThreeWinners .table-body-columns {
+    background: #DEDEDE;
+}
+
+.seperateThreeWinners .table-body-columns:first-child {
+    background: #BFBFBF;
+}

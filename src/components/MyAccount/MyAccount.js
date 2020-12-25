@@ -2,10 +2,169 @@ import React from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import logo from '../../assets/images/onlyLogo.png';
 import { useHistory } from 'react-router-dom';
-import TransactionsTable from './TransactionsTable';
+import Table from '../Table/Table';
 
 const MyAccount = () => {
     const history = useHistory();
+
+    const data = React.useMemo(() => [
+        {
+            col1: 'DAO Staking Pool',
+            col2: '10',
+            col3: '0x5546...bc94',
+            col4: 'about 2 hours ago',
+            col5: 'Deposit',
+        },
+        {
+            col1: 'DAO Staking Pool',
+            col2: '5',
+            col3: '0x5546...bc94',
+            col4: '3 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+        {
+            col1: 'Community Reward Pool',
+            col2: '43',
+            col3: '0x5546...bc94',
+            col4: '15 days ago',
+            col5: 'Withdraw',
+        },
+    ], [])
+    
+    const columns = React.useMemo(() => [
+        {
+            Header: 'Pool',
+            accessor: 'col1',
+        },
+        {
+            Header: 'Tickets / BOND',
+            accessor: 'col2',
+        },
+        {
+            Header: 'TX Hash',
+            accessor: 'col3',
+        },
+        {
+            Header: 'Time',
+            accessor: 'col4',
+        },
+        {
+            Header: 'Type',
+            accessor: 'col5',
+        },
+    ], [])
 
     return (
         <div className='my-account-section'>
@@ -71,7 +230,7 @@ const MyAccount = () => {
 
             <div className='transactions'>
                 <h1 className='my-account-title'>My Transactions</h1>
-                <TransactionsTable />
+                <Table title='My Transactions' data={data} columns={columns} pageSize={4} />
             </div>
         </div>
     )

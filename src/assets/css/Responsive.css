@@ -17,7 +17,7 @@
     .no-loss-lottery h4, .no-loss-lottery-mobile h4 {
         font-size: 14px;
     }
-    .connect-wallet button, .connect-wallet-mobile button {
+    .connect-wallet button, .connect-wallet-mobile > button {
         font-size: 11px;
     }
     .lottery-pools-section .title {
@@ -86,7 +86,7 @@
     .no-loss-lottery-mobile h4 {
         font-size: 14px;
     }
-    .connect-wallet-mobile button {
+    .connect-wallet-mobile > button {
         width: 100%;
         margin-bottom: 40px;
         padding: 12px 50px;
@@ -127,6 +127,15 @@
     .my-account-totals {
         grid-gap: 20px;
         margin: 20px 0;
+    }
+    .leaderboard-title {
+        font-size: 18px;
+    }
+    .leaderboard-desc {
+        font-size: 12px;
+    }
+    .connected > button {
+        margin-bottom: 40px;
     }
 }
 
