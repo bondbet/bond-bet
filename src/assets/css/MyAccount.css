@@ -1,0 +1,181 @@
+.my-account-title {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 36px;
+    color: #FFFFFF;
+    margin-bottom: 10px;
+}
+
+.my-account-pool-box-content {
+    padding: 13px 16px;
+}
+
+.my-account-pool-box-content.required-changes {
+    padding: 0px 16px 13px;
+    overflow-x: auto;
+}
+
+.my-account-pool-details {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 37px 30px 42px;
+    margin-bottom: 13px;
+}
+
+.my-account-pool-details-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 37px;
+}
+
+.my-account-pool-details-head h1 {
+    display: flex;
+    align-items: center;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 18px;
+    color: #000000;
+}
+
+.my-account-pool-details-head h1 img {
+    margin-right: 15px;
+    height: 45px;
+    width: 45px;
+}
+
+.my-account-pool-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    align-items: center;
+    grid-gap: 30px;
+}
+
+.my-account-pool-buttons button {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 2px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.5);
+    padding: 18px;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    color: #000000;
+    cursor: pointer;
+}
+
+.my-account-stats {
+    display: grid;
+    grid-template-columns: minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr);
+    grid-gap: 13px;
+}
+
+.my-account-stats div {
+    background: #DEDEDE;
+    height: 215px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    color: #000000;
+    padding: 24px;
+    text-align: center;
+}
+
+.my-account-totals {
+    margin: 50px 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 30px;
+}
+
+.table {
+    width: 100%;
+    border-spacing: 0 8px;
+    min-width: 900px;
+}
+
+.table-header {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 13px;
+    color: #000000;
+    padding: 9px 30px;
+}
+
+.table-header:first-child {
+    background: #BFBFBF;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+}
+
+.table-body-columns {
+    background-color: #fff;
+    padding: 8px;
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    text-align: center;
+    color: #000000;
+}
+
+.table-body-columns:nth-child(3) {
+    color: #272BDB;
+}
+
+.table-body-columns:first-child {
+    background: #DEDEDE;
+}
+
+.table-pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 23px;
+}
+
+.prev-next-buttons {
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.displayPages {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 10px;
+}
+
+.displayPages button {
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-family: silkscreen;
+    font-weight: normal;
+    font-size: 18px;
+
+}
+
+button.activePage {
+    background: #BFBFBF;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+}

@@ -1,11 +1,12 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './assets/css/App.css';
 import './assets/css/Header.css';
 import './assets/css/Sidebar.css';
 import './assets/css/Pools.css';
 import './assets/css/PoolDetails.css';
+import './assets/css/MyAccount.css';
 import './assets/css/Responsive.css';
-import { BrowserRouter as Routes, Route, Redirect } from 'react-router-dom';
+import { BrowserRouter as Routes, Route, Redirect, Switch } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
 import MyAccount from './components/MyAccount/MyAccount';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
@@ -35,7 +36,20 @@ const App = () => {
             minutes: minutesLeft,
             seconds: secondsLeft,
         });
-    };
+	};
+	
+	useEffect(() => {
+		switch (window.location.pathname) {
+			case '/my-account': 
+				setSelectedMenuItem(1);
+				break;
+			case '/leaderboard': 
+				setSelectedMenuItem(2);
+				break;
+			default: 
+				setSelectedMenuItem(0);
+		}
+	}, [])
 
 	return (
 	  	<Routes>
@@ -43,12 +57,14 @@ const App = () => {
 			<div className='app-wrapper'>
 				<Sidebar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
 				<div className='app-content'>
-					<Route path="/" component={() => <Pools setNewTime={setNewTime} dateEnd={dateEnd} />} exact />
-					<Route path="/my-account" component={() => <MyAccount />} exact />
-					<Route path="/leaderboard" component={() => <LeaderBoard />} exact />
-					<Route path="/community-reward-pool/details" component={() => <RewardPoolDetails setNewTime={setNewTime} dateEnd={dateEnd} />} exact />
-					<Route path="/dao-staking-pool/details" component={() => <StakingPoolDetails setNewTime={setNewTime} dateEnd={dateEnd} />} exact />
-					<Route render={() => <Redirect to="/" />} />
+					<Switch>
+						<Route exact path="/" component={() => <Pools setNewTime={setNewTime} dateEnd={dateEnd} />} />
+						<Route exact path="/my-account" component={() => <MyAccount />} />
+						<Route exact path="/leaderboard" component={() => <LeaderBoard />} />
+						<Route exact path="/community-reward-pool/details" component={() => <RewardPoolDetails setNewTime={setNewTime} dateEnd={dateEnd} />} />
+						<Route exact path="/dao-staking-pool/details" component={() => <StakingPoolDetails setNewTime={setNewTime} dateEnd={dateEnd} />} />
+						<Route path="*" component={() => <Pools setNewTime={setNewTime} dateEnd={dateEnd} />} />
+					</Switch>
 				</div>
 			</div>
 		</Routes>

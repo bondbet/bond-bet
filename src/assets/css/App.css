@@ -4,6 +4,11 @@
 }
 
 @font-face {
+    font-family: silkscreen;
+    src: url('../fonts/silkscreen/slkscre.ttf');
+}
+
+@font-face {
     font-family: spaceGroteskBold;
     src: url('../fonts/spaceGrotesk/SpaceGrotesk-Bold.ttf');
 }
