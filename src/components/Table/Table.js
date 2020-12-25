@@ -55,11 +55,11 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
                             {page.map((row, i) => {
                                 prepareRow(row)
                                 return (
-                                    <tr {...row.getRowProps()} className={(seperateThreeWinners && i < 3) ? 'seperateThreeWinners' : ''}>
+                                    <tr {...row.getRowProps()} className={(seperateThreeWinners && pageIndex === 0 && i < 3) ? 'seperateThreeWinners' : ''}>
                                     {row.cells.map(cell => {
                                         return (
                                         <td
-                                            className='table-body-columns'    
+                                            className={`table-body-columns ${seperateThreeWinners ? 'second-color' : 'third-color'}`}    
                                             {...cell.getCellProps()}
                                         >
                                             {cell.render('Cell')}

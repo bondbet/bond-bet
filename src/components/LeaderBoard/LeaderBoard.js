@@ -45,6 +45,24 @@ const LeaderBoard = () => {
             col3: '13.48 BOND',
             col4: 'Dec 4th',
         },
+        {
+            col1: '0x3d51..883',
+            col2: '0x5546...bc94',
+            col3: '13.48 BOND',
+            col4: 'Dec 4th',
+        },
+        {
+            col1: '0x3d51..883',
+            col2: '0x5546...bc94',
+            col3: '13.48 BOND',
+            col4: 'Dec 4th',
+        },
+        {
+            col1: '0x3d51..883',
+            col2: '0x5546...bc94',
+            col3: '13.48 BOND',
+            col4: 'Dec 4th',
+        },
     ], [])
     
     const columns = React.useMemo(() => [

@@ -125,7 +125,11 @@
     color: #000000;
 }
 
-.table-body-columns:nth-child(3) {
+.table-body-columns.second-color:nth-child(2) {
+    color: #272BDB;
+}
+
+.table-body-columns.third-color:nth-child(3) {
     color: #272BDB;
 }
 
