@@ -9,7 +9,7 @@ import walletImg from '../../assets/images/wallet.png';
 import networkImg from '../../assets/images/network.png';
 import { Link } from 'react-router-dom';
 
-const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected}) => {
+const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected, setOpenModal}) => {
     const [toggleSidebar, setToggleSidebar] = useState(false);
     const [openDropdown, setOpenDropdown] = useState(false);
 
@@ -25,7 +25,7 @@ const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected}
             </div>
             <div className='connect-wallet'>
                 {!connected ?
-                    <button>Connect wallet</button> :
+                    <button onClick={() => setOpenModal(true)}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                             <img src={prizeImg} alt='Prize' /> 0x3d51..883
@@ -71,6 +71,7 @@ const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected}
                         setSelectedMenuItem={setSelectedMenuItem}
                         connected={connected}
                         setConnected={setConnected}
+                        setOpenModal={setOpenModal}
                     />
                 }
             </div>

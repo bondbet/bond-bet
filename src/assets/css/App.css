@@ -14,6 +14,11 @@
 }
 
 @font-face {
+    font-family: spaceGroteskSemiBold;
+    src: url('../fonts/spaceGrotesk/SpaceGrotesk-SemiBold.ttf');
+}
+
+@font-face {
     font-family: spaceGroteskRegular;
     src: url('../fonts/spaceGrotesk/SpaceGrotesk-Regular.ttf');
 }
@@ -68,4 +73,13 @@ body {
     padding: 47px 108px;
     width: 100%;
     overflow: auto;
+}
+
+@keyframes openModal {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0%);
+    }
 }

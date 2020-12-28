@@ -8,7 +8,7 @@
 
 .lottery-pools-section {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: minmax(auto, 100%) auto;
     grid-gap: 30px;
 }
 

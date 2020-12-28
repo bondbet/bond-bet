@@ -6,6 +6,7 @@ import './assets/css/Pools.css';
 import './assets/css/PoolDetails.css';
 import './assets/css/MyAccount.css';
 import './assets/css/Leaderboard.css';
+import './assets/css/Modal.css';
 import './assets/css/Responsive.css';
 import { BrowserRouter as Routes, Route, Redirect, Switch } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
@@ -15,11 +16,13 @@ import Header from './components/Header/Header';
 import Sidebar from './components/Sidebar/Sidebar';
 import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails';
 import StakingPoolDetails from './components/Pools/StakingPool/StakingPoolDetails';
+import Modal from './components/Modal/Modal';
 
 const App = () => {
 	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
-	const [connected, setConnected] = useState(true);
+	const [connected, setConnected] = useState(false);
+	const [openModal, setOpenModal] = useState(false);
 
 	const setNewTime = (setCountdown) => {
         const currentTime = new Date().getTime();
@@ -55,7 +58,7 @@ const App = () => {
 
 	return (
 	  	<Routes>
-			<Header selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} connected={connected} setConnected={setConnected} />
+			<Header selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} connected={connected} setConnected={setConnected} setOpenModal={setOpenModal} />
 			<div className='app-wrapper'>
 				<Sidebar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
 				<div className='app-content'>
@@ -69,6 +72,9 @@ const App = () => {
 					</Switch>
 				</div>
 			</div>
+			{openModal &&
+				<Modal openModal={openModal} setOpenModal={setOpenModal} setConnected={setConnected} />
+			}
 		</Routes>
 	);
 }

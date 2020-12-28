@@ -8,7 +8,7 @@ import statusImg from '../../assets/images/status.png';
 import walletImg from '../../assets/images/wallet.png';
 import networkImg from '../../assets/images/network.png';
 
-const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setSelectedMenuItem, connected, setConnected }) => {
+const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setSelectedMenuItem, connected, setConnected, setOpenModal }) => {
     const [openDropdown, setOpenDropdown] = useState(false);
 
     return (
@@ -26,7 +26,7 @@ const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setS
                     <div>
                         <div className='connect-wallet-mobile'>
                             {!connected ?
-                                <button>Connect wallet</button> :
+                                <button onClick={() => { setOpenModal(true); setToggleSidebar(!toggleSidebar) }}>Connect wallet</button> :
                                 <div className='connected'>
                                     <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                                         <img src={prizeImg} alt='Prize' /> 0x3d51..883

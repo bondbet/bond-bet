@@ -1,0 +1,85 @@
+.modal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100vh;
+    background-color: #6567CC;
+}
+
+.modal.open {
+    animation: openModal .5s;
+}
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 50px;
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+}
+
+.modal-header button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 11px 24px;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    width: 140px;
+    height: 46px;
+    cursor: pointer;
+}
+
+.modal-content {
+    padding: 90px 250px;
+    overflow-y: auto;
+    height: 91vh;
+}
+
+.modal-content .box-content {
+    padding: 20px 13px 13px;
+}
+
+.modal-content .box-inner {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 40px 60px 50px;
+}
+
+.modal-title {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 36px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.modal-description {
+    font-family: spaceGroteskSemiBold;
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.wallets {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 30px;
+}
+
+.wallets button {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 29px;
+    cursor: pointer;
+}

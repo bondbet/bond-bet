@@ -8,6 +8,9 @@
     .pools-box-screen-inner.required-changes {
         font-size: 20px;
     }
+    .wallets button img {
+        width: 200px;
+    }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -50,6 +53,9 @@
     .my-account-totals {
         grid-template-columns: 1fr;
     }
+    .modal-content {
+        padding: 90px;
+    }
 }
 
 @media only screen and (max-width: 993px) {
@@ -67,6 +73,9 @@
         width: 40px;
         height: 40px;
         margin-right: 10px;
+    }
+    .wallets {
+        grid-template-columns: auto;
     }
 }
 
@@ -136,6 +145,30 @@
     }
     .connected > button {
         margin-bottom: 40px;
+    }
+    .modal-title {
+        font-size: 24px;
+    }
+    .modal-description {
+        font-size: 18px;
+    }
+    .modal-content {
+        padding: 16px;
+    }
+    .modal-content .box-inner {
+        padding: 20px 10px;
+    }
+    .wallets button {
+        padding: 20px;
+    }
+    .wallets button img {
+        width: 150px;
+    }
+    .modal-header {
+        padding: 20px;
+    }
+    .modal-header button {
+        width: 130px;
     }
 }
 
