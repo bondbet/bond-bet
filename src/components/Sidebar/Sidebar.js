@@ -2,15 +2,12 @@ import React from 'react'
 import MenuItems from '../Mobile/MenuItems'
 import arrowToLeftImg from '../../assets/images/arrowToLeft.png';
 
-const Sidebar = ({selectedMenuItem, setSelectedMenuItem}) => {
+const Sidebar = () => {
 
     return (
         <div className='app-sidebar'>
             <ul className='sidebar-menu'>
-                <MenuItems
-                    selectedMenuItem={selectedMenuItem}
-                    setSelectedMenuItem={setSelectedMenuItem}
-                />
+                <MenuItems />
             </ul>
             <div className='sidebar-copyright'>
                 <img src={arrowToLeftImg} alt='Left arrow' />

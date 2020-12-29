@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import MenuItems from './MenuItems';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
 import arrowToLeftImg from '../../assets/images/arrowToLeft.png';
@@ -7,9 +7,11 @@ import prizeImg from '../../assets/images/prize.png';
 import statusImg from '../../assets/images/status.png';
 import walletImg from '../../assets/images/wallet.png';
 import networkImg from '../../assets/images/network.png';
+import AppContext from '../../ContextAPI';
 
-const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setSelectedMenuItem, connected, setConnected, setOpenModal }) => {
+const MobileSidebar = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
+    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar } = useContext(AppContext)
 
     return (
         <div className='sidebar-overlay'>
@@ -26,7 +28,11 @@ const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setS
                     <div>
                         <div className='connect-wallet-mobile'>
                             {!connected ?
-                                <button onClick={() => { setOpenModal(true); setToggleSidebar(!toggleSidebar) }}>Connect wallet</button> :
+                                <button onClick={() => {
+                                    setOpenModal(true);
+                                    setModalType('CW');
+                                    setToggleSidebar(!toggleSidebar)
+                                }}>Connect wallet</button> :
                                 <div className='connected'>
                                     <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                                         <img src={prizeImg} alt='Prize' /> 0x3d51..883
@@ -60,12 +66,7 @@ const MobileSidebar = ({ toggleSidebar, setToggleSidebar, selectedMenuItem, setS
                             }
                         </div>
                         <ul className='sidebar-menu'>
-                            <MenuItems
-                                selectedMenuItem={selectedMenuItem}
-                                setSelectedMenuItem={setSelectedMenuItem}
-                                toggleSidebar={toggleSidebar}
-                                setToggleSidebar={setToggleSidebar}
-                            />
+                            <MenuItems />
                         </ul>
                     </div>
                     <div className='sidebar-copyright'>

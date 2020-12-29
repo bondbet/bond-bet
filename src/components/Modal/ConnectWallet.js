@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import metamask from '../../assets/images/metamask.png';
 import walletConnect from '../../assets/images/wallet-connect.png';
@@ -6,8 +6,11 @@ import ledger from '../../assets/images/ledger.png';
 import trezor from '../../assets/images/trezor.png';
 import coinbase from '../../assets/images/coinbase.png';
 import portis from '../../assets/images/portis.png';
+import AppContext from '../../ContextAPI';
 
-const ConnectWallet = ({setOpenModal, setConnected}) => {
+const ConnectWallet = () => {
+    const { setOpenModal, setConnected } = useContext(AppContext);
+
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Connect wallet' />

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
 import { Link } from 'react-router-dom';
 import onlyLogo from '../../../assets/images/onlyLogo.png';
 import arrowToRight from '../../../assets/images/arrowToRight.png';
@@ -7,8 +7,10 @@ import ProgressBar from '../Components/ProgressBar';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import AboutPool from '../Components/AboutPool';
 import PoolBoxStats from '../Components/PoolBoxStats';
+import AppContext from '../../../ContextAPI';
 
-const StakingPoolDetails = ({setNewTime, dateEnd}) => {
+const StakingPoolDetails = () => {
+    const { setNewTime, dateEnd } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,

@@ -8,7 +8,7 @@ import './assets/css/MyAccount.css';
 import './assets/css/Leaderboard.css';
 import './assets/css/Modal.css';
 import './assets/css/Responsive.css';
-import { BrowserRouter as Routes, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Routes, Route, Switch } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
 import MyAccount from './components/MyAccount/MyAccount';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
@@ -17,12 +17,20 @@ import Sidebar from './components/Sidebar/Sidebar';
 import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails';
 import StakingPoolDetails from './components/Pools/StakingPool/StakingPoolDetails';
 import Modal from './components/Modal/Modal';
+import AppContext from './ContextAPI';
 
 const App = () => {
 	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
+	const [toggleSidebar, setToggleSidebar] = useState(false);
 	const [connected, setConnected] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
+	const [modalType, setModalType] = useState('');
+	const [ticketAmountRP, setTicketAmountRP] = useState(1);
+	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
+	const [ticketAmountSP, setTicketAmountSP] = useState(1);
+	const [tokenIsEnabledSP, setTokenIsEnabledSP] = useState(false);
+	const [poolType, setPoolType] = useState('');
 
 	const setNewTime = (setCountdown) => {
         const currentTime = new Date().getTime();
@@ -57,25 +65,52 @@ const App = () => {
 	}, [])
 
 	return (
-	  	<Routes>
-			<Header selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} connected={connected} setConnected={setConnected} setOpenModal={setOpenModal} />
-			<div className='app-wrapper'>
-				<Sidebar selectedMenuItem={selectedMenuItem} setSelectedMenuItem={setSelectedMenuItem} />
-				<div className='app-content'>
-					<Switch>
-						<Route exact path="/" component={() => <Pools setNewTime={setNewTime} dateEnd={dateEnd} />} />
-						<Route exact path="/my-account" component={() => <MyAccount />} />
-						<Route exact path="/leaderboard" component={() => <LeaderBoard />} />
-						<Route exact path="/community-reward-pool/details" component={() => <RewardPoolDetails setNewTime={setNewTime} dateEnd={dateEnd} />} />
-						<Route exact path="/dao-staking-pool/details" component={() => <StakingPoolDetails setNewTime={setNewTime} dateEnd={dateEnd} />} />
-						<Route path="*" component={() => <Pools setNewTime={setNewTime} dateEnd={dateEnd} />} />
-					</Switch>
+		<AppContext.Provider
+			value={{
+				dateEnd,
+				selectedMenuItem,
+				setSelectedMenuItem,
+				connected,
+				setConnected,
+				openModal,
+				setOpenModal,
+				modalType,
+				setModalType,
+				setNewTime,
+				toggleSidebar,
+				setToggleSidebar,
+				ticketAmountRP,
+				setTicketAmountRP,
+				tokenIsEnabledRP,
+				setTokenIsEnabledRP,
+				ticketAmountSP,
+				setTicketAmountSP,
+				tokenIsEnabledSP,
+				setTokenIsEnabledSP,
+				poolType,
+				setPoolType
+			}}
+		>
+			<Routes>
+				<Header />
+				<div className='app-wrapper'>
+					<Sidebar />
+					<div className='app-content'>
+						<Switch>
+							<Route exact path="/" component={() => <Pools />} />
+							<Route exact path="/my-account" component={() => <MyAccount />} />
+							<Route exact path="/leaderboard" component={() => <LeaderBoard />} />
+							<Route exact path="/community-reward-pool/details" component={() => <RewardPoolDetails />} />
+							<Route exact path="/dao-staking-pool/details" component={() => <StakingPoolDetails />} />
+							<Route path="*" component={() => <Pools />} />
+						</Switch>
+					</div>
 				</div>
-			</div>
-			{openModal &&
-				<Modal openModal={openModal} setOpenModal={setOpenModal} setConnected={setConnected} />
-			}
-		</Routes>
+				{openModal &&
+					<Modal />
+				}
+			</Routes>
+		</AppContext.Provider>
 	);
 }
 

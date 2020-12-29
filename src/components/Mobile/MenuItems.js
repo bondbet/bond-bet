@@ -1,10 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { Link } from 'react-router-dom';
 import poolsImg from '../../assets/images/pools.png';
 import myAccountImg from '../../assets/images/my-account.png';
 import leaderboardImg from '../../assets/images/leaderboard.png';
+import AppContext from '../../ContextAPI';
 
-const MenuItems = ({selectedMenuItem, setSelectedMenuItem, toggleSidebar, setToggleSidebar}) => {
+const MenuItems = () => {
+    const { selectedMenuItem, setSelectedMenuItem, toggleSidebar, setToggleSidebar } = useContext(AppContext);
+    
     const menuItems = [
         {
             icon: poolsImg,

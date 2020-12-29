@@ -1,13 +1,32 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import backIcon from '../../assets/images/arrowToLeft.png';
 import closeIcon from '../../assets/images/close.png';
+import AppContext from '../../ContextAPI';
+import ConfirmDeposit from './ConfirmDeposit';
 import ConnectWallet from './ConnectWallet';
+import GetTickets from './GetTickets';
 
-const Modal = ({openModal, setOpenModal, setConnected}) => {
+const Modal = () => {
+    const { modalType, setModalType, openModal, setOpenModal, connected } = useContext(AppContext);
+
+    const backTo = () => {
+        switch (modalType) {
+            case 'GT':
+                setOpenModal(false);
+                break;
+            case 'CW':
+                setModalType('GT');
+                break;
+            case 'CD':
+                connected ? setModalType('GT') : setModalType('CW');
+                break;
+        }
+    }
+
     return (
         <div className={`modal ${openModal ? 'open' : ''}`}>
             <div className='modal-header'>
-                <button onClick={() => setOpenModal(false)}>
+                <button onClick={backTo}>
                     <img src={backIcon} alt='Back' /> Back
                 </button>
                 <button onClick={() => setOpenModal(false)}>
@@ -15,7 +34,15 @@ const Modal = ({openModal, setOpenModal, setConnected}) => {
                 </button>
             </div>
             <div className='modal-content'>
-                <ConnectWallet setOpenModal={setOpenModal}  setConnected={setConnected} />
+                {modalType === 'CW' &&
+                    <ConnectWallet />
+                }
+                {modalType === 'GT' &&
+                    <GetTickets />
+                }
+                {modalType === 'CD' &&
+                    <ConfirmDeposit />
+                }
             </div>
         </div>
     )

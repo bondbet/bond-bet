@@ -83,3 +83,148 @@
     padding: 29px;
     cursor: pointer;
 }
+
+.odds {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    padding: 11px 25px;
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+}
+
+.ticket-amount-label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 10px;
+    margin-bottom: 10px;
+}
+
+.ticket-amount-label > div {
+    display: flex;
+    align-items: center;
+} 
+
+.ticket-amount-label > div img {
+    margin-right: 10px;
+}
+
+.ticket-amount-input {
+    margin-bottom: 20px;
+}
+
+.ticket-amount-input input {
+    width: 100%;
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+    padding: 15px 30px;
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+}
+
+.token {
+    padding: 18px 25px;
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.token h1 {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.token h1 img {
+    margin-right: 10px;
+}
+
+.token h2 {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+}
+
+.switch-checkbox {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+}
+
+.switch-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    width: 75px;
+    height: 42px;
+    background: #FF636B;
+    position: relative;
+    transition: background-color .2s;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+    margin-left: 15px;
+}
+
+.switch-button {
+    content: '';
+    position: absolute;
+    top: 7px;
+    left: 7px;
+    width: 27px;
+    height: 27px;
+    transition: 0.2s;
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.switch-checkbox:checked + .switch-label .switch-button {
+    left: calc(100% - 7px);
+    transform: translateX(-100%);
+}
+
+.continue-btn {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 25px;
+}
+
+.continue-btn button {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 2px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.5);
+    padding: 17px 100px;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+}
+
+.confirm-deposit-loading {
+    display: flex;
+    justify-content: center;
+    margin-top: 55px;
+}

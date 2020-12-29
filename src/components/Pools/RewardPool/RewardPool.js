@@ -1,9 +1,11 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import { useHistory } from 'react-router-dom';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import PoolBoxContent from '../Components/PoolBoxContent';
+import AppContext from '../../../ContextAPI';
 
-const RewardPool = ({ percentageTimePassed, countdown }) => {
+const RewardPool = ({percentageTimePassed, countdown}) => {
+    const { setOpenModal, setModalType, setPoolType } = useContext(AppContext);
     const history = useHistory();
 
     return (
@@ -18,7 +20,7 @@ const RewardPool = ({ percentageTimePassed, countdown }) => {
                 />
 
                 <div className='pools-box-buttons'>
-                    <button>Get Tickets</button>
+                    <button onClick={() => { setOpenModal(true); setModalType('GT'); setPoolType('RP') }}>Get Tickets</button>
                     <button onClick={() => history.push('/community-reward-pool/details')}>Pool Details</button>
                 </div>
             </div>

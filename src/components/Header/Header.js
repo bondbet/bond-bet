@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import MobileSidebar from '../Mobile/MobileSidebar';
 import appLogo from '../../assets/images/app-logo.png';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
@@ -8,10 +8,11 @@ import statusImg from '../../assets/images/status.png';
 import walletImg from '../../assets/images/wallet.png';
 import networkImg from '../../assets/images/network.png';
 import { Link } from 'react-router-dom';
+import AppContext from '../../ContextAPI';
 
-const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected, setOpenModal}) => {
-    const [toggleSidebar, setToggleSidebar] = useState(false);
+const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
+    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar } = useContext(AppContext);
 
     return (
         <header>
@@ -25,7 +26,7 @@ const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected,
             </div>
             <div className='connect-wallet'>
                 {!connected ?
-                    <button onClick={() => setOpenModal(true)}>Connect wallet</button> :
+                    <button onClick={() => { setOpenModal(true); setModalType('CW') }}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                             <img src={prizeImg} alt='Prize' /> 0x3d51..883
@@ -64,15 +65,7 @@ const Header = ({selectedMenuItem, setSelectedMenuItem, connected, setConnected,
                     <img src={hamburgerIcon} alt='Hamburger Icon' />
                 </button>
                 {toggleSidebar &&
-                    <MobileSidebar
-                        toggleSidebar={toggleSidebar}
-                        setToggleSidebar={setToggleSidebar}
-                        selectedMenuItem={selectedMenuItem}
-                        setSelectedMenuItem={setSelectedMenuItem}
-                        connected={connected}
-                        setConnected={setConnected}
-                        setOpenModal={setOpenModal}
-                    />
+                    <MobileSidebar />
                 }
             </div>
         </header>

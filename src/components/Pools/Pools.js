@@ -1,8 +1,10 @@
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useContext} from 'react'
+import AppContext from '../../ContextAPI';
 import RewardPool from './RewardPool/RewardPool';
 import StakingPool from './StakingPool/StakingPool';
 
-const Pools = ({setNewTime, dateEnd}) => {
+const Pools = () => {
+    const { setNewTime, dateEnd } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -11,6 +13,7 @@ const Pools = ({setNewTime, dateEnd}) => {
     });
 	const [percentageTimePassed, setPercentageTimePassed] = useState();
     const dateStart = new Date("12/23/2020 11:50:00").getTime();
+
     useEffect(() => {
         const interval = setInterval(() => {
             setNewTime(setCountdown);
