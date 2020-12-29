@@ -4,6 +4,7 @@ import closeIcon from '../../assets/images/close.png';
 import AppContext from '../../ContextAPI';
 import ConfirmDeposit from './ConfirmDeposit';
 import ConnectWallet from './ConnectWallet';
+import DepositComplete from './DepositComplete';
 import GetTickets from './GetTickets';
 
 const Modal = () => {
@@ -19,6 +20,9 @@ const Modal = () => {
                 break;
             case 'CD':
                 connected ? setModalType('GT') : setModalType('CW');
+                break;
+            case 'DC':
+                setModalType('GT');
                 break;
         }
     }
@@ -42,6 +46,9 @@ const Modal = () => {
                 }
                 {modalType === 'CD' &&
                     <ConfirmDeposit />
+                }
+                {modalType === 'DC' &&
+                    <DepositComplete />
                 }
             </div>
         </div>

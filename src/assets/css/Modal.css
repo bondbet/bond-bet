@@ -118,7 +118,22 @@
 }
 
 .ticket-amount-input {
+    position: relative;
     margin-bottom: 20px;
+}
+
+.ticket-amount-input .max-btn {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 10px;
+    padding: 7px 20px;
+    position: absolute;
+    right: 30px;
+    top: 11px;
+    cursor: pointer;
 }
 
 .ticket-amount-input input {
@@ -227,4 +242,55 @@
     display: flex;
     justify-content: center;
     margin-top: 55px;
+}
+
+.prize-will-be-awarded-in {
+    font-family: spaceGroteskBold;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.get-notified {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 20px 92px;
+    margin-top: 15px;
+}
+
+.get-notified-label {
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 13px;
+}
+
+.get-notified-field {
+    display: grid;
+    grid-template-columns: auto 280px;
+    grid-gap: 30px;
+    margin-top: 10px;
+}
+
+.get-notified-field input {
+    padding: 17px 30px;
+}
+
+.get-notified-field input::placeholder {
+    font-family: spaceGroteskRegular;
+    font-size: 12px;
+    line-height: 14px;
+    color: #000000;
+}
+
+.get-notified-field button {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 2px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.5);
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    padding: 14px 30px;
 }

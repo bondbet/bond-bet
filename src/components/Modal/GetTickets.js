@@ -18,15 +18,28 @@ const GetTickets = () => {
 		setTicketAmountSP,
 		tokenIsEnabledSP,
 		setTokenIsEnabledSP,
-		poolType,
-		setPoolType
+		poolType
     } = useContext(AppContext);
 
     const handleChange = (e) => {
         if (!new RegExp("[^0-9]").test(e.target.value)) {
             poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
+            poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
         }
     };
+
+    const handleContinue = () => {
+        poolType === 'RP' ? (ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')) :  
+        ticketAmountSP ? setModalType('CW') : alert('Please enter ticket amount.')
+    }
+
+    const handleDeposit = () => {
+        poolType === 'RP' ? (ticketAmountRP ? setModalType('CD') : alert('Please enter ticket amount.')) :
+            ticketAmountSP ? setModalType('CD') : alert('Please enter ticket amount.');
+        setTimeout(() => {
+            setModalType('DC');
+        }, 5000)
+    }
 
     return (
         <div className='pools-box'>
@@ -55,8 +68,8 @@ const GetTickets = () => {
                                 >
                                     <span className='switch-button'>
                                         {
-                                            poolType === 'RP' ? (tokenIsEnabledRP ? <img src={minusIcon} /> : <img src={closeIcon} />) :
-                                            tokenIsEnabledSP ? <img src={minusIcon} /> : <img src={closeIcon} />
+                                            poolType === 'RP' ? (tokenIsEnabledRP ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />) :
+                                            tokenIsEnabledSP ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />
                                         }
                                     </span>
                                 </label>
@@ -74,6 +87,10 @@ const GetTickets = () => {
                         </div>
                         <div className='ticket-amount-input'>
                             <input type='text' onChange={handleChange} value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP} />
+                            {connected && poolType === 'RP' ?
+                                tokenIsEnabledRP && <button className='max-btn'>MAX</button> :
+                                tokenIsEnabledSP && <button className='max-btn'>MAX</button>
+                            }
                         </div>
                     </div>
                     <div className='odds'>
@@ -85,14 +102,8 @@ const GetTickets = () => {
 
             <div className='continue-btn'>
                 {connected ?
-                    <button onClick={() =>
-                        poolType === 'RP' ? (ticketAmountRP ? setModalType('CD') : alert('Please enter ticket amount.')) :  
-                        ticketAmountSP ? setModalType('CD') : alert('Please enter ticket amount.')
-                    }>Deposit</button> :
-                    <button onClick={() =>
-                        poolType === 'RP' ? (ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')) :  
-                        ticketAmountSP ? setModalType('CW') : alert('Please enter ticket amount.')
-                    }>Continue</button>
+                    <button onClick={handleDeposit}>Deposit</button> :
+                    <button onClick={handleContinue}>Continue</button>
                 }
             </div>
         </div>

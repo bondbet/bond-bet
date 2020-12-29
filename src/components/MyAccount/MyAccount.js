@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {useContext} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import logo from '../../assets/images/onlyLogo.png';
 import { useHistory } from 'react-router-dom';
 import Table from '../Table/Table';
+import AppContext from '../../ContextAPI';
 
 const MyAccount = () => {
     const history = useHistory();
+    const { ticketAmountRP, ticketAmountSP, poolType, setSelectedMenuItem } = useContext(AppContext);
 
     const data = React.useMemo(() => [
         {
@@ -180,13 +182,13 @@ const MyAccount = () => {
                             </h1>
                         </div>
                         <div className='my-account-pool-buttons'>
-                            <button onClick={() => history.push('/community-reward-pool/details')}>Pool Details</button>
+                            <button onClick={() => { setSelectedMenuItem(0); history.push('/community-reward-pool/details') }}>Pool Details</button>
                             <button>Get More Tickets</button>
                             <button>Withdraw</button>
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div>10 Tickets / BOND</div>
+                        <div>{poolType === 'RP' ? ticketAmountRP : ticketAmountSP} Tickets / BOND</div>
                         <div>Current week prize 2000 BOND</div>
                         <div>Odds 1 in 50,6443234</div>
                         <div>3 winners</div>

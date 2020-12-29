@@ -77,6 +77,9 @@
     .wallets {
         grid-template-columns: auto;
     }
+    .get-notified {
+        padding: 20px 10px;
+    }
 }
 
 @media only screen and (max-width: 768px) {
@@ -170,6 +173,10 @@
     .modal-header button {
         width: 130px;
     }
+    .get-notified-field {
+        grid-template-columns: auto;
+        grid-gap: 10px;
+    }
 }
 
 @media only screen and (max-width: 480px) {
@@ -210,6 +217,10 @@
     .token h2 {
         width: 100%;
         justify-content: space-between;
+        font-size: 10px;
+    }
+    .prize-will-be-awarded-in,
+    .get-notified-label {
         font-size: 10px;
     }
 }

@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './assets/css/App.css';
 import './assets/css/Header.css';
 import './assets/css/Sidebar.css';
@@ -8,7 +8,7 @@ import './assets/css/MyAccount.css';
 import './assets/css/Leaderboard.css';
 import './assets/css/Modal.css';
 import './assets/css/Responsive.css';
-import { BrowserRouter as Routes, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Routes, Route, Switch  } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
 import MyAccount from './components/MyAccount/MyAccount';
 import LeaderBoard from './components/LeaderBoard/LeaderBoard';
