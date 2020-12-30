@@ -26,9 +26,10 @@ const RewardPoolDetails = () => {
 
         if (percentageTimePassed >= 100) {
             clearInterval(interval);
+        } else {
+            setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
         }
 
-        setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
 
         return () => {
             clearInterval(interval);

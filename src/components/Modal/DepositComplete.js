@@ -4,7 +4,7 @@ import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 
 const DepositComplete = () => {
-    const { ticketAmountRP, ticketAmountSP, poolType, setNewTime, dateEnd } = useContext(AppContext);
+    const { ticketAmountRP, ticketAmountSP, poolType, setNewTime, dateEnd, setModalType } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -17,12 +17,14 @@ const DepositComplete = () => {
         const interval = setInterval(() => {
             setNewTime(setCountdown);
         }, 1000);
-
+        
+        
+        setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
+        
         if (percentageTimePassed >= 100) {
             clearInterval(interval);
+            setModalType('PA');
         }
-
-        setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
 
         return () => {
             clearInterval(interval);

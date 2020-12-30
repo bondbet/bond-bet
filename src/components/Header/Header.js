@@ -12,7 +12,7 @@ import AppContext from '../../ContextAPI';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar } = useContext(AppContext);
+    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet } = useContext(AppContext);
 
     return (
         <header>
@@ -43,7 +43,7 @@ const Header = () => {
                                     <div className='dropdown-text'>
                                         <img src={walletImg} alt='Wallet' /> Wallet
                                     </div>
-                                    <div className='wallet'>MetaMask</div>
+                                    <div className='wallet'>{wallet}</div>
                                 </div>
                                 <div className='dropdown-row'>
                                     <div className='dropdown-text'>

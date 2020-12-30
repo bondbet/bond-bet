@@ -223,4 +223,14 @@
     .get-notified-label {
         font-size: 10px;
     }
+    .prize-awarded-img div,
+    .view-leaderboard button {
+        width: 100%;
+    }
+    .view-leaderboard-withdraw {
+        grid-template-columns: 1fr;
+    }
+    .modal-description-sm {
+        font-size: 10px;
+    }
 }

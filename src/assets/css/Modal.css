@@ -63,11 +63,32 @@
     margin-bottom: 10px;
 }
 
+.modal-title.required-changes {
+    margin-bottom: 20px;
+}
+
 .modal-description {
     font-family: spaceGroteskSemiBold;
     font-size: 24px;
     text-align: center;
     margin-bottom: 30px;
+}
+
+.modal-description.required-changes {
+    margin-bottom: 10px;
+}
+
+.modal-description-sm {
+    font-family: spaceGroteskSemiBold;
+    font-size: 14px;
+    text-align: center;
+    max-width: 364px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.modal-description-sm.required-changes {
+    margin-top: 20px;
 }
 
 .wallets {
@@ -293,4 +314,54 @@
     letter-spacing: 0.04em;
     cursor: pointer;
     padding: 14px 30px;
+}
+
+.prize-awarded-img {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.prize-awarded-img div {
+    display: flex;
+    justify-content: center;
+    padding: 0px 80px;
+    border-bottom: 1px solid #000;
+}
+
+.prize-awarded-img img {
+    height: 100%;
+    object-fit: cover;
+}
+
+.view-leaderboard {
+    display: flex;
+    justify-content: center;
+    margin: 25px 0 15px;
+}
+
+.view-leaderboard button,
+.view-leaderboard-withdraw button {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 2px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.5);
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 12px;
+    letter-spacing: 0.04em;
+    padding: 17px 0;
+    width: 340px;
+    cursor: pointer;
+}
+
+.view-leaderboard-withdraw.required-changes button {
+    width: auto;
+}
+
+.view-leaderboard-withdraw {
+    display: grid;
+    grid-template-columns: minmax(auto, 338px) minmax(auto, 338px);
+    grid-gap: 30px;
+    justify-content: center;
+    margin: 25px 0 15px;
 }

@@ -6,6 +6,7 @@ import ConfirmDeposit from './ConfirmDeposit';
 import ConnectWallet from './ConnectWallet';
 import DepositComplete from './DepositComplete';
 import GetTickets from './GetTickets';
+import PrizeAwarded from './PrizeAwarded';
 
 const Modal = () => {
     const { modalType, setModalType, openModal, setOpenModal, connected } = useContext(AppContext);
@@ -23,6 +24,9 @@ const Modal = () => {
                 break;
             case 'DC':
                 setModalType('GT');
+                break;
+            case 'PA':
+                setOpenModal(false);
                 break;
         }
     }
@@ -49,6 +53,9 @@ const Modal = () => {
                 }
                 {modalType === 'DC' &&
                     <DepositComplete />
+                }
+                {modalType === 'PA' &&
+                    <PrizeAwarded />
                 }
             </div>
         </div>

@@ -31,6 +31,7 @@ const App = () => {
 	const [ticketAmountSP, setTicketAmountSP] = useState(1);
 	const [tokenIsEnabledSP, setTokenIsEnabledSP] = useState(false);
 	const [poolType, setPoolType] = useState('');
+	const [wallet, setWallet] = useState('');
 
 	const setNewTime = (setCountdown) => {
         const currentTime = new Date().getTime();
@@ -88,7 +89,9 @@ const App = () => {
 				tokenIsEnabledSP,
 				setTokenIsEnabledSP,
 				poolType,
-				setPoolType
+				setPoolType,
+				wallet,
+				setWallet
 			}}
 		>
 			<Routes>
