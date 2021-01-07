@@ -18,12 +18,14 @@ const GetTickets = () => {
 		setTicketAmountSP,
 		tokenIsEnabledSP,
 		setTokenIsEnabledSP,
-		poolType
+        poolType,
+        bondsInWallet,
+        maxAmountSelected,
+        setMaxAmountSelected
     } = useContext(AppContext);
 
     const handleChange = (e) => {
         if (!new RegExp("[^0-9]").test(e.target.value)) {
-            poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
             poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
         }
     };
@@ -56,7 +58,7 @@ const GetTickets = () => {
                             <h2>Enable token
                                 <input
                                     checked={poolType === 'RP' ? tokenIsEnabledRP : tokenIsEnabledSP}
-                                    onChange={() => poolType === 'RP' ? setTokenIsEnabledRP(!tokenIsEnabledRP) : setTokenIsEnabledSP(!tokenIsEnabledSP)}
+                                    onChange={() => poolType === 'RP' ? (setTokenIsEnabledRP(!tokenIsEnabledRP), setMaxAmountSelected(false)) : (setTokenIsEnabledSP(!tokenIsEnabledSP), setMaxAmountSelected(false))}
                                     className='switch-checkbox'
                                     id={'switch-new'+poolType}
                                     type='checkbox'
@@ -81,15 +83,15 @@ const GetTickets = () => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> 300 BOND
+                                    <img src={walletIcon} alt='Wallet' /> {bondsInWallet} BOND
                                 </div>
                             }
                         </div>
                         <div className='ticket-amount-input'>
-                            <input type='text' onChange={handleChange} value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP} />
+                            <input type='text' disabled={connected && poolType === 'RP' ? (tokenIsEnabledRP && !maxAmountSelected) && true : (tokenIsEnabledSP && !maxAmountSelected) && true} onChange={handleChange} value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP} />
                             {connected && poolType === 'RP' ?
-                                tokenIsEnabledRP && <button className='max-btn'>MAX</button> :
-                                tokenIsEnabledSP && <button className='max-btn'>MAX</button>
+                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(bondsInWallet); setMaxAmountSelected(true) }}>MAX</button> :
+                                (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(bondsInWallet); setMaxAmountSelected(true) }}>MAX</button>
                             }
                         </div>
                     </div>

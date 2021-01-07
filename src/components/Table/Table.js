@@ -13,12 +13,10 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
         page,
         canPreviousPage,
         canNextPage,
-        pageOptions,
         pageCount,
         gotoPage,
         nextPage,
         previousPage,
-        setPageSize,
         state: { pageIndex },
     } = useTable({ columns, data, initialState: { pageIndex: 0, pageSize: pageSize }, }, usePagination);
 

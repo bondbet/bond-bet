@@ -34,7 +34,7 @@ const RewardPoolDetails = () => {
         return () => {
             clearInterval(interval);
         };
-    }, [countdown, percentageTimePassed]);
+    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
 
     
     return (

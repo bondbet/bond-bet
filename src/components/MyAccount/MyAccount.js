@@ -7,7 +7,7 @@ import AppContext from '../../ContextAPI';
 
 const MyAccount = () => {
     const history = useHistory();
-    const { ticketAmountRP, ticketAmountSP, poolType, setSelectedMenuItem } = useContext(AppContext);
+    const { ticketAmountRP, ticketAmountSP, poolType, setSelectedMenuItem, setOpenModal, setModalType, setPoolType } = useContext(AppContext);
 
     const data = React.useMemo(() => [
         {
@@ -183,7 +183,7 @@ const MyAccount = () => {
                         </div>
                         <div className='my-account-pool-buttons'>
                             <button onClick={() => { setSelectedMenuItem(0); history.push('/community-reward-pool/details') }}>Pool Details</button>
-                            <button>Get More Tickets</button>
+                            <button onClick={() => { setOpenModal(true); setModalType('GT'); setPoolType('RP') }}>Get More Tickets</button>
                             <button>Withdraw</button>
                         </div>
                     </div>

@@ -28,7 +28,7 @@ const Pools = () => {
         return () => {
             clearInterval(interval);
         };
-    }, [countdown, percentageTimePassed]);
+    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
 
     return (
         <div className='lottery-pools-container'>

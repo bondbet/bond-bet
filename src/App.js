@@ -8,6 +8,7 @@ import './assets/css/MyAccount.css';
 import './assets/css/Leaderboard.css';
 import './assets/css/Modal.css';
 import './assets/css/Responsive.css';
+import './assets/css/_buttons.css';
 import { BrowserRouter as Routes, Route, Switch  } from 'react-router-dom';
 import Pools from './components/Pools/Pools';
 import MyAccount from './components/MyAccount/MyAccount';
@@ -20,18 +21,20 @@ import Modal from './components/Modal/Modal';
 import AppContext from './ContextAPI';
 
 const App = () => {
-	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
+	const dateEnd = new Date("01/07/2021 12:41:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 	const [toggleSidebar, setToggleSidebar] = useState(false);
 	const [connected, setConnected] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [modalType, setModalType] = useState('');
-	const [ticketAmountRP, setTicketAmountRP] = useState(1);
+	const [ticketAmountRP, setTicketAmountRP] = useState();
 	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
-	const [ticketAmountSP, setTicketAmountSP] = useState(1);
+	const [ticketAmountSP, setTicketAmountSP] = useState();
 	const [tokenIsEnabledSP, setTokenIsEnabledSP] = useState(false);
 	const [poolType, setPoolType] = useState('');
 	const [wallet, setWallet] = useState('');
+	const [bondsInWallet, setBondsInWallet] = useState(300);
+	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
 
 	const setNewTime = (setCountdown) => {
         const currentTime = new Date().getTime();
@@ -91,7 +94,11 @@ const App = () => {
 				poolType,
 				setPoolType,
 				wallet,
-				setWallet
+				setWallet,
+				bondsInWallet,
+				setBondsInWallet,
+				maxAmountSelected,
+				setMaxAmountSelected
 			}}
 		>
 			<Routes>

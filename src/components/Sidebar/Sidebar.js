@@ -9,10 +9,10 @@ const Sidebar = () => {
             <ul className='sidebar-menu'>
                 <MenuItems />
             </ul>
-            <div className='sidebar-copyright'>
+            <button className='sidebar-copyright'>
                 <img src={arrowToLeftImg} alt='Left arrow' />
                 <p>bond.bet © {new Date().getFullYear()}</p>
-            </div>
+            </button>
         </div>
     )
 }

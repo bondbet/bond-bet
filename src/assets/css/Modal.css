@@ -39,9 +39,14 @@
 }
 
 .modal-content {
-    padding: 90px 250px;
+    /* padding: 90px 250px; */
     overflow-y: auto;
     height: 91vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 1170px;
+    margin: 0 auto;
 }
 
 .modal-content .box-content {
@@ -155,6 +160,17 @@
     right: 30px;
     top: 11px;
     cursor: pointer;
+    transition: 0.2s;
+}
+
+.ticket-amount-input .max-btn:hover {
+    background: #EFEFEF;
+}
+
+.ticket-amount-input .max-btn:focus {
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
 }
 
 .ticket-amount-input input {
@@ -165,6 +181,7 @@
     padding: 15px 30px;
     font-family: spaceGroteskBold;
     font-size: 18px;
+    text-align: right;
 }
 
 .token {

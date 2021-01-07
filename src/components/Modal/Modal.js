@@ -28,6 +28,8 @@ const Modal = () => {
             case 'PA':
                 setOpenModal(false);
                 break;
+            default:
+                setOpenModal(false);
         }
     }
 

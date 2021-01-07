@@ -12,6 +12,7 @@ const DepositComplete = () => {
         seconds: 0,
     });
     const [percentageTimePassed, setPercentageTimePassed] = useState();
+    const [email, setEmail] = useState();
     const dateStart = new Date("12/23/2020 11:50:00").getTime()
     useEffect(() => {
         const interval = setInterval(() => {
@@ -29,7 +30,15 @@ const DepositComplete = () => {
         return () => {
             clearInterval(interval);
         };
-    }, [countdown, percentageTimePassed]);
+    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime, setModalType]);
+
+    const checkEmail = () => {
+        const reg = /^[a-zA-Z0-9\.\-_]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
+
+        if (!reg.test(email)) {
+            alert("Incorrect email format!")
+        }
+    };
 
     return (
         <div className='pools-box'>
@@ -44,8 +53,8 @@ const DepositComplete = () => {
                 <div className='get-notified'>
                     <div className='get-notified-label'>Get notified about the winner by email</div>
                     <div className='get-notified-field'>
-                        <input type='email' placeholder='Enter your email adress' />
-                        <button>Get notified</button>
+                        <input type='text' placeholder='Enter your email adress' onChange={(e) => setEmail(e.target.value)} value={email} />
+                        <button onClick={checkEmail}>Get notified</button>
                     </div>
                 </div>
             </div>

@@ -56,6 +56,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    background: none;
+    border: 1px solid #EFEFEF;
+    cursor: pointer;
+    padding: 23px 0;
+    transition: 0.2s;
+}
+
+.sidebar-copyright:hover {
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
 }
 
 .sidebar-copyright img {
@@ -81,12 +92,20 @@ ul.sidebar-menu a {
     font-family: spaceGroteskBold;
     text-decoration: none;
     margin-bottom: 10px;
+    transition: 0.3s;
+    border: 1px solid #EFEFEF;
 }
 
 ul.sidebar-menu a.active {
     background: #DEDEDE;
     border: 1px solid #000000;
     box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+}
+
+ul.sidebar-menu a:hover {
+    background: #EFEFEF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
 }
 
 ul.sidebar-menu a img {

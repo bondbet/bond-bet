@@ -12,12 +12,12 @@ import AppContext from '../../ContextAPI';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet } = useContext(AppContext);
+    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem } = useContext(AppContext);
 
     return (
         <header>
             <div className='app-logo'>
-                <Link to='/'>
+                <Link to='/' onClick={() => setSelectedMenuItem(0)}>
                     <img src={appLogo} alt='app-logo' />
                 </Link>
             </div>
