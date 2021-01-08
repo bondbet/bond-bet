@@ -23,7 +23,7 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
 
     const displayPages = () => {
         const buttons = [];
-        for (let i = 0; i < pageCount; i++) {
+        for (let i = 0; i < pageCount; i++) {   
             buttons.push(<button key={i} onClick={() => gotoPage(i)} className={pageIndex === i ? 'activePage' : ''}>{i+1}</button>)
         }
         return buttons;
@@ -31,44 +31,46 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
 
     return (
         <>
-            <div className={`pools-box ${!seperateThreeWinners ? 'change-shadow' : ''}`}>
+            <div className='pools-box change-shadow'>
                 <PoolBoxHeader title={title} />
                 <div className='my-account-pool-box-content required-changes'>
-                    <table {...getTableProps()} className={`table ${!seperateThreeWinners ? 'required-changes' : ''}`}>
-                        <thead>
-                            {headerGroups.map(headerGroup => (
-                            <tr {...headerGroup.getHeaderGroupProps()}>
-                                {headerGroup.headers.map(column => (
-                                <th
-                                    className='table-header'    
-                                    {...column.getHeaderProps()}
-                                >
-                                    {column.render('Header')}
-                                </th>
+                    <div>
+                        <table {...getTableProps()} className={`table ${!seperateThreeWinners ? 'required-changes' : ''}`}>
+                            <thead>
+                                {headerGroups.map(headerGroup => (
+                                <tr {...headerGroup.getHeaderGroupProps()}>
+                                    {headerGroup.headers.map(column => (
+                                    <th
+                                        className='table-header'    
+                                        {...column.getHeaderProps()}
+                                    >
+                                        {column.render('Header')}
+                                    </th>
+                                    ))}
+                                </tr>
                                 ))}
-                            </tr>
-                            ))}
-                        </thead>
-                        <tbody {...getTableBodyProps()}>
-                            {page.map((row, i) => {
-                                prepareRow(row)
-                                return (
-                                    <tr {...row.getRowProps()} className={(seperateThreeWinners && pageIndex === 0 && i < 3) ? 'seperateThreeWinners' : ''}>
-                                    {row.cells.map(cell => {
-                                        return (
-                                        <td
-                                            className={`table-body-columns ${seperateThreeWinners ? 'second-color' : 'third-color'}`}    
-                                            {...cell.getCellProps()}
-                                        >
-                                            {cell.render('Cell')}
-                                        </td>
-                                        )
-                                    })}
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody {...getTableBodyProps()}>
+                                {page.map((row, i) => {
+                                    prepareRow(row)
+                                    return (
+                                        <tr {...row.getRowProps()} className={(seperateThreeWinners && pageIndex === 0 && i < 3) ? 'seperateThreeWinners' : ''}>
+                                        {row.cells.map(cell => {
+                                            return (
+                                            <td
+                                                className={`table-body-columns ${seperateThreeWinners ? 'second-color' : 'third-color'}`}    
+                                                {...cell.getCellProps()}
+                                            >
+                                                {cell.render('Cell')}
+                                            </td>
+                                            )
+                                        })}
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
 

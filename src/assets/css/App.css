@@ -95,3 +95,13 @@ body {
         transform: translateX(0%);
     }
 }
+
+@import "Header.css";
+@import "Sidebar.css";
+@import "Pools.css";
+@import "PoolDetails.css";
+@import "MyAccount.css";
+@import "Leaderboard.css";
+@import "Modal.css";
+@import "Responsive.css";
+@import "_buttons.css";

@@ -111,12 +111,14 @@
 .pools-box-screen-inner {
     background-color: #000;
     width: 100%;
-    text-align: center;
     font-size: 30px;
     font-family: AdvancedPixel;
     text-transform: uppercase;
     color: #26CD73;
     padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .pools-box-progress {

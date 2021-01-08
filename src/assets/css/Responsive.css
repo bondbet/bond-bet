@@ -52,12 +52,14 @@
     }
     .modal-content {
         padding: 90px;
+        display: block;
     }
     .table-header {
         padding: 5px 10px;
         font-size: 7px;
     }
     .table-body-columns {
+        padding: 5px 10px;
         font-size: 10px;
     }
     .table-header:first-child,
@@ -170,7 +172,7 @@
         font-size: 18px;
     }
     .modal-content {
-        padding: 16px;
+        padding: 90px 16px;
     }
     .modal-content .box-inner {
         padding: 20px 10px;

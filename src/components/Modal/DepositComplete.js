@@ -2,6 +2,7 @@ import React, {useContext, useState, useEffect} from 'react'
 import AppContext from '../../ContextAPI';
 import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
+import validator from 'validator';
 
 const DepositComplete = () => {
     const { ticketAmountRP, ticketAmountSP, poolType, setNewTime, dateEnd, setModalType } = useContext(AppContext);
@@ -12,7 +13,7 @@ const DepositComplete = () => {
         seconds: 0,
     });
     const [percentageTimePassed, setPercentageTimePassed] = useState();
-    const [email, setEmail] = useState();
+    const [email, setEmail] = useState('');
     const dateStart = new Date("12/23/2020 11:50:00").getTime()
     useEffect(() => {
         const interval = setInterval(() => {
@@ -33,9 +34,7 @@ const DepositComplete = () => {
     }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime, setModalType]);
 
     const checkEmail = () => {
-        const reg = /^[a-zA-Z0-9\.\-_]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-
-        if (!reg.test(email)) {
+        if (!validator.isEmail(email)) {
             alert("Incorrect email format!")
         }
     };

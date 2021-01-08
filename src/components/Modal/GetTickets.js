@@ -5,6 +5,7 @@ import logo from '../../assets/images/onlyLogo.png';
 import closeIcon from '../../assets/images/close.png';
 import minusIcon from '../../assets/images/minus.png';
 import AppContext from '../../ContextAPI';
+import validator from 'validator';
 
 const GetTickets = () => {
     const {
@@ -29,7 +30,7 @@ const GetTickets = () => {
     } = useContext(AppContext);
 
     const handleChange = (e) => {
-        if (!new RegExp("[^0-9]").test(e.target.value)) {
+        if (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0')) {
             poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
         }
     };
@@ -40,12 +41,27 @@ const GetTickets = () => {
     }
 
     const handleDeposit = () => {
-        poolType === 'RP' ? (ticketAmountRP ? setModalType('CD') : alert('Please enter ticket amount.')) :
-            ticketAmountSP ? setModalType('CD') : alert('Please enter ticket amount.');
-        setTimeout(() => {
-            setModalType('DC');
-            poolType === 'RP' ? setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP)) : setTotalTicketAmountSP(Number(totalTicketAmountSP) + Number(ticketAmountSP))
-        }, 5000)
+        if (poolType === 'RP') {
+            if (ticketAmountRP) {
+                setModalType('CD')
+                setTimeout(() => {
+                    setModalType('DC');
+                    poolType === 'RP' ? setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP)) : setTotalTicketAmountSP(Number(totalTicketAmountSP) + Number(ticketAmountSP))
+                }, 5000)
+            } else {
+                alert('Please enter ticket amount.')
+            }
+        } else {
+            if (ticketAmountSP) {
+                setModalType('CD')
+                setTimeout(() => {
+                    setModalType('DC');
+                    poolType === 'RP' ? setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP)) : setTotalTicketAmountSP(Number(totalTicketAmountSP) + Number(ticketAmountSP))
+                }, 5000)
+            } else {
+                alert('Please enter ticket amount.')
+            }
+        }
     }
 
     return (
@@ -63,7 +79,11 @@ const GetTickets = () => {
                             <h2>Enable token
                                 <input
                                     checked={poolType === 'RP' ? tokenIsEnabledRP : tokenIsEnabledSP}
-                                    onChange={() => poolType === 'RP' ? (setTokenIsEnabledRP(!tokenIsEnabledRP), setMaxAmountSelected(false)) : (setTokenIsEnabledSP(!tokenIsEnabledSP), setMaxAmountSelected(false))}
+                                    onChange={() =>
+                                        poolType === 'RP' ?
+                                            (setTokenIsEnabledRP(!tokenIsEnabledRP), setMaxAmountSelected(false), setTicketAmountRP('')) :
+                                            (setTokenIsEnabledSP(!tokenIsEnabledSP), setMaxAmountSelected(false), setTicketAmountSP(''))
+                                    }
                                     className='switch-checkbox'
                                     id={'switch-new'+poolType}
                                     type='checkbox'
@@ -93,7 +113,12 @@ const GetTickets = () => {
                             }
                         </div>
                         <div className='ticket-amount-input'>
-                            <input type='text' disabled={connected && poolType === 'RP' ? (tokenIsEnabledRP && !maxAmountSelected) && true : (tokenIsEnabledSP && !maxAmountSelected) && true} onChange={handleChange} value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP} />
+                            <input
+                                type='text'
+                                disabled={connected && poolType === 'RP' ? (tokenIsEnabledRP && !maxAmountSelected) && true : (tokenIsEnabledSP && !maxAmountSelected) && true}
+                                onChange={handleChange}
+                                value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP}
+                            />
                             {connected && poolType === 'RP' ?
                                 (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(bondsInWallet); setMaxAmountSelected(true) }}>MAX</button> :
                                 (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(bondsInWallet); setMaxAmountSelected(true) }}>MAX</button>
