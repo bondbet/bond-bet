@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState, useEffect} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import logo from '../../assets/images/onlyLogo.png';
 import { useHistory } from 'react-router-dom';
@@ -7,7 +7,41 @@ import AppContext from '../../ContextAPI';
 
 const MyAccount = () => {
     const history = useHistory();
-    const { ticketAmountRP, ticketAmountSP, poolType, setSelectedMenuItem, setOpenModal, setModalType, setPoolType } = useContext(AppContext);
+    const {
+        poolType,
+        setSelectedMenuItem,
+        setOpenModal,
+        setModalType,
+        setPoolType,
+        setNewTime,
+        dateEnd,
+        totalTicketAmountRP,
+        totalTicketAmountSP
+    } = useContext(AppContext);
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
+	const [percentageTimePassed, setPercentageTimePassed] = useState();
+    const dateStart = new Date("12/23/2020 11:50:00").getTime();
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNewTime(setCountdown);
+        }, 1000);
+
+        if (percentageTimePassed >= 100) {
+            clearInterval(interval);
+        }
+
+        setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
 
     const data = React.useMemo(() => [
         {
@@ -188,11 +222,11 @@ const MyAccount = () => {
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div>{poolType === 'RP' ? ticketAmountRP : ticketAmountSP} Tickets / BOND</div>
+                        <div>{poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} Tickets / BOND</div>
                         <div>Current week prize 2000 BOND</div>
                         <div>Odds 1 in 50,6443234</div>
                         <div>3 winners</div>
-                        <div>Prize in 01d:18h:55m:07s</div>
+                        <div>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</div>
                     </div>
                 </div>
             </div>

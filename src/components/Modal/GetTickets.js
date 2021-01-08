@@ -21,7 +21,11 @@ const GetTickets = () => {
         poolType,
         bondsInWallet,
         maxAmountSelected,
-        setMaxAmountSelected
+        setMaxAmountSelected,
+        totalTicketAmountRP,
+		setTotalTicketAmountRP,
+		totalTicketAmountSP,
+		setTotalTicketAmountSP
     } = useContext(AppContext);
 
     const handleChange = (e) => {
@@ -40,6 +44,7 @@ const GetTickets = () => {
             ticketAmountSP ? setModalType('CD') : alert('Please enter ticket amount.');
         setTimeout(() => {
             setModalType('DC');
+            poolType === 'RP' ? setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP)) : setTotalTicketAmountSP(Number(totalTicketAmountSP) + Number(ticketAmountSP))
         }, 5000)
     }
 

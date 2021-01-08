@@ -19,6 +19,10 @@
     width: 100%;
 }
 
+.pools-box.change-shadow {
+    box-shadow: 1px 1px 0px 1px #000;
+}
+
 .pools-box-header {
     background: #D8D8D8;
     border: 1px solid #000000;
@@ -109,7 +113,7 @@
     width: 100%;
     text-align: center;
     font-size: 30px;
-    font-family: pixChicago;
+    font-family: AdvancedPixel;
     text-transform: uppercase;
     color: #26CD73;
     padding: 20px;

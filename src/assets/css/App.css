@@ -33,6 +33,15 @@
     src: url('../fonts/spaceGrotesk/SpaceGrotesk-Medium.ttf');
 }
 
+@font-face {
+    font-family: AdvancedPixel;
+    src: url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff2') format('woff2'),
+        url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -45,13 +54,17 @@ textarea:focus {
 }
 
 body {
-    background-color: #6567CC;
+    background-image: url('../images/bg.png');
     overflow: hidden;
+}
+
+#root {
+    height: 100vh;
 }
 
 .app-wrapper {
     display: flex;
-    height: 91vh;
+    height: calc(100% - 90px);
 }
 
 .app-sidebar {

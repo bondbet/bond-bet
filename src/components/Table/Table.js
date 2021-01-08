@@ -31,10 +31,10 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
 
     return (
         <>
-            <div className='pools-box'>
+            <div className={`pools-box ${!seperateThreeWinners ? 'change-shadow' : ''}`}>
                 <PoolBoxHeader title={title} />
                 <div className='my-account-pool-box-content required-changes'>
-                    <table {...getTableProps()} className='table'>
+                    <table {...getTableProps()} className={`table ${!seperateThreeWinners ? 'required-changes' : ''}`}>
                         <thead>
                             {headerGroups.map(headerGroup => (
                             <tr {...headerGroup.getHeaderGroupProps()}>

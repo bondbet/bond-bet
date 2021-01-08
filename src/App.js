@@ -19,17 +19,21 @@ import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails';
 import StakingPoolDetails from './components/Pools/StakingPool/StakingPoolDetails';
 import Modal from './components/Modal/Modal';
 import AppContext from './ContextAPI';
+import YouWon from './components/Test/YouWon';
+import YouLoss from './components/Test/YouLoss';
 
 const App = () => {
-	const dateEnd = new Date("01/07/2021 12:41:00").getTime();
+	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 	const [toggleSidebar, setToggleSidebar] = useState(false);
 	const [connected, setConnected] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [modalType, setModalType] = useState('');
-	const [ticketAmountRP, setTicketAmountRP] = useState();
+	const [ticketAmountRP, setTicketAmountRP] = useState(0);
+	const [totalTicketAmountRP, setTotalTicketAmountRP] = useState(0);
 	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
-	const [ticketAmountSP, setTicketAmountSP] = useState();
+	const [ticketAmountSP, setTicketAmountSP] = useState(0);
+	const [totalTicketAmountSP, setTotalTicketAmountSP] = useState(0);
 	const [tokenIsEnabledSP, setTokenIsEnabledSP] = useState(false);
 	const [poolType, setPoolType] = useState('');
 	const [wallet, setWallet] = useState('');
@@ -98,7 +102,11 @@ const App = () => {
 				bondsInWallet,
 				setBondsInWallet,
 				maxAmountSelected,
-				setMaxAmountSelected
+				setMaxAmountSelected,
+				totalTicketAmountRP,
+				setTotalTicketAmountRP,
+				totalTicketAmountSP,
+				setTotalTicketAmountSP
 			}}
 		>
 			<Routes>
@@ -112,6 +120,8 @@ const App = () => {
 							<Route exact path="/leaderboard" component={() => <LeaderBoard />} />
 							<Route exact path="/community-reward-pool/details" component={() => <RewardPoolDetails />} />
 							<Route exact path="/dao-staking-pool/details" component={() => <StakingPoolDetails />} />
+							<Route exact path="/prize-awarded/won" component={() => <YouWon /> } />
+							<Route exact path="/prize-awarded/loss" component={() => <YouLoss />} />
 							<Route path="*" component={() => <Pools />} />
 						</Switch>
 					</div>

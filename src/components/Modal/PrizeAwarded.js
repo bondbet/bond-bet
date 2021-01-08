@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import prizeAwardedImg from '../../assets/images/prize-awarded.png'
 import youWonImg from '../../assets/images/you-won.png'
@@ -8,7 +8,16 @@ import AppContext from '../../ContextAPI'
 const PrizeAwarded = () => {
     const { setSelectedMenuItem, setOpenModal } = useContext(AppContext);
     const history = useHistory();
-    const winner = false;
+    const [winner, setWinner] = useState(false);
+    
+    useEffect(() => {
+        if (window.location.pathname === '/prize-awarded/won') {
+            setWinner(true)
+        }
+        if (window.location.pathname === '/prize-awarded/loss') {
+            setWinner(false)
+        }
+    }, [setWinner])
 
     return (
         <div className='pools-box'>
