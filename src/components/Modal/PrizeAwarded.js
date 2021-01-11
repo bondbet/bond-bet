@@ -23,7 +23,7 @@ const PrizeAwarded = () => {
         <div className='pools-box'>
             {!winner ? 
                 <>
-                    <PoolBoxHeader title='Prize' />
+                    <PoolBoxHeader title='Results' />
                     <div className='box-content'>
                         <div className='box-inner'>
                             <div className='prize-awarded-img'>

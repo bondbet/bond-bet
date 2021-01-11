@@ -133,12 +133,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    font-family: spaceGroteskBold;
+    flex-wrap: wrap;
+    font-family: spaceGroteskRegular;
     font-size: 18px;
     color: #000000;
     padding: 18px 54px;
     text-align: center;
     width: 100%;
+}
+
+.my-account-stats div b {
+    margin: 0 5px;
 }
 
 .my-account-stats div:not(:last-child) {
@@ -193,6 +198,11 @@
 .table-header.second-color:nth-child(3) {
     background: #D1D1D1;
     text-align: left;
+}
+
+.table-header.hashtag:nth-child(1) {
+    font-family: spaceGroteskSemiBold;
+    font-size: 18px;
 }
 
 .table-body-columns {

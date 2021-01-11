@@ -5,6 +5,7 @@ import AppContext from './ContextAPI';
 import Router from './Router';
 
 const App = () => {
+	const dateStart = new Date("12/23/2020 11:50:00").getTime()
 	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [connected, setConnected] = useState(false);
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
@@ -57,6 +58,7 @@ const App = () => {
 	return (
 		<AppContext.Provider
 			value={{
+				dateStart,
 				dateEnd,
 				selectedMenuItem,
 				setSelectedMenuItem,

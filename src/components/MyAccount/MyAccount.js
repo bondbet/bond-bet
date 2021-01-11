@@ -16,6 +16,7 @@ const MyAccount = () => {
         setPoolType,
         setNewTime,
         dateEnd,
+        dateStart,
         totalTicketAmountRP,
         totalTicketAmountSP
     } = useContext(AppContext);
@@ -26,7 +27,6 @@ const MyAccount = () => {
         seconds: 0,
     });
 	const [percentageTimePassed, setPercentageTimePassed] = useState();
-    const dateStart = new Date("12/23/2020 11:50:00").getTime();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -224,18 +224,17 @@ const MyAccount = () => {
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div>{poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} Tickets / BOND</div>
-                        <div>Current week prize 2000 BOND</div>
-                        <div>Odds 1 in 50,6443234</div>
-                        <div>3 winners</div>
-                        <div>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</div>
+                        <div><b>{poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} Tickets / BOND</b></div>
+                        <div>Current week prize <b>2000 BOND</b></div>
+                        <div>Odds <b>1</b> in <b>50,6443234</b></div>
+                        <div><b>3</b> winners</div>
+                        <div><b>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</b></div>
                     </div>
                 </div>
             </div>
 
             <div className='my-account-totals'>
                 <div>
-                    <h1 className='my-account-title required-changes'>Total Rewards</h1>
                     <div className='pools-box'>
                         <PoolBoxHeader title='Total Rewards' />
                         <div className='pools-box-content required-changes'>
@@ -250,7 +249,6 @@ const MyAccount = () => {
                     </div>
                 </div>
                 <div>
-                    <h1 className='my-account-title required-changes'>Total Winnings</h1>
                     <div className='pools-box'>
                         <PoolBoxHeader title='Total Winnings' />
                         <div className='pools-box-content required-changes'>
@@ -267,7 +265,6 @@ const MyAccount = () => {
             </div>
 
             <div className='transactions'>
-                <h1 className='my-account-title'>My Transactions</h1>
                 <Table title='My Transactions' data={data} columns={columns} pageSize={4} />
             </div>
         </div>

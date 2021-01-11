@@ -20,7 +20,7 @@
     justify-content: flex-start;
     grid-gap: 10px;
     align-items: center;
-    margin-bottom: 70px;
+    margin-bottom: 20px;
 }
 
 .breadcrumbs a {
@@ -38,12 +38,13 @@
 
 .pools-box-container {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: 1fr 1fr;
     grid-gap: 30px;
+    margin-bottom: 30px;
 }
 
 .pools-box.required-changes {
-    margin: 73px 0;
+    margin-bottom: 30px;
 }
 
 .pools-box-content.required-changes {
@@ -80,4 +81,54 @@
     font-size: 18px;
     color: #000000;
     margin-bottom: 17px;
+}
+
+.yield-source-title {
+    display: flex;
+    align-items: center;
+    font-family: pixChicago;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+}
+
+.yield-source-title img {
+    margin-right: 15px;
+    width: 45px;
+    height: 45px;
+}
+
+.past-prizes {
+    display: grid;
+    grid-template-columns: auto minmax(auto, 400px) auto;
+    grid-gap: 10px;
+    align-items: baseline;
+    font-family: spaceGroteskSemiBold;
+    font-style: normal;
+    font-size: 18px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.past-prizes div:nth-child(2) {
+    border-bottom: 2px dotted #000;
+}
+
+.yield-source .pools-box-content,
+.past-five-prizes .pools-box-content {
+    height: calc(100% - 35px);
+}
+
+.yield-source .pools-box-inner,
+.past-five-prizes .pools-box-inner {
+    height: 100%;
+}
+
+.yield-source .pools-box-screen,
+.past-five-prizes .pools-box-screen {
+    min-height: 84%;
+}
+
+.players {
+    margin-bottom: 30px;
 }

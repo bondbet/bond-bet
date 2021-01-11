@@ -4,7 +4,7 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import prevIcon from '../../assets/images/prev.png'
 import nextIcon from '../../assets/images/next.png'
 
-const Table = ({title, data, columns, pageSize, isLeaderboardTable = false}) => {
+const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHashtag = false}) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -40,7 +40,7 @@ const Table = ({title, data, columns, pageSize, isLeaderboardTable = false}) => 
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map((column,i) => (
                                     <th
-                                        className={`table-header ${isLeaderboardTable ? 'second-color' : 'third-color'}`}    
+                                        className={`table-header ${isLeaderboardTable ? 'second-color' : 'third-color'} ${isHashtag ? 'hashtag' : ''}`}    
                                             {...column.getHeaderProps()}
                                     >
                                         {column.render('Header')}

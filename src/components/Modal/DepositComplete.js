@@ -5,7 +5,7 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import validator from 'validator';
 
 const DepositComplete = () => {
-    const { ticketAmountRP, ticketAmountSP, poolType, setNewTime, dateEnd, setModalType } = useContext(AppContext);
+    const { ticketAmountRP, ticketAmountSP, poolType, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -14,7 +14,7 @@ const DepositComplete = () => {
     });
     const [percentageTimePassed, setPercentageTimePassed] = useState();
     const [email, setEmail] = useState('');
-    const dateStart = new Date("12/23/2020 11:50:00").getTime()
+    
     useEffect(() => {
         const interval = setInterval(() => {
             setNewTime(setCountdown);

@@ -14,6 +14,13 @@
     .wallets button img {
         width: 200px;
     }
+    .yield-source-title {
+        font-size: 13px;
+    }
+    .yield-source-title img {
+        width: 32px;
+        height: 32px;
+    }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -78,6 +85,17 @@
         padding: 5px;
         min-width: 74px;
         margin-left: 10px;
+    }
+    .yield-source .pools-box-screen,
+    .past-five-prizes .pools-box-screen {
+        min-height: 66%;
+    }
+    .yield-source-title {
+        font-size: 18px;
+    }
+    .yield-source-title img {
+        width: 45px;
+        height: 45px;
     }
 }
 
@@ -267,5 +285,12 @@
     }
     .modal-description-sm {
         font-size: 10px;
+    }
+    .yield-source-title {
+        font-size: 13px;
+    }
+    .yield-source-title img {
+        width: 32px;
+        height: 32px;
     }
 }

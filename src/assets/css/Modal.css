@@ -39,14 +39,18 @@
 }
 
 .modal-content {
-    /* padding: 90px 250px; */
     overflow-y: auto;
     height: 91vh;
-    display: flex;
+    display: block;
+    padding: 90px;
     justify-content: center;
     align-items: center;
     max-width: 1170px;
     margin: 0 auto;
+}
+
+.modal-content::-webkit-scrollbar {
+    display: none;
 }
 
 .modal-content .box-content {
