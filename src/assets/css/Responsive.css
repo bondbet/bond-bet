@@ -61,13 +61,23 @@
         padding: 5px 10px;
         font-size: 7px;
     }
-    .table-body-columns {
+    .table-body-columns,
+    .table tr.odd td.second-color {
         padding: 5px 10px;
         font-size: 10px;
+    }
+    table tr .table-body-columns.second-color:nth-child(3) {
+        padding-right: 0;
     }
     .table-header:first-child,
     .table-body-columns:first-child {
         text-align: left;
+    }
+    .view-details button {
+        font-size: 7px;
+        padding: 5px;
+        min-width: 74px;
+        margin-left: 10px;
     }
 }
 

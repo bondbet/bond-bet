@@ -4,7 +4,7 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import prevIcon from '../../assets/images/prev.png'
 import nextIcon from '../../assets/images/next.png'
 
-const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) => {
+const Table = ({title, data, columns, pageSize, isLeaderboardTable = false}) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -20,7 +20,6 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
         state: { pageIndex },
     } = useTable({ columns, data, initialState: { pageIndex: 0, pageSize: pageSize }, }, usePagination);
 
-
     const displayPages = () => {
         const buttons = [];
         for (let i = 0; i < pageCount; i++) {   
@@ -35,14 +34,14 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
                 <PoolBoxHeader title={title} />
                 <div className='my-account-pool-box-content required-changes'>
                     <div>
-                        <table {...getTableProps()} className={`table ${!seperateThreeWinners ? 'required-changes' : ''}`}>
+                        <table {...getTableProps()} className={`table ${!isLeaderboardTable ? 'required-changes' : ''}`}>
                             <thead>
                                 {headerGroups.map(headerGroup => (
                                 <tr {...headerGroup.getHeaderGroupProps()}>
-                                    {headerGroup.headers.map(column => (
+                                    {headerGroup.headers.map((column,i) => (
                                     <th
-                                        className='table-header'    
-                                        {...column.getHeaderProps()}
+                                        className={`table-header ${isLeaderboardTable ? 'second-color' : 'third-color'}`}    
+                                            {...column.getHeaderProps()}
                                     >
                                         {column.render('Header')}
                                     </th>
@@ -54,11 +53,13 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
                                 {page.map((row, i) => {
                                     prepareRow(row)
                                     return (
-                                        <tr {...row.getRowProps()} className={(seperateThreeWinners && pageIndex === 0 && i < 3) ? 'seperateThreeWinners' : '', i % 2 === 0 ? 'even' : 'odd'}>
-                                            {row.cells.map((cell, index) => {
+                                        <tr {...row.getRowProps()}
+                                            className={i % 2 === 0 ? 'even' : 'odd'}
+                                        >
+                                            {row.cells.map(cell => {
                                                 return (
                                                     <td
-                                                        className={`table-body-columns ${seperateThreeWinners ? 'second-color' : 'third-color'}`}    
+                                                        className={`table-body-columns ${isLeaderboardTable ? 'second-color' : 'third-color'}`}    
                                                         {...cell.getCellProps()}
                                                     >
                                                         {cell.render('Cell')}
@@ -74,17 +75,19 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
                 </div>
             </div>
 
-            <div className="table-pagination">
-                <button onClick={() => previousPage()} disabled={!canPreviousPage} className='prev-next-buttons'>
-                    <img src={prevIcon} alt='Previous Page' />
-                </button>
-                <div className='displayPages'>
-                    {displayPages()}
+            {data.length > pageSize &&
+                <div className="table-pagination">
+                    <button onClick={() => previousPage()} disabled={!canPreviousPage} className='prev-next-buttons'>
+                        <img src={prevIcon} alt='Previous Page' />
+                    </button>
+                    <div className='displayPages'>
+                        {displayPages()}
+                    </div>
+                    <button onClick={() => nextPage()} disabled={!canNextPage} className='prev-next-buttons'>
+                        <img src={nextIcon} alt='Next Page' />
+                    </button>
                 </div>
-                <button onClick={() => nextPage()} disabled={!canNextPage} className='prev-next-buttons'>
-                    <img src={nextIcon} alt='Next Page' />
-                </button>
-            </div>
+            }
         </>
     )
 }
