@@ -1,7 +1,10 @@
-@media only screen and (max-width: 1440px) {
-    .my-account-stats {
-        grid-template-columns: minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr);
+@media only screen and (max-width: 1560px) {
+    .my-account-stats div {
+        padding: 18px;
     }
+}
+
+@media only screen and (max-width: 1440px) {
     .my-account-title {
         font-size: 28px;
     }
@@ -41,11 +44,11 @@
         font-size: 14px;
     }
     .my-account-stats {
-        grid-template-columns: 1fr;
+        flex-wrap: wrap;
     }
-    .my-account-stats div {
-        height: 58px;
-        font-size: 16px;
+    .my-account-stats div:not(:last-child) {
+        border-bottom: 1px solid #000;
+        border-right: none;
     }
     .my-account-totals {
         grid-template-columns: 1fr;

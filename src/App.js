@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './assets/css/App.css';
+import './assets/css/Responsive.css';
 import AppContext from './ContextAPI';
 import Router from './Router';
 

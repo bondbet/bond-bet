@@ -1,6 +1,7 @@
 import React, {useContext, useState, useEffect} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import logo from '../../assets/images/onlyLogo.png';
+import diamond from '../../assets/images/diamond.png';
 import { useHistory } from 'react-router-dom';
 import Table from '../Table/Table';
 import AppContext from '../../ContextAPI';
@@ -210,7 +211,8 @@ const MyAccount = () => {
                 <div className='my-account-pool-box-content'>
                     <div className='my-account-pool-details'>
                         <div className='my-account-pool-details-head'>
-                            <h1>Community Reward Pool</h1>
+                            <h1>
+                                <img src={diamond} alt='Diamond' className='diamond' /> Community Reward Pool</h1>
                             <h1>
                                 <img src={logo} alt='Bond Logo' /> Bond
                             </h1>

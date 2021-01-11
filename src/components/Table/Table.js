@@ -54,17 +54,17 @@ const Table = ({title, data, columns, pageSize, seperateThreeWinners = false}) =
                                 {page.map((row, i) => {
                                     prepareRow(row)
                                     return (
-                                        <tr {...row.getRowProps()} className={(seperateThreeWinners && pageIndex === 0 && i < 3) ? 'seperateThreeWinners' : ''}>
-                                        {row.cells.map(cell => {
-                                            return (
-                                            <td
-                                                className={`table-body-columns ${seperateThreeWinners ? 'second-color' : 'third-color'}`}    
-                                                {...cell.getCellProps()}
-                                            >
-                                                {cell.render('Cell')}
-                                            </td>
-                                            )
-                                        })}
+                                        <tr {...row.getRowProps()} className={(seperateThreeWinners && pageIndex === 0 && i < 3) ? 'seperateThreeWinners' : '', i % 2 === 0 ? 'even' : 'odd'}>
+                                            {row.cells.map((cell, index) => {
+                                                return (
+                                                    <td
+                                                        className={`table-body-columns ${seperateThreeWinners ? 'second-color' : 'third-color'}`}    
+                                                        {...cell.getCellProps()}
+                                                    >
+                                                        {cell.render('Cell')}
+                                                    </td>
+                                                )
+                                            })}
                                         </tr>
                                     )
                                 })}
