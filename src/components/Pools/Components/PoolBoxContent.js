@@ -1,5 +1,5 @@
 import React from 'react'
-import onlyLogo from '../../../assets/images/onlyLogo.png';
+import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
 

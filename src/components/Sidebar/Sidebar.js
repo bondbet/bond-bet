@@ -1,6 +1,6 @@
 import React from 'react'
 import MenuItems from '../Mobile/MenuItems'
-import arrowToLeftImg from '../../assets/images/arrowToLeft.png';
+import arrowToLeftImg from '../../assets/images/arrowToLeft.svg';
 
 const Sidebar = () => {
 

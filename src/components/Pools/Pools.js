@@ -1,7 +1,7 @@
 import React, {useEffect, useState, useContext} from 'react'
 import AppContext from '../../ContextAPI';
 import RewardPool from './RewardPool/RewardPool';
-// import StakingPool from './StakingPool/StakingPool';
+import StakingPool from './StakingPool/StakingPool';
 
 const Pools = () => {
     const { setNewTime, dateEnd, dateStart } = useContext(AppContext);
@@ -34,7 +34,7 @@ const Pools = () => {
             <h1 className='title'>Lottery Pools</h1>
             <div className='lottery-pools-section'>
                 <RewardPool percentageTimePassed={percentageTimePassed} countdown={countdown} />
-                {/* <StakingPool percentageTimePassed={percentageTimePassed} countdown={countdown} /> */}
+                <StakingPool percentageTimePassed={percentageTimePassed} countdown={countdown} />
             </div>
         </div>
     )

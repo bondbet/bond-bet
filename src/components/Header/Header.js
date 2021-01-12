@@ -1,12 +1,12 @@
 import React, {useState, useContext} from 'react'
 import MobileSidebar from '../Mobile/MobileSidebar';
-import appLogo from '../../assets/images/app-logo.png';
-import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
-import hamburgerIcon from '../../assets/images/hamburger.png';
-import prizeImg from '../../assets/images/prize.png';
-import statusImg from '../../assets/images/status.png';
-import walletImg from '../../assets/images/wallet.png';
-import networkImg from '../../assets/images/network.png';
+import appLogo from '../../assets/images/app-logo.svg';
+import noLossLotteryImg from '../../assets/images/no-loss-lottery.svg';
+import hamburgerIcon from '../../assets/images/hamburger.svg';
+import prizeImg from '../../assets/images/prize.svg';
+import statusImg from '../../assets/images/status.svg';
+import walletImg from '../../assets/images/wallet.svg';
+import networkImg from '../../assets/images/network.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
 
@@ -23,6 +23,7 @@ const Header = () => {
             </div>
             <div className='no-loss-lottery'>
                 <img src={noLossLotteryImg} alt='No Loss Lottery' />
+                <h2>No Loss Lottery</h2>
             </div>
             <div className='connect-wallet'>
                 {!connected ?

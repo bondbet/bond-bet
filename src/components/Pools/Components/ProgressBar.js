@@ -1,5 +1,5 @@
 import React from 'react'
-import inRoadImg from '../../../assets/images/in-road.png';
+import inRoadImg from '../../../assets/images/in-road.svg';
 
 const ProgressBar = ({percentageTimePassed}) => {
 

@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
-import walletIcon from '../../assets/images/wallet-sm.png';
-import logo from '../../assets/images/onlyLogo.png';
-import closeIcon from '../../assets/images/close.png';
-import minusIcon from '../../assets/images/minus.png';
+import walletIcon from '../../assets/images/wallet-sm.svg';
+import logo from '../../assets/images/onlyLogo.svg';
+import closeIcon from '../../assets/images/close.svg';
+import minusIcon from '../../assets/images/minus.svg';
 import AppContext from '../../ContextAPI';
 import validator from 'validator';
 
@@ -30,7 +30,7 @@ const GetTickets = () => {
     } = useContext(AppContext);
 
     const handleChange = (e) => {
-        if (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0')) {
+        if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
             poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
         }
     };

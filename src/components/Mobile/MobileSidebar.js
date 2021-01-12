@@ -1,12 +1,12 @@
 import React, {useState, useContext} from 'react';
 import MenuItems from './MenuItems';
-import noLossLotteryImg from '../../assets/images/no-loss-lottery.png';
-import arrowToLeftImg from '../../assets/images/arrowToLeft.png';
-import closeIcon from '../../assets/images/close.png';
-import prizeImg from '../../assets/images/prize.png';
-import statusImg from '../../assets/images/status.png';
-import walletImg from '../../assets/images/wallet.png';
-import networkImg from '../../assets/images/network.png';
+import noLossLotteryImg from '../../assets/images/no-loss-lottery.svg';
+import arrowToLeftImg from '../../assets/images/arrowToLeft.svg';
+import closeIcon from '../../assets/images/close.svg';
+import prizeImg from '../../assets/images/prize.svg';
+import statusImg from '../../assets/images/status.svg';
+import walletImg from '../../assets/images/wallet.svg';
+import networkImg from '../../assets/images/network.svg';
 import AppContext from '../../ContextAPI';
 
 const MobileSidebar = () => {
@@ -19,6 +19,7 @@ const MobileSidebar = () => {
                 <div className='sidebar-header'>
                     <div className='no-loss-lottery-mobile'>
                         <img src={noLossLotteryImg} alt='No Loss Lottery' />
+                        <h2>No Loss Lottery</h2>
                     </div>
                     <button className='close-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
                         <img src={closeIcon} alt='Close Sidebar Icon' />

@@ -1,8 +1,8 @@
 import React from 'react'
 import { useTable, usePagination } from 'react-table'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
-import prevIcon from '../../assets/images/prev.png'
-import nextIcon from '../../assets/images/next.png'
+import prevIcon from '../../assets/images/prev.svg'
+import nextIcon from '../../assets/images/next.svg'
 
 const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHashtag = false}) => {
     const {

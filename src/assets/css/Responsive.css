@@ -21,14 +21,14 @@
         width: 32px;
         height: 32px;
     }
+    .my-account-stats div:nth-child(2) {
+        white-space: break-spaces;
+    }
 }
 
 @media only screen and (max-width: 1200px) {
     .pools-box-buttons {
         grid-template-columns: 200px 200px;
-    }
-    .no-loss-lottery h4, .no-loss-lottery-mobile h4 {
-        font-size: 14px;
     }
     .lottery-pools-section .title {
         font-size: 26px;
@@ -139,9 +139,6 @@
         display: block;
         height: 90%;
     }
-    .no-loss-lottery-mobile h4 {
-        font-size: 14px;
-    }
     .connect-wallet-mobile > button {
         width: 100%;
         margin-bottom: 40px;
@@ -182,10 +179,6 @@
     }
     .my-account-title {
         font-size: 18px;
-    }
-    .my-account-totals {
-        grid-gap: 20px;
-        margin: 20px 0;
     }
     .leaderboard-title {
         font-size: 18px;
@@ -229,6 +222,16 @@
     }
     .my-account-pool-details-head h1 {
         font-size: 18px;
+    }
+    .no-loss-lottery-mobile h2,
+    .no-loss-lottery h2 {
+        font-size: 14px;
+    }
+    .show-on-mobile {
+        display: flex;
+    }
+    .my-account-pool-details {
+        padding: 10px;
     }
 }
 

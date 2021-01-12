@@ -1,7 +1,7 @@
 import React, {useContext} from 'react'
 import { useParams } from 'react-router-dom'
-import onlyLogo from '../../../assets/images/onlyLogo.png'
-import arrowToRight from '../../../assets/images/arrowToRight.png'
+import onlyLogo from '../../../assets/images/onlyLogo.svg'
+import arrowToRight from '../../../assets/images/arrowToRight.svg'
 import { Link } from 'react-router-dom'
 import AppContext from '../../../ContextAPI'
 

@@ -4,7 +4,11 @@
     left: 0;
     right: 0;
     height: 100vh;
-    background-image: url('../images/bg.png');
+    background-size: 150px 150px;
+    background-image:
+        linear-gradient(to right, #5B5DB8 0.5px, transparent 1px),
+        linear-gradient(to bottom, #5B5DB8 0.5px, transparent 1px);
+    background-color: #6567CC;
 }
 
 .modal.open {

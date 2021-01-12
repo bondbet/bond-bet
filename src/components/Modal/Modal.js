@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
-import backIcon from '../../assets/images/arrowToLeft.png';
-import closeIcon from '../../assets/images/close.png';
+import backIcon from '../../assets/images/arrowToLeft.svg';
+import closeIcon from '../../assets/images/close.svg';
 import AppContext from '../../ContextAPI';
 import ConfirmDeposit from './ConfirmDeposit';
 import ConnectWallet from './ConnectWallet';

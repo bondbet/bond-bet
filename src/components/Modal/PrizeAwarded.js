@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
-import prizeAwardedImg from '../../assets/images/prize-awarded.png'
-import youWonImg from '../../assets/images/you-won.png'
+import prizeAwardedImg from '../../assets/images/prize-awarded.svg'
+import youWonImg from '../../assets/images/you-won.svg'
 import { useHistory } from 'react-router-dom'
 import AppContext from '../../ContextAPI'
 

@@ -1,11 +1,11 @@
 import React, {useContext} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
-import metamask from '../../assets/images/metamask.png';
-import walletConnect from '../../assets/images/wallet-connect.png';
-import ledger from '../../assets/images/ledger.png';
-import trezor from '../../assets/images/trezor.png';
-import coinbase from '../../assets/images/coinbase.png';
-import portis from '../../assets/images/portis.png';
+import metamask from '../../assets/images/metamask.svg';
+import walletConnect from '../../assets/images/wallet-connect.svg';
+import ledger from '../../assets/images/ledger.svg';
+import trezor from '../../assets/images/trezor.svg';
+import coinbase from '../../assets/images/coinbase.svg';
+import portis from '../../assets/images/portis.svg';
 import AppContext from '../../ContextAPI';
 
 const ConnectWallet = () => {

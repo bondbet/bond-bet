@@ -1,8 +1,8 @@
 import React, {useContext} from 'react'
 import { Link } from 'react-router-dom';
-import poolsImg from '../../assets/images/pools.png';
-import myAccountImg from '../../assets/images/my-account.png';
-import leaderboardImg from '../../assets/images/leaderboard.png';
+import poolsImg from '../../assets/images/pools.svg';
+import myAccountImg from '../../assets/images/my-account.svg';
+import leaderboardImg from '../../assets/images/leaderboard.svg';
 import AppContext from '../../ContextAPI';
 
 const MenuItems = () => {

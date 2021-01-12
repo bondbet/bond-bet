@@ -1,6 +1,6 @@
 import React, {useContext} from 'react'
 import Table from '../Table/Table'
-import logo from '../../assets/images/onlyLogo.png'
+import logo from '../../assets/images/onlyLogo.svg'
 import { useHistory } from 'react-router-dom'
 import AppContext from '../../ContextAPI'
 

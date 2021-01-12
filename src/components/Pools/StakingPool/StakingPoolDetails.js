@@ -1,16 +1,16 @@
 import React, {useEffect, useState, useContext} from 'react'
 import { Link, useHistory } from 'react-router-dom';
-import onlyLogo from '../../../assets/images/onlyLogo.png';
-import arrowToRight from '../../../assets/images/arrowToRight.png';
+import onlyLogo from '../../../assets/images/onlyLogo.svg';
+import arrowToRight from '../../../assets/images/arrowToRight.svg';
 import Countdown from '../Components/Countdown';
 import ProgressBar from '../Components/ProgressBar';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import AboutPool from '../Components/AboutPool';
 import PoolBoxStats from '../Components/PoolBoxStats';
 import AppContext from '../../../ContextAPI';
-import presentImg from '../../../assets/images/present.png';
-import timeImg from '../../../assets/images/time.png';
-import bigWalletImg from '../../../assets/images/wallet-lg.png';
+import presentImg from '../../../assets/images/present.svg';
+import timeImg from '../../../assets/images/time.svg';
+import bigWalletImg from '../../../assets/images/wallet-lg.svg';
 import Table from '../../Table/Table';
 
 const StakingPoolDetails = () => {

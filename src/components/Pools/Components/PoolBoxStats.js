@@ -1,7 +1,7 @@
 import React from 'react'
-import cupImg from '../../../assets/images/cup.png'
-import playersImg from '../../../assets/images/players.png'
-import ticketImg from '../../../assets/images/ticket.png'
+import cupImg from '../../../assets/images/cup.svg'
+import playersImg from '../../../assets/images/players.svg'
+import ticketImg from '../../../assets/images/ticket.svg'
 
 const PoolBoxStats = ({winners, players, totalTickets}) => {
     return (
