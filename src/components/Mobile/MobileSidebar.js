@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect, useRef} from 'react';
 import MenuItems from './MenuItems';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.svg';
 import arrowToLeftImg from '../../assets/images/arrowToLeft.svg';
@@ -12,6 +12,22 @@ import AppContext from '../../ContextAPI';
 const MobileSidebar = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
     const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet } = useContext(AppContext)
+    const ref = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (!event.target.classList.contains('dropdownOpened')) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setOpenDropdown(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+	})
 
     return (
         <div className='sidebar-overlay'>
@@ -39,7 +55,7 @@ const MobileSidebar = () => {
                                         <img src={prizeImg} alt='Prize' /> 0x3d51..883
                                     </button>
                                     {openDropdown && 
-                                        <div className='dropdown'>
+                                        <div ref={ref} className='dropdown'>
                                             <div className='dropdown-row'>
                                                 <div className='dropdown-text'>
                                                     <img src={statusImg} alt='Status' /> Status

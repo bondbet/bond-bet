@@ -12,7 +12,7 @@ const PoolBoxStats = ({winners, players, totalTickets}) => {
                         <img src={cupImg} alt='Winners' /> Winners
                     </h1>
                     <div className='pools-box-screen required-changes'>
-                        <div className='pools-box-screen-inner'>{winners}</div>
+                        <div className='pools-box-screen-inner required-changes'>{winners}</div>
                     </div>
                 </div>
                 <div>
@@ -20,7 +20,7 @@ const PoolBoxStats = ({winners, players, totalTickets}) => {
                         <img src={playersImg} alt='Players' /> Players
                     </h1>
                     <div className='pools-box-screen required-changes'>
-                        <div className='pools-box-screen-inner'>{players}</div>
+                        <div className='pools-box-screen-inner required-changes'>{players}</div>
                     </div>
                 </div>
                 <div>
@@ -28,7 +28,7 @@ const PoolBoxStats = ({winners, players, totalTickets}) => {
                         <img src={ticketImg} alt='Total tickets' /> Total tickets
                     </h1>
                     <div className='pools-box-screen required-changes'>
-                        <div className='pools-box-screen-inner'>{totalTickets}</div>
+                        <div className='pools-box-screen-inner required-changes'>{totalTickets}</div>
                     </div>
                 </div>
             </div>

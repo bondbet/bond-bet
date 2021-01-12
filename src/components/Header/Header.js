@@ -1,4 +1,4 @@
-import React, {useState, useContext} from 'react'
+import React, {useState, useContext, useEffect, useRef} from 'react'
 import MobileSidebar from '../Mobile/MobileSidebar';
 import appLogo from '../../assets/images/app-logo.svg';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.svg';
@@ -13,6 +13,22 @@ import AppContext from '../../ContextAPI';
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
     const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem } = useContext(AppContext);
+    const ref = useRef(null);
+
+    const handleClickOutside = (event) => {
+        if (!event.target.classList.contains('dropdownOpened')) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setOpenDropdown(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+	})
 
     return (
         <header>
@@ -33,7 +49,7 @@ const Header = () => {
                             <img src={prizeImg} alt='Prize' /> 0x3d51..883
                         </button>
                         {openDropdown && 
-                            <div className='dropdown'>
+                            <div ref={ref} className='dropdown'>
                                 <div className='dropdown-row'>
                                     <div className='dropdown-text'>
                                         <img src={statusImg} alt='Status' /> Status

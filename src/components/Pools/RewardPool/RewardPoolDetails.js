@@ -19,52 +19,52 @@ const RewardPoolDetails = () => {
 
     const data = React.useMemo(() => [
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
         {
-            col1: '0xd116..1b81',
+            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
             col3: '1 in 2.87',
         },
@@ -74,6 +74,7 @@ const RewardPoolDetails = () => {
         {
             Header: 'Address',
             accessor: 'col1',
+            Cell: ({ row }) => (row.values.col1.substring(0,6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
         },
         {
             Header: 'Tickets',
@@ -82,7 +83,7 @@ const RewardPoolDetails = () => {
         {
             Header: 'Odds',
             accessor: 'col3',
-            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1}`) }}>View player</button></div> )
+            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
         },
     ], [history, setSelectedMenuItem])
 
@@ -220,7 +221,7 @@ const RewardPoolDetails = () => {
             </div>
 
             <div className='players'>
-                <Table title='Players' data={data} columns={columns} pageSize={6} isLeaderboardTable={true} />
+                <Table title='Players' data={data} columns={columns} pageSize={6} isLeaderboardTable={true} isAddress={true} />
             </div>
 
             <div className='pools-box'>

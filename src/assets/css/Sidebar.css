@@ -78,7 +78,7 @@ ul.sidebar-menu {
 ul.sidebar-menu a {
     display: flex;
     align-items: center;
-    padding: 24px 53px;
+    padding: 24px 45px;
     font-size: 18px;
     color: #000;
     font-family: spaceGroteskBold;

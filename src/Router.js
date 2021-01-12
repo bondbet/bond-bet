@@ -12,6 +12,8 @@ import YouWon from './components/Test/YouWon';
 import YouLoss from './components/Test/YouLoss';
 import RewardPoolPrizeDetails from './components/Pools/RewardPool/RewardPoolPrizeDetails';
 import StakingPoolPrizeDetails from './components/Pools/StakingPool/StakingPoolPrizeDetails';
+import RewardPoolPlayerDetails from './components/Pools/RewardPool/RewardPoolPlayerDetails';
+import StakingPoolPlayerDetails from './components/Pools/StakingPool/StakingPoolPlayerDetails';
 
 function Router({openModal}) {
     return (
@@ -28,8 +30,14 @@ function Router({openModal}) {
 						<Route exact path="/dao-staking-pool/details" component={() => <StakingPoolDetails />} />
 						<Route exact path="/community-reward-pool/prize/:id" component={() => <RewardPoolPrizeDetails />} />
 						<Route exact path="/dao-staking-pool/prize/:id" component={() => <StakingPoolPrizeDetails />} />
+						<Route exact path="/community-reward-pool/player/:id" component={() => <RewardPoolPlayerDetails />} />
+						<Route exact path="/dao-staking-pool/player/:id" component={() => <StakingPoolPlayerDetails />} />
+
+						{/* These 2 routes are for testing purpose */}
 						<Route exact path="/prize-awarded/won" component={() => <YouWon /> } />
 						<Route exact path="/prize-awarded/loss" component={() => <YouLoss />} />
+						{/* End */}
+						
 						<Route path="*" component={() => <Redirect to='/' />} />
 					</Switch>
 				</div>

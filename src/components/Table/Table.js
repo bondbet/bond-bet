@@ -4,7 +4,7 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import prevIcon from '../../assets/images/prev.svg'
 import nextIcon from '../../assets/images/next.svg'
 
-const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHashtag = false}) => {
+const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHashtag = false, isAddress = false}) => {
     const {
         getTableProps,
         getTableBodyProps,
@@ -30,7 +30,7 @@ const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHa
 
     return (
         <>
-            <div className='pools-box change-shadow'>
+            <div className='pools-box change-shadow required-changes'>
                 <PoolBoxHeader title={title} />
                 <div className='my-account-pool-box-content required-changes'>
                     <div>
@@ -40,7 +40,7 @@ const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHa
                                 <tr {...headerGroup.getHeaderGroupProps()}>
                                     {headerGroup.headers.map((column,i) => (
                                     <th
-                                        className={`table-header ${isLeaderboardTable ? 'second-color' : 'third-color'} ${isHashtag ? 'hashtag' : ''}`}    
+                                        className={`table-header ${isLeaderboardTable ? 'second-color' : 'third-color'} ${isHashtag ? 'hashtag' : ''} ${isAddress ? 'address' : ''}`}    
                                             {...column.getHeaderProps()}
                                     >
                                         {column.render('Header')}
@@ -59,7 +59,7 @@ const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHa
                                             {row.cells.map(cell => {
                                                 return (
                                                     <td
-                                                        className={`table-body-columns ${isLeaderboardTable ? 'second-color' : 'third-color'}`}    
+                                                        className={`table-body-columns ${isLeaderboardTable ? 'second-color' : 'third-color'} ${isAddress ? 'address' : ''}`}    
                                                         {...cell.getCellProps()}
                                                     >
                                                         {cell.render('Cell')}

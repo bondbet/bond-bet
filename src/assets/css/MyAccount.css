@@ -162,7 +162,7 @@
     font-family: spaceGroteskRegular;
     font-size: 18px;
     color: #000000;
-    padding: 18px 30px;
+    padding: 18px 35px;
     text-align: center;
     width: 100%;
 }
@@ -242,6 +242,15 @@
     color: #000000;
 }
 
+.table-header.address:first-child,
+.table-body-columns.address:first-child {
+    text-align: left;
+}
+
+.table-body-columns.address:first-child {
+    text-transform: lowercase;
+}
+
 .table-body-columns.third-color:first-child {
     text-align: left;
 }
@@ -261,13 +270,13 @@ table tr .table-body-columns.second-color:nth-child(3) {
 
 .table-body-columns.third-color:nth-child(3) {
     color: #272BDB;
+    text-transform: lowercase;
 }
 
 .table-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 23px;
 }
 
 .prev-next-buttons {

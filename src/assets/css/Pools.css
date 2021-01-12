@@ -122,7 +122,7 @@
     font-family: AdvancedPixel;
     text-transform: uppercase;
     color: #26CD73;
-    padding: 20px 20px 20px 20px;
+    padding: 40px 20px;
     text-shadow: 0 0 15px #26CD73;
     height: auto;
     box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
@@ -196,4 +196,69 @@
     text-transform: uppercase;
     color: #000000;
     margin-top: 3px;
+}
+
+.player-full-hash {
+    padding: 24px;
+}
+
+.player-full-hash .pools-box-inner-title.required-changes {
+    flex-wrap: wrap;
+}
+
+.full-hash {
+    text-transform: uppercase;
+    margin-left: 20px;
+    font-family: spaceGroteskSemiBold;
+    font-style: normal;
+    font-size: 28px;
+}
+
+.player-info-box {
+    display: grid;
+    grid-template-areas: 
+        "prize prize"
+        "odds tickets";
+    grid-column-gap: 30px;
+    grid-row-gap: 13px;
+}
+
+.player-info-box > div {
+    padding: 27px 21px;
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+}
+
+.player-info-box > div:nth-child(1) {
+    grid-area: prize;
+}
+
+.player-info-box > div:nth-child(2) {
+    grid-area: odds;
+}
+
+.player-info-box > div:nth-child(3) {
+    grid-area: tickets;
+}
+
+.player-info-box > div h3 {
+    font-family: pixChicago;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+}
+
+.player-info-box > div h3 img {
+    width: 20px;
+    margin-right: 10px;
+}
+
+.player-info-box-value {
+    font-family: spaceGroteskBold;
+    font-style: normal;
+    font-size: 18px;
+    margin-left: 20px;
 }

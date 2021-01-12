@@ -101,6 +101,7 @@ header {
 
 .connected > button img {
     margin-right: 50px;
+    pointer-events: none;
 }
 
 .dropdown-row {
