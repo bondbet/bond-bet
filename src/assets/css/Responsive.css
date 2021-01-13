@@ -101,7 +101,7 @@
         height: 45px;
     }
     .full-hash {
-        font-size: 22px;
+        font-size: 24px;
         margin-left: 0;
         margin-top: 10px;
         text-align: left;
@@ -276,6 +276,9 @@
     .reward-pool-details-title,
     .breadcrumbs {
         margin-bottom: 20px;
+    }
+    .player-full-hash {
+        padding: 0;
     }
 }
 
