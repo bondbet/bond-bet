@@ -22,7 +22,9 @@ const App = () => {
 	const [wallet, setWallet] = useState('');
 	const [bondsInWallet, setBondsInWallet] = useState(300);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
-
+	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
+	const [withdrawAmountSP, setWithdrawAmountSP] = useState('');
+	
 	const setNewTime = (setCountdown) => {
         const currentTime = new Date().getTime();
         const countdownDate = dateEnd;
@@ -90,7 +92,11 @@ const App = () => {
 				totalTicketAmountRP,
 				setTotalTicketAmountRP,
 				totalTicketAmountSP,
-				setTotalTicketAmountSP
+				setTotalTicketAmountSP,
+				withdrawAmountRP,
+				setWithdrawAmountRP,
+				withdrawAmountSP,
+				setWithdrawAmountSP
 			}}
 		>
 			<Router openModal={openModal} />

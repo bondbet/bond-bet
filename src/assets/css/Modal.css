@@ -46,7 +46,7 @@
     overflow-y: auto;
     height: 91vh;
     display: block;
-    padding: 90px;
+    padding: 90px 0;
     justify-content: center;
     align-items: center;
     max-width: 1170px;
@@ -58,7 +58,7 @@
 }
 
 .modal-content .box-content {
-    padding: 20px 13px 13px;
+    padding: 13px;
 }
 
 .modal-content .box-inner {
@@ -68,12 +68,16 @@
     padding: 40px 60px 50px;
 }
 
+.modal-content .box-inner.withdraw {
+    padding: 100px;
+}
+
 .modal-title {
     font-family: pixChicago;
     font-weight: normal;
     font-size: 36px;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 30px;
 }
 
 .modal-title.required-changes {
@@ -91,6 +95,15 @@
     margin-bottom: 10px;
 }
 
+.modal-description.withdraw {
+    margin-bottom: 20px;
+    font-family: spaceGroteskLight;
+}
+
+.modal-description.withdraw b{
+    font-family: spaceGroteskBold;
+}
+
 .modal-description-sm {
     font-family: spaceGroteskSemiBold;
     font-size: 14px;
@@ -102,6 +115,10 @@
 
 .modal-description-sm.required-changes {
     margin-top: 20px;
+}
+
+.modal-description-sm.withdraw {
+    max-width: 306px;
 }
 
 .wallets {
@@ -116,6 +133,11 @@
     box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
     padding: 29px;
     cursor: pointer;
+}
+
+.wallets button img {
+    max-width: 285px;
+    max-height: 50px;
 }
 
 .odds {

@@ -204,6 +204,26 @@ const MyAccount = () => {
         },
     ], [])
 
+    const withdraw = () => {
+        if (poolType === 'RP') {
+            if (totalTicketAmountRP > 0) {
+                setOpenModal(true);
+                setModalType('WD');
+                setPoolType('RP')
+            } else {
+                alert('Sorry. Not enough tickets!')
+            }
+        } else {
+            if (totalTicketAmountSP > 0) {
+                setOpenModal(true);
+                setModalType('WD');
+                setPoolType('SP')
+            } else {
+                alert('Sorry. Not enough tickets!')
+            }
+        }
+    }
+
     return (
         <div className='my-account-section'>
             <h1 className='my-account-title'>My account</h1>
@@ -224,7 +244,7 @@ const MyAccount = () => {
                         <div className='my-account-pool-buttons'>
                             <button onClick={() => { setSelectedMenuItem(0); history.push('/community-reward-pool/details') }}>Pool Details</button>
                             <button onClick={() => { setOpenModal(true); setModalType('GT'); setPoolType('RP') }}>Get More Tickets</button>
-                            <button>Withdraw</button>
+                            <button onClick={withdraw}>Withdraw</button>
                         </div>
                     </div>
                     <div className='my-account-stats'>
