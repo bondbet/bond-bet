@@ -22,6 +22,32 @@ import AppContext from './ContextAPI';
 import YouWon from './components/Test/YouWon';
 import YouLoss from './components/Test/YouLoss';
 
+import { Web3Provider } from '@ethersproject/providers';
+import Web3Modal from 'web3modal';
+
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { getChainData } from './helpers/utilities';
+
+const  getNetwork = () => getChainData(this.state.chainId).network;
+
+
+const web3Modal = new Web3Modal({
+	network: getNetwork(),
+	cacheProvider: true,
+	providerOptions: getProviderOptions()
+  });
+
+const getProviderOptions = () => {
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          infuraId: "3ee53f30c759434fbee4aec9d1a3da39"
+        }
+      }
+    };
+    return providerOptions;
+  }; 
 const App = () => {
 	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
@@ -72,12 +98,47 @@ const App = () => {
 		}
 	}, [])
 
+	const subscribeProvider = async (provider) => {
+		if (!provider.on) {
+		  return;
+		}
+		provider.on("close", () => this.resetApp());
+		provider.on("accountsChanged", async (accounts) => {
+		  await this.setState({ address: accounts[0] });
+		});
+	
+		provider.on("networkChanged", async (networkId) => {
+		  const library = new Web3Provider(provider);
+		  const network = await library.getNetwork();
+		  const chainId = network.chainId;
+	
+		  await this.setState({ chainId, library });
+		});
+	  };
+
+
+	const connectedWalletAddress = 'asdas';
+	const connectWalletHandler = async () => {
+		const provider = await web3Modal.connect();
+
+		await subscribeProvider(provider);
+	
+		const library = new Web3Provider(provider);
+		const network = await library.getNetwork();
+	
+		const address = provider.selectedAddress ? provider.selectedAddress : provider?.accounts[0];
+
+		console.log(network, address)
+		setConnected(true)
+	}
 	return (
 		<AppContext.Provider
 			value={{
+				connectedWalletAddress,
+				connectWalletHandler,
 				dateEnd,
 				selectedMenuItem,
-				setSelectedMenuItem,
+				setSelectedMenuItem,				
 				connected,
 				setConnected,
 				openModal,

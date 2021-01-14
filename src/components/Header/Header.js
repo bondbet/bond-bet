@@ -12,7 +12,7 @@ import AppContext from '../../ContextAPI';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem } = useContext(AppContext);
+    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress } = useContext(AppContext);
 
     return (
         <header>
@@ -26,10 +26,10 @@ const Header = () => {
             </div>
             <div className='connect-wallet'>
                 {!connected ?
-                    <button onClick={() => { setOpenModal(true); setModalType('CW') }}>Connect wallet</button> :
+                    <button onClick={connectWalletHandler}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
-                            <img src={prizeImg} alt='Prize' /> 0x3d51..883
+                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress}
                         </button>
                         {openDropdown && 
                             <div className='dropdown'>
