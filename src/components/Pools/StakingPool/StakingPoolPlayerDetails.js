@@ -14,6 +14,15 @@ const StakingPoolPlayerDetails = () => {
     const { id } = useParams();
     const { setSelectedMenuItem } = useContext(AppContext);
 
+    const PLACEHOLDER_BONDS = 13.48;
+    const PLACEHOLDER_DAYS = '01';
+    const PLACEHOLDER_HOURS = '18';
+    const PLACEHOLDER_MINUTES = '55';
+    const PLACEHOLDER_SECONDS = '07';
+    const PLACEHOLDER_ODDS = 1;
+    const PLACEHOLDER_COMMON_ODDS = '3.12';
+    const PLACEHOLDER_TICKETS = '202,485';
+
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
@@ -36,17 +45,17 @@ const StakingPoolPlayerDetails = () => {
                     <div className='player-info-box'>
                         <div>
                             <h3>
-                                <img src={presentImg} alt='Player' />Prize: <p className='player-info-box-value'>13.48 BOND in 01d : 18h : 55m : 07s</p>
+                                <img src={presentImg} alt='Player' />Prize: <p className='player-info-box-value'>{`${PLACEHOLDER_BONDS} BOND in ${PLACEHOLDER_DAYS}d : ${PLACEHOLDER_HOURS}h : ${PLACEHOLDER_MINUTES}m : ${PLACEHOLDER_SECONDS}s`}</p>
                             </h3>
                         </div>
                         <div>
                             <h3>
-                                <img src={cupImg} alt='Player' />Winning odds: <p className='player-info-box-value'>1 in 3.12</p>
+                                <img src={cupImg} alt='Player' />Winning odds: <p className='player-info-box-value'>{`${PLACEHOLDER_ODDS} in ${PLACEHOLDER_COMMON_ODDS}`}</p>
                             </h3>
                         </div>
                         <div>
                             <h3>
-                                <img src={ticketImg} alt='Player' />Player tickets: <p className='player-info-box-value'>202,485</p>
+                                <img src={ticketImg} alt='Player' />Player tickets: <p className='player-info-box-value'>{PLACEHOLDER_TICKETS}</p>
                             </h3>
                         </div>
                     </div>

@@ -19,8 +19,6 @@ const App = () => {
 	const [totalTicketAmountSP, setTotalTicketAmountSP] = useState(0);
 	const [tokenIsEnabledSP, setTokenIsEnabledSP] = useState(false);
 	const [poolType, setPoolType] = useState('');
-	const [wallet, setWallet] = useState('');
-	const [bondsInWallet, setBondsInWallet] = useState(300);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
 	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
 	const [withdrawAmountSP, setWithdrawAmountSP] = useState('');
@@ -83,10 +81,6 @@ const App = () => {
 				setTokenIsEnabledSP,
 				poolType,
 				setPoolType,
-				wallet,
-				setWallet,
-				bondsInWallet,
-				setBondsInWallet,
 				maxAmountSelected,
 				setMaxAmountSelected,
 				totalTicketAmountRP,

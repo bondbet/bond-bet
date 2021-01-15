@@ -17,7 +17,66 @@ const StakingPoolDetails = () => {
     const history = useHistory();
     const { setNewTime, dateEnd, dateStart, setSelectedMenuItem } = useContext(AppContext);
 
-    const data = React.useMemo(() => [
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes: 0,
+        seconds: 0,
+    });
+    const [percentageTimePassed, setPercentageTimePassed] = useState();
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNewTime(setCountdown);
+        }, 1000);
+
+        if (percentageTimePassed >= 100) {
+            clearInterval(interval);
+        } else {
+            setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
+        }
+
+
+        return () => {
+            clearInterval(interval);
+        };
+    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
+
+    const PLACEHOLDER_BONDS = '13.48';
+    const PLACEHOLDER_WINNERS = '3';
+    const PLACEHOLDER_PLAYERS = '3,045';
+    const PLACEHOLDER_TOTAL_TICKETS = '1,342,045';
+    const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
+    const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
+    const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
+    const PLACEHOLDER_PAST_FIVE_PRIZES = [
+        {
+            id: 1,
+            date: 'Jan 1st',
+            prize: '3,196.90'
+        },
+        {
+            id: 2,
+            date: 'Jan 1st',
+            prize: '3,196.90'
+        },
+        {
+            id: 3,
+            date: 'Jan 1st',
+            prize: '3,196.90'
+        },
+        {
+            id: 4,
+            date: 'Jan 1st',
+            prize: '3,196.90'
+        },
+        {
+            id: 5,
+            date: 'Jan 1st',
+            prize: '3,196.90'
+        },
+    ];
+
+    const PLACEHOLDER_DATA = React.useMemo(() => [
         {
             col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
             col2: '198,249.86',
@@ -70,7 +129,7 @@ const StakingPoolDetails = () => {
         },
     ], [])
 
-    const columns = React.useMemo(() => [
+    const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Address',
             accessor: 'col1',
@@ -86,30 +145,6 @@ const StakingPoolDetails = () => {
             Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/dao-staking-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
         },
     ], [history, setSelectedMenuItem])
-
-    const [countdown, setCountdown] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
-    const [percentageTimePassed, setPercentageTimePassed] = useState();
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setNewTime(setCountdown);
-        }, 1000);
-
-        if (percentageTimePassed >= 100) {
-            clearInterval(interval);
-        } else {
-            setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
-        }
-
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
 
     
     return (
@@ -133,7 +168,7 @@ const StakingPoolDetails = () => {
                             </h1>
                             <div className='pools-box-screen required-changes'>
                                 <div className='pools-box-screen-inner'>
-                                    13.48 bond
+                                    {`${PLACEHOLDER_BONDS} bond`}
                                 </div>
                             </div>
                         </div>
@@ -157,9 +192,9 @@ const StakingPoolDetails = () => {
             <div className='pools-box required-changes'>
                 <PoolBoxHeader title='DAO Staking Pool' />
                 <PoolBoxStats
-                    winners={'3'}
-                    players={'3.045'}
-                    totalTickets={'1.342.045'}
+                    winners={PLACEHOLDER_WINNERS}
+                    players={PLACEHOLDER_PLAYERS}
+                    totalTickets={PLACEHOLDER_TOTAL_TICKETS}
                 />
             </div>
 
@@ -173,7 +208,7 @@ const StakingPoolDetails = () => {
                             </h1>
                             <div className='pools-box-screen required-changes'>
                                 <h1 className='yield-source-title'>
-                                    <img src={onlyLogo} alt='BarnBridge DAO Staking' /> BarnBridge DAO Staking
+                                    <img src={onlyLogo} alt='BarnBridge DAO Staking' /> {PLACEHOLDER_YIELD_SOURCE}
                                 </h1>
                             </div>
                         </div>
@@ -188,31 +223,15 @@ const StakingPoolDetails = () => {
                                 <img src={presentImg} alt='Past 5 prizes' /> Past 5 prizes
                             </h1>
                             <div className='pools-box-screen required-changes'>
-                                <div className='past-prizes'>
-                                    <div>Jan 1st</div>
-                                    <div></div>
-                                    <div>$3,196.90</div>
-                                </div>
-                                <div className='past-prizes'>
-                                    <div>Jan 1st</div>
-                                    <div></div>
-                                    <div>$3,196.90</div>
-                                </div>
-                                <div className='past-prizes'>
-                                    <div>Jan 1st</div>
-                                    <div></div>
-                                    <div>$3,196.90</div>
-                                </div>
-                                <div className='past-prizes'>
-                                    <div>Jan 1st</div>
-                                    <div></div>
-                                    <div>$3,196.90</div>
-                                </div>
-                                <div className='past-prizes'>
-                                    <div>Jan 1st</div>
-                                    <div></div>
-                                    <div>$3,196.90</div>
-                                </div>
+                                {PLACEHOLDER_PAST_FIVE_PRIZES.map(item => {
+                                    return (
+                                        <div key={item.id} className='past-prizes'>
+                                            <div>{item.date}</div>
+                                            <div></div>
+                                            <div>${item.prize}</div>
+                                        </div>
+                                    )
+                                })}
                             </div>
                         </div>
                     </div>
@@ -220,15 +239,15 @@ const StakingPoolDetails = () => {
             </div>
 
             <div className='players'>
-                <Table title='Players' data={data} columns={columns} pageSize={6} isLeaderboardTable={true} isAddress={true} />
+                <Table title='Players' data={PLACEHOLDER_DATA} columns={PLACEHOLDER_COLUMNS} pageSize={6} isLeaderboardTable={true} isAddress={true} />
             </div>
 
             <div className='pools-box'>
                 <PoolBoxHeader title='About the Pool' />
                 <AboutPool
                     title='About the Pool'
-                    description='The DAO Staking Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.'
-                    more='Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.'
+                    description={PLACEHOLDER_DESCRIPTION1}
+                    more={PLACEHOLDER_DESCRIPTION2}
                 />
             </div>
         </div>

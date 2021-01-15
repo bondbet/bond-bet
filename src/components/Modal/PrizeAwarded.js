@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, {useContext} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import prizeAwardedImg from '../../assets/images/prize-awarded.svg'
 import youWonImg from '../../assets/images/you-won.svg'
@@ -8,20 +8,13 @@ import AppContext from '../../ContextAPI'
 const PrizeAwarded = () => {
     const { setSelectedMenuItem, setOpenModal } = useContext(AppContext);
     const history = useHistory();
-    const [winner, setWinner] = useState(false);
-    
-    useEffect(() => {
-        if (window.location.pathname === '/prize-awarded/won') {
-            setWinner(true)
-        }
-        if (window.location.pathname === '/prize-awarded/loss') {
-            setWinner(false)
-        }
-    }, [setWinner])
+
+    const PLACEHOLDER_WINNER = false;
+    const PLACEHOLDER_BONDS = 13.48;
 
     return (
         <div className='pools-box'>
-            {!winner ? 
+            {!PLACEHOLDER_WINNER ? 
                 <>
                     <PoolBoxHeader title='Results' />
                     <div className='box-content'>
@@ -52,9 +45,7 @@ const PrizeAwarded = () => {
                             <h4 className='modal-description required-changes'>The prize has been awarded. You are the winner!</h4>
                             <h1 className='modal-title required-changes'>Congratulations! You won</h1>
                             <div className='pools-box-screen required-changes'>
-                                <div className='pools-box-screen-inner'>
-                                    13.48 bond
-                                </div>
+                                <div className='pools-box-screen-inner'>{`${PLACEHOLDER_BONDS} bond`}</div>
                             </div>
                             <p className='modal-description-sm required-changes'>Your tickets are perpetual and you're automatically eligible to win the next prize.</p>
                         </div>

@@ -20,7 +20,6 @@ const GetTickets = () => {
 		tokenIsEnabledSP,
 		setTokenIsEnabledSP,
         poolType,
-        bondsInWallet,
         maxAmountSelected,
         setMaxAmountSelected,
         totalTicketAmountRP,
@@ -28,6 +27,7 @@ const GetTickets = () => {
 		totalTicketAmountSP,
 		setTotalTicketAmountSP
     } = useContext(AppContext);
+
 
     const handleChange = (e) => {
         if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
@@ -63,6 +63,10 @@ const GetTickets = () => {
             }
         }
     }
+
+    const PLACEHOLDER_MAX_BONDS_IN_WALLET = 300;
+    const PLACEHOLDER_ODDS = 1;
+    const PLACEHOLDER_COMMON_ODDS = '1,232,233.23';
 
     return (
         <div className='pools-box'>
@@ -108,7 +112,7 @@ const GetTickets = () => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {bondsInWallet} BOND
+                                    <img src={walletIcon} alt='Wallet' /> {`${PLACEHOLDER_MAX_BONDS_IN_WALLET} BOND`}
                                 </div>
                             }
                         </div>
@@ -120,14 +124,14 @@ const GetTickets = () => {
                                 value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP}
                             />
                             {connected && poolType === 'RP' ?
-                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(bondsInWallet); setMaxAmountSelected(true) }}>MAX</button> :
-                                (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(bondsInWallet); setMaxAmountSelected(true) }}>MAX</button>
+                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button> :
+                                (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button>
                             }
                         </div>
                     </div>
                     <div className='odds'>
                         <div>New odds of winning:</div>
-                        <div>1 in 1,232,233.23 </div>
+                        <div>{PLACEHOLDER_ODDS} in {PLACEHOLDER_COMMON_ODDS}</div>
                     </div>
                 </div>
             </div>

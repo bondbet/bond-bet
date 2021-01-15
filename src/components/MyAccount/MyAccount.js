@@ -8,6 +8,7 @@ import AppContext from '../../ContextAPI';
 
 const MyAccount = () => {
     const history = useHistory();
+
     const {
         poolType,
         setSelectedMenuItem,
@@ -44,7 +45,34 @@ const MyAccount = () => {
         };
     }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
 
-    const data = React.useMemo(() => [
+    const withdraw = () => {
+        if (poolType === 'RP') {
+            if (totalTicketAmountRP > 0) {
+                setOpenModal(true);
+                setModalType('WD');
+                setPoolType('RP')
+            } else {
+                alert('Sorry. Not enough tickets!')
+            }
+        } else {
+            if (totalTicketAmountSP > 0) {
+                setOpenModal(true);
+                setModalType('WD');
+                setPoolType('SP')
+            } else {
+                alert('Sorry. Not enough tickets!')
+            }
+        }
+    }
+
+    const PLACEHOLDER_CURRENT_WEEK_PRIZE_BOND = 2000;
+    const PLACEHOLDER_BOND = 13.48;
+    const PLACEHOLDER_ODDS = 1;
+    const PLACEHOLDER_COMMON_ODDS = '50,6443234';
+    const PLACEHOLDER_WINNERS = 3;
+    const PLACEHOLDER_TIMES = 3;
+
+    const PLACEHOLDER_DATA = React.useMemo(() => [
         {
             col1: 'DAO Staking Pool',
             col2: '10',
@@ -180,7 +208,7 @@ const MyAccount = () => {
         },
     ], [])
     
-    const columns = React.useMemo(() => [
+    const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Pool',
             accessor: 'col1',
@@ -203,26 +231,6 @@ const MyAccount = () => {
             accessor: 'col5',
         },
     ], [])
-
-    const withdraw = () => {
-        if (poolType === 'RP') {
-            if (totalTicketAmountRP > 0) {
-                setOpenModal(true);
-                setModalType('WD');
-                setPoolType('RP')
-            } else {
-                alert('Sorry. Not enough tickets!')
-            }
-        } else {
-            if (totalTicketAmountSP > 0) {
-                setOpenModal(true);
-                setModalType('WD');
-                setPoolType('SP')
-            } else {
-                alert('Sorry. Not enough tickets!')
-            }
-        }
-    }
 
     return (
         <div className='my-account-section'>
@@ -249,9 +257,9 @@ const MyAccount = () => {
                     </div>
                     <div className='my-account-stats'>
                         <div><b>{poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} Tickets / BOND</b></div>
-                        <div>Current week prize <b>2000 BOND</b></div>
-                        <div>Odds <b>1</b> in <b>50,6443234</b></div>
-                        <div><b>3</b> winners</div>
+                        <div>Current week prize <b>{`${PLACEHOLDER_CURRENT_WEEK_PRIZE_BOND} BOND`}</b></div>
+                        <div>Odds <b>{PLACEHOLDER_ODDS}</b> in <b>{PLACEHOLDER_COMMON_ODDS}</b></div>
+                        <div><b>{PLACEHOLDER_WINNERS}</b> winners</div>
                         <div><b>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</b></div>
                     </div>
                 </div>
@@ -264,9 +272,7 @@ const MyAccount = () => {
                         <div className='pools-box-content required-changes'>
                             <div className='pools-box-inner required-changes'>
                                 <div className='pools-box-screen required-changes'>
-                                    <div className='pools-box-screen-inner required-changes'>
-                                        13.48 bond
-                                    </div>
+                                    <div className='pools-box-screen-inner required-changes'>{`${PLACEHOLDER_BOND} bond`}</div>
                                 </div>
                             </div>
                         </div>
@@ -278,9 +284,7 @@ const MyAccount = () => {
                         <div className='pools-box-content required-changes'>
                             <div className='pools-box-inner required-changes'>
                                 <div className='pools-box-screen required-changes'>
-                                    <div className='pools-box-screen-inner required-changes'>
-                                        3 times
-                                    </div>
+                                    <div className='pools-box-screen-inner required-changes'>{`${PLACEHOLDER_TIMES} times`}</div>
                                 </div>
                             </div>
                         </div>
@@ -289,7 +293,7 @@ const MyAccount = () => {
             </div>
 
             <div className='transactions'>
-                <Table title='My Transactions' data={data} columns={columns} pageSize={4} />
+                <Table title='My Transactions' data={PLACEHOLDER_DATA} columns={PLACEHOLDER_COLUMNS} pageSize={4} />
             </div>
         </div>
     )

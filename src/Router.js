@@ -8,8 +8,6 @@ import Sidebar from './components/Sidebar/Sidebar';
 import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails';
 import StakingPoolDetails from './components/Pools/StakingPool/StakingPoolDetails';
 import Modal from './components/Modal/Modal';
-import YouWon from './components/Test/YouWon';
-import YouLoss from './components/Test/YouLoss';
 import RewardPoolPrizeDetails from './components/Pools/RewardPool/RewardPoolPrizeDetails';
 import StakingPoolPrizeDetails from './components/Pools/StakingPool/StakingPoolPrizeDetails';
 import RewardPoolPlayerDetails from './components/Pools/RewardPool/RewardPoolPlayerDetails';
@@ -32,12 +30,6 @@ function Router({openModal}) {
 						<Route exact path="/dao-staking-pool/prize/:id" component={() => <StakingPoolPrizeDetails />} />
 						<Route exact path="/community-reward-pool/player/:id" component={() => <RewardPoolPlayerDetails />} />
 						<Route exact path="/dao-staking-pool/player/:id" component={() => <StakingPoolPlayerDetails />} />
-
-						{/* These 2 routes are for testing purpose */}
-						<Route exact path="/prize-awarded/won" component={() => <YouWon /> } />
-						<Route exact path="/prize-awarded/loss" component={() => <YouLoss />} />
-						{/* End */}
-						
 						<Route path="*" component={() => <Redirect to='/' />} />
 					</Switch>
 				</div>
