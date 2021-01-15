@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import AppContext from '../../ContextAPI';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
-import loading from '../../assets/images/loading.png';
+import loading from '../../assets/images/loading.svg';
 
 const ConfirmDeposit = () => {
     const { ticketAmountRP, ticketAmountSP, poolType } = useContext(AppContext);

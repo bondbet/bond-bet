@@ -35,11 +35,9 @@
 
 @font-face {
     font-family: AdvancedPixel;
-    src: url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff2') format('woff2'),
-        url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-    font-display: swap;
+    src: url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff2') format('woff2'), 
+        url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff') format('woff'),
+        url('../fonts/advancedPixel/AdvancedPixelLCD-7.ttf')  format('truetype');
 }
 
 * {
@@ -54,7 +52,11 @@ textarea:focus {
 }
 
 body {
-    background-image: url('../images/bg.png');
+    background-size: 150px 150px;
+    background-image:
+        linear-gradient(to right, #5B5DB8 0.5px, transparent 1px),
+        linear-gradient(to bottom, #5B5DB8 0.5px, transparent 1px);
+    background-color: #6567CC;
     overflow: hidden;
 }
 
@@ -72,13 +74,14 @@ body {
     flex-direction: column;
     justify-content: space-between;
     position: relative;
-    width: 300px;
+    max-width: 300px;
     height: 100%;
     left: 0;
     top: 0;
     background: #EFEFEF;
-    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
     padding: 84px 10px 40px;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    border-right: 3px solid #000;
 }
 
 .app-content {
@@ -95,3 +98,12 @@ body {
         transform: translateX(0%);
     }
 }
+
+@import "Header.css";
+@import "Sidebar.css";
+@import "Pools.css";
+@import "PoolDetails.css";
+@import "MyAccount.css";
+@import "Leaderboard.css";
+@import "Modal.css";
+@import "_buttons.css";

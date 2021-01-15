@@ -1,12 +1,15 @@
 import React, {useContext} from 'react';
-import backIcon from '../../assets/images/arrowToLeft.png';
-import closeIcon from '../../assets/images/close.png';
+import backIcon from '../../assets/images/arrowToLeft.svg';
+import closeIcon from '../../assets/images/close.svg';
 import AppContext from '../../ContextAPI';
 import ConfirmDeposit from './ConfirmDeposit';
+import ConfirmWithdraw from './ConfirmWithdraw';
 import ConnectWallet from './ConnectWallet';
 import DepositComplete from './DepositComplete';
 import GetTickets from './GetTickets';
 import PrizeAwarded from './PrizeAwarded';
+import Withdraw from './Withdraw';
+import WithdrawComplete from './WithdrawComplete';
 
 const Modal = () => {
     const { modalType, setModalType, openModal, setOpenModal, connected } = useContext(AppContext);
@@ -27,6 +30,15 @@ const Modal = () => {
                 break;
             case 'PA':
                 setOpenModal(false);
+                break;
+            case 'WD':
+                setOpenModal(false);
+                break;
+            case 'CWD':
+                setModalType('WD');
+                break;
+            case 'WDC':
+                setModalType('CWD');
                 break;
             default:
                 setOpenModal(false);
@@ -58,6 +70,15 @@ const Modal = () => {
                 }
                 {modalType === 'PA' &&
                     <PrizeAwarded />
+                }
+                {modalType === 'WD' &&
+                    <Withdraw />
+                }
+                {modalType === 'CWD' &&
+                    <ConfirmWithdraw />
+                }
+                {modalType === 'WDC' &&
+                    <WithdrawComplete />
                 }
             </div>
         </div>

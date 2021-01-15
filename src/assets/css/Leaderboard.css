@@ -7,17 +7,42 @@
 }
 
 .leaderboard-desc {
+    display: flex;
+    align-items: center;
     font-family: pixChicago;
     font-weight: normal;
-    font-size: 14px;
+    font-size: 18px;
     color: #FFFFFF;
     margin-bottom: 15px;
 }
 
-.seperateThreeWinners .table-body-columns {
-    background: #DEDEDE;
+.leaderboard-desc img {
+    margin-right: 15px;
+    width: 45px;
+    height: 45px;
 }
 
-.seperateThreeWinners .table-body-columns:first-child {
-    background: #BFBFBF;
+.view-details {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.view-details button {
+    background: #FFFFFF;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    padding: 5px 30px;
+    font-family: pixChicago;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+}
+
+.rp-leaderboard {
+    margin-bottom: 50px;
 }

@@ -8,13 +8,15 @@ const RewardPool = ({percentageTimePassed, countdown}) => {
     const { setOpenModal, setModalType, setPoolType } = useContext(AppContext);
     const history = useHistory();
 
+    const PLACEHOLDER_BONDS = 13.48;
+
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Community Reward Pool' />
             <div className='pools-box-content'>
                 <PoolBoxContent
                     title='Community Reward Pool'
-                    bonds='13.48 bond'
+                    bonds={`${PLACEHOLDER_BONDS} bond`}
                     percentageTimePassed={percentageTimePassed}
                     countdown={countdown}
                 />

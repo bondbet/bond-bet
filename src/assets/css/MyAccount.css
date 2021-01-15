@@ -11,28 +11,31 @@
 }
 
 .my-account-pool-box-content.required-changes {
-    padding: 10px;
+    padding: 0 10px 10px;
+}
+
+.my-account-pool-box-content.required-changes > div {
     overflow-x: auto;
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar {
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar {
     width: 1em;
     height: 20px;
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-track {
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-track {
     background: #BFBFBF;
     border: 1px solid #000000;
     box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-thumb {
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-thumb {
     background-color: #6567CC;
     border: 1px solid #000000;
     box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-button {
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-button {
     background-size: 100%;
     height: 20px;
     width: 20px;
@@ -41,23 +44,23 @@
     box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-button:end {
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-button:end {
     display: block;
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-button:start {
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-button:start {
     display: none;
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-button:horizontal:increment {
-    background-image: url('../images/scrollbar-right.png');
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-button:horizontal:increment {
+    background-image: url('../images/scrollbar-right.svg');
     background-size: 5px;
     background-repeat: no-repeat;
     background-position: center;
 }
 
-.my-account-pool-box-content.required-changes::-webkit-scrollbar-button:horizontal:decrement {
-    background-image: url('../images/scrollbar-left.png');
+.my-account-pool-box-content.required-changes > div::-webkit-scrollbar-button:horizontal:decrement {
+    background-image: url('../images/scrollbar-left.svg');
     background-repeat: no-repeat;
     background-position: center;
     background-size: 5px;
@@ -78,6 +81,23 @@
     margin-bottom: 37px;
 }
 
+.show-on-mobile {
+    display: none;
+    align-items: center;
+    justify-content: flex-end;
+    font-family: pixChicago;
+    font-weight: normal;
+    font-size: 14px;
+    color: #000000;
+    margin-bottom: 10px;
+}
+
+.show-on-mobile img {
+    margin-right: 15px;
+    height: 35px;
+    width: 35px;
+}
+
 .my-account-pool-details-head h1 {
     display: flex;
     align-items: center;
@@ -87,10 +107,23 @@
     color: #000000;
 }
 
+.my-account-pool-details-head h1:first-child {
+    align-items: flex-start;
+}
+
+.my-account-pool-details-head h1:first-child img {
+    margin-top: 5px;
+}
+
 .my-account-pool-details-head h1 img {
     margin-right: 15px;
     height: 45px;
     width: 45px;
+}
+
+.my-account-pool-details-head h1 img.diamond {
+    width: 37px;
+    height: 28px;
 }
 
 .my-account-pool-buttons {
@@ -114,28 +147,40 @@
 }
 
 .my-account-stats {
-    display: grid;
-    grid-template-columns: minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 1fr) minmax(auto, 217px);
-    grid-gap: 13px;
+    display: flex;
+    padding: 5px;
+    background: #DEDEDE;
+    border: 1px solid #000000;
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
 }
 
 .my-account-stats div {
-    background: #DEDEDE;
-    height: 215px;
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid #000000;
-    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
-    font-family: spaceGroteskBold;
+    flex-wrap: wrap;
+    font-family: spaceGroteskRegular;
     font-size: 18px;
     color: #000000;
-    padding: 24px;
+    padding: 18px 35px;
     text-align: center;
+    width: 100%;
+}
+
+.my-account-stats div:nth-child(2) {
+    white-space: nowrap;
+}
+
+.my-account-stats div b {
+    margin: 0 5px;
+}
+
+.my-account-stats div:not(:last-child) {
+    border-right: 1px solid #000000;
 }
 
 .my-account-totals {
-    margin: 50px 0;
+    margin: 30px 0;
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 30px;
@@ -150,6 +195,18 @@
     min-width: 390px;
 }
 
+.table tr.even td {
+    background: #DEDEDE;
+}
+
+.table tr.odd td.second-color {
+    padding: 0 30px;
+}
+
+.table tr.even td.third-color:first-child {
+    background: #D1D1D1;
+}
+
 .table-header {
     background: #DEDEDE;
     border: 1px solid #000000;
@@ -161,46 +218,73 @@
     padding: 9px 30px;
 }
 
-.table-header:first-child {
-    background: #BFBFBF;
-    border: 1px solid #000000;
-    box-shadow: inset 2px 2px 0px 1px rgba(0, 0, 0, 0.5), inset -2px -2px 0px 2px rgba(255, 255, 255, 0.7);
+.table-header.third-color:first-child {
+    background: #D1D1D1;
+    text-align: left;
+}
+
+.table-header.second-color:nth-child(2),
+.table-header.second-color:nth-child(3) {
+    background: #D1D1D1;
+    text-align: left;
+}
+
+.table-header.hashtag:nth-child(1) {
+    font-family: spaceGroteskSemiBold;
+    font-size: 18px;
 }
 
 .table-body-columns {
-    background-color: #fff;
-    padding: 8px;
+    padding: 9px 30px;
     font-family: spaceGroteskBold;
     font-size: 18px;
     text-align: center;
     color: #000000;
 }
 
-.table-body-columns.second-color:nth-child(2) {
-    color: #272BDB;
+.table-header.address:first-child,
+.table-body-columns.address:first-child {
+    text-align: left;
+}
+
+.table-body-columns.address:first-child {
+    text-transform: lowercase;
+}
+
+.table-body-columns.third-color:first-child {
+    text-align: left;
+}
+
+.table-body-columns.second-color:nth-child(2),
+.table-body-columns.second-color:nth-child(3) {
+    text-align: left;
+}
+
+table tr .table-body-columns.second-color:nth-child(3) {
+    padding-right: 0;
+}
+
+.table tr.even .table-body-columns.second-color:nth-child(2) {
+    background-color: #D1D1D1;
 }
 
 .table-body-columns.third-color:nth-child(3) {
     color: #272BDB;
-}
-
-.table-body-columns:first-child {
-    background: #DEDEDE;
+    text-transform: lowercase;
 }
 
 .table-pagination {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: 23px;
 }
 
 .prev-next-buttons {
     background: #EFEFEF;
     border: 1px solid #000000;
     box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
-    width: 30px;
-    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
