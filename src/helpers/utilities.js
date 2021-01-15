@@ -1,8 +1,8 @@
 import supportedChains from "./chains";
 
-export function getChainData(chainId: number): any {
+export function getChainData(chainId){
   const chainData = supportedChains.filter(
-    (chain: any) => chain.chain_id === chainId
+    (chain) => chain.chain_id === chainId
   )[0];
 
   if (!chainData) {

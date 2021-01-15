@@ -13,7 +13,29 @@ import AppContext from '../../ContextAPI';
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
     const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress } = useContext(AppContext);
+    const ref = useRef(null);
 
+    const handleClickOutside = (event) => {
+        if (!event.target.classList.contains('dropdownOpened')) {
+            if (ref.current && !ref.current.contains(event.target)) {
+                setOpenDropdown(false);
+            }
+        }
+    };
+
+    useEffect(() => {
+        document.addEventListener('click', handleClickOutside, true);
+        return () => {
+            document.removeEventListener('click', handleClickOutside, true);
+        };
+    })
+
+    var PLACEHOLDER_ACCOUNT = '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8';
+    PLACEHOLDER_ACCOUNT = PLACEHOLDER_ACCOUNT.substring(0, 6) + '..' + PLACEHOLDER_ACCOUNT.substring(PLACEHOLDER_ACCOUNT.length - 4);
+
+    const PLACEHOLDER_STATUS = 'Connected';
+    const PLACEHOLDER_NETWORK = 'Mainnet';
+    const PLACEHOLDER_WALLET = 'MetaMask';
     return (
         <header>
             <div className='app-logo'>
