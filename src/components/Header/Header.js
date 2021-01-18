@@ -9,10 +9,11 @@ import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
+import { capitalize } from '../../helpers/string-utils';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress } = useContext(AppContext);
+    const { connected, setConnected, setOpenModal, setModalType, connectedWalletName, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -52,7 +53,7 @@ const Header = () => {
                     <button onClick={connectWalletHandler}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
-                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress}
+                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress.substring(0,5) + "..." + connectedWalletAddress.substring(connectedWalletAddress.length - 6, connectedWalletAddress.length - 1)}
                         </button>
                         {openDropdown && 
                             <div ref={ref} className='dropdown'>
@@ -66,16 +67,16 @@ const Header = () => {
                                     <div className='dropdown-text'>
                                         <img src={walletImg} alt='Wallet' /> Wallet
                                     </div>
-                                    <div className='wallet'>{PLACEHOLDER_WALLET}</div>
+                                    <div className='wallet'>{connectedWalletName}</div>
                                 </div>
                                 <div className='dropdown-row'>
                                     <div className='dropdown-text'>
                                         <img src={networkImg} alt='Network' /> Network
                                     </div>
-                                    <div className='network'>{PLACEHOLDER_NETWORK}</div>
+                                    <div className='network'>{capitalize(connectedNetwork)}</div>
                                 </div>
                                 <div className='disconnect-button'>
-                                    <button onClick={() => { setOpenDropdown(!openDropdown); setConnected(false) }}>Disconnect</button>
+                                    <button onClick={disconnectWalletHandler}>Disconnect</button>
                                 </div>
                             </div>
                         }

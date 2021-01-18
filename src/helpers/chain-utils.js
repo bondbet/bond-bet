@@ -26,3 +26,4 @@ export function getChainData(chainId){
 
   return chainData;
 }
+export  const  getNetwork = (chainId) => getChainData(chainId).network;

@@ -2,7 +2,7 @@ import { getAddress } from '@ethersproject/address';
 import { AddressZero } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 
-export function isAddress(value: string) {
+export function isAddress(value) {
   try {
     return getAddress(value);
   } catch {
@@ -10,15 +10,15 @@ export function isAddress(value: string) {
   }
 }
 
-export function getSigner(library: any, account: any) {
+export function getSigner(library, account) {
   return library.getSigner(account).connectUnchecked();
 }
 
-export function getProviderOrSigner(library: any, account: any) {
+export function getProviderOrSigner(library, account) {
   return account ? getSigner(library, account) : library;
 }
 
-export function getContract(address: string, ABI: any, library: any, account: any) {
+export function getContract(address, ABI, library, account) {
   if (!isAddress(address) || address === AddressZero) {
     throw Error(`Invalid 'address' parameter '${ address }'.`);
   }

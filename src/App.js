@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './assets/css/App.css';
 import './assets/css/Responsive.css';
 import AppContext from './ContextAPI';
@@ -6,30 +6,15 @@ import Router from './Router';
 
 import { Web3Provider } from '@ethersproject/providers';
 import Web3Modal from 'web3modal';
-
-import WalletConnectProvider from '@walletconnect/web3-provider';
-import { getChainData } from './helpers/utilities';
-
-const  getNetwork = () => getChainData(this.state.chainId).network;
-
+import { getNetwork } from './helpers/chain-utils';
+import { getProviderOptions } from './constants/provider-options';
 
 const web3Modal = new Web3Modal({
-	network: getNetwork(),
+	network: getNetwork(1),
 	cacheProvider: true,
 	providerOptions: getProviderOptions()
   });
 
-const getProviderOptions = () => {
-    const providerOptions = {
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          infuraId: "3ee53f30c759434fbee4aec9d1a3da39"
-        }
-      }
-    };
-    return providerOptions;
-  }; 
 const App = () => {
 	const dateStart = new Date("12/23/2020 12:00:00").getTime()
 	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
@@ -48,8 +33,15 @@ const App = () => {
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
 	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
 	const [withdrawAmountSP, setWithdrawAmountSP] = useState('');
-	
-	const setNewTime = (setCountdown) => {
+	const [provider, setProvider] = useState(null);
+	const [chainId, setChainId] = useState(1);
+	const [library, setLibrary] = useState(null);
+	const [connectedNetwork, setConnectedNetwork] = useState('');
+
+	const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
+	const [connectedWalletName, setConnectedWalletName] = useState('');
+
+	const setNewTime = useCallback((setCountdown) => { 
         const currentTime = new Date().getTime();
         const countdownDate = dateEnd;
 
@@ -66,7 +58,7 @@ const App = () => {
             minutes: minutesLeft,
             seconds: secondsLeft,
         });
-	};
+	},[]);
 	
 	useEffect(() => {
 		switch (window.location.pathname) {
@@ -80,45 +72,99 @@ const App = () => {
 				setSelectedMenuItem(0);
 		}
 	}, [])
+ 
+	useEffect(() => {
+		if (web3Modal.cachedProvider) {
+			connectWalletHandler()
+		  }
+	}, []);
 
-	const subscribeProvider = async (provider) => {
-		if (!provider.on) {
-		  return;
-		}
-		provider.on("close", () => this.resetApp());
-		provider.on("accountsChanged", async (accounts) => {
-		  await this.setState({ address: accounts[0] });
-		});
-	
-		provider.on("networkChanged", async (networkId) => {
-		  const library = new Web3Provider(provider);
-		  const network = await library.getNetwork();
-		  const chainId = network.chainId;
-	
-		  await this.setState({ chainId, library });
-		});
-	  };
-
-
-	const connectedWalletAddress = 'asdas';
-	const connectWalletHandler = async () => {
+	const connectWalletHandler = useCallback(async () => {
 		const provider = await web3Modal.connect();
 
-		await subscribeProvider(provider);
-	
+		setProvider(provider)
 		const library = new Web3Provider(provider);
 		const network = await library.getNetwork();
 	
 		const address = provider.selectedAddress ? provider.selectedAddress : provider?.accounts[0];
 
-		console.log(network, address)
-		setConnected(true)
+		setConnectedWalletAddress(address);
+		setLibrary(library);
+		setConnectedNetwork(network.name);
+		setConnectedWalletName(library.connection.url === 'metamask' ? 'MetaMask' : 'WalletConnect')
+		setConnected(true);
+		await subscribeToProviderEvents(provider, setChainId, setLibrary, setConnectedNetwork, setConnectedWalletAddress, disconnectWalletHandler);
+	},[]);
+
+	const disconnectWalletHandler = useCallback(async () => {
+		web3Modal.clearCachedProvider();
+		   
+		localStorage.removeItem("WEB3_CONNECT_CACHED_PROVIDER");
+		localStorage.removeItem("walletconnect");
+
+		setProvider(null)
+		setConnectedWalletAddress("");
+		setLibrary(null);
+		
+		setConnectedNetwork(null);
+		setConnectedWalletName("");
+		setConnected(false);
+		await unsubscribeToProviderEvents();
+
+		
+	},[]);
+
+	const changedAccount = (accounts) => {
+		if(Array.isArray(accounts) && accounts.length >0) {
+			setConnectedWalletAddress(accounts[0]);
+		} else {
+			disconnectWalletHandler()
+		}
+	}
+
+	const networkChanged = async (networkId) => {
+		const library = new Web3Provider(provider);
+		const network = await library.getNetwork();
+		const chainId = network.chainId;
+  
+		setChainId(chainId);
+		setLibrary(library);
+		setConnectedNetwork(network.name);
+	  }
+	const subscribeToProviderEvents = () => {
+		if(provider) {
+			if (!provider.on) {
+				return;
+			  }
+			  provider.on("close", disconnect);
+			  provider.on("accountsChanged", changedAccount);
+			  provider.on("disconnect", disconnect);
+			  provider.on("networkChanged", networkChanged);
+		}
+		
+	};
+	const disconnect = async (err) => {
+		console.log('disconnected', err)
+		disconnectWalletHandler();
+	  }
+
+	const unsubscribeToProviderEvents = () => {
+		if (!provider || provider.off) {
+			return;
+		  }
+		  provider.off("accountsChanged", changedAccount);
+		  provider.off("networkChanged", networkChanged);
+		  provider.off("disconnect", disconnect);
+		  provider.off("close", disconnect);
 	}
 	return (
 		<AppContext.Provider
 			value={{
+				connectedNetwork,
 				connectedWalletAddress,
 				connectWalletHandler,
+				connectedWalletName,
+				disconnectWalletHandler,
 				dateStart,
 				dateEnd,
 				selectedMenuItem,
@@ -160,3 +206,8 @@ const App = () => {
 }
 
 export default App;
+
+
+
+
+
