@@ -13,7 +13,7 @@ import { capitalize } from '../../helpers/string-utils';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, connectedWalletName, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
+    const { connected, provider, setOpenModal, setModalType, connectedWalletName, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -53,7 +53,7 @@ const Header = () => {
                     <button onClick={connectWalletHandler}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
-                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress.substring(0,5) + "..." + connectedWalletAddress.substring(connectedWalletAddress.length - 6, connectedWalletAddress.length - 1)}
+                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress.substring(0,5) + "..." + connectedWalletAddress.substring(connectedWalletAddress.length - 6, connectedWalletAddress.length)}
                         </button>
                         {openDropdown && 
                             <div ref={ref} className='dropdown'>
@@ -76,7 +76,7 @@ const Header = () => {
                                     <div className='network'>{capitalize(connectedNetwork)}</div>
                                 </div>
                                 <div className='disconnect-button'>
-                                    <button onClick={disconnectWalletHandler}>Disconnect</button>
+                                    <button onClick={() => disconnectWalletHandler(provider)}>Disconnect</button>
                                 </div>
                             </div>
                         }
