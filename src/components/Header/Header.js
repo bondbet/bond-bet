@@ -13,7 +13,7 @@ import { capitalize } from '../../helpers/string-utils';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, provider, setOpenModal, setModalType, connectedWalletName, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
+    const { connected, provider, connectedWalletName, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
