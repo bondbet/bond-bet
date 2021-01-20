@@ -6,15 +6,10 @@ import Router from './Router';
 
 import { Web3Provider } from '@ethersproject/providers';
 import Web3Modal from 'web3modal';
-import { getNetwork } from './helpers/chain-utils';
+import { getChainData, getNetwork } from './helpers/chain-utils';
 import { getProviderOptions } from './constants/provider-options';
 import userEvent from '@testing-library/user-event';
 
-const web3Modal = new Web3Modal({
-	network: getNetwork(1),
-	cacheProvider: true,
-	providerOptions: getProviderOptions()
-  });
 
 
 const App = () => {
@@ -42,6 +37,14 @@ const App = () => {
 	const [provider, setProvider] = useState(null)
 	const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
 	const [connectedWalletName, setConnectedWalletName] = useState('');
+
+	const getNetwork = () => getChainData(chainId).network;
+
+	const web3Modal = new Web3Modal({
+		network: getNetwork(),
+		cacheProvider: true,
+		providerOptions: getProviderOptions()
+	  });
 
 	const setNewTime = useCallback((setCountdown) => { 
         const currentTime = new Date().getTime();
@@ -95,6 +98,7 @@ const App = () => {
 	
 		const address = newProvider.selectedAddress ? newProvider.selectedAddress : newProvider?.accounts[0];
 
+
 		setConnectedWalletAddress(address);
 		setLibrary(library);
 		setConnectedNetwork(network.name);
@@ -125,6 +129,7 @@ const App = () => {
 	};
 
 	const changedAccount = (accounts) => {
+		console.log(accounts)
 		if(Array.isArray(accounts) && accounts.length >0) {
 			setConnectedWalletAddress(accounts[0]);
 		} else {
