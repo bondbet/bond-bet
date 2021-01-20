@@ -53,7 +53,7 @@ const Header = () => {
                     <button onClick={connectWalletHandler}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
-                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress.substring(0,5) + "..." + connectedWalletAddress.substring(connectedWalletAddress.length - 6, connectedWalletAddress.length - 1)}
+                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress.substring(0,5) + "..." + connectedWalletAddress.substring(connectedWalletAddress.length - 6, connectedWalletAddress.length)}
                         </button>
                         {openDropdown && 
                             <div ref={ref} className='dropdown'>

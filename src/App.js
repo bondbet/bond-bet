@@ -6,14 +6,16 @@ import Router from './Router';
 
 import { Web3Provider } from '@ethersproject/providers';
 import Web3Modal from 'web3modal';
-import { getNetwork } from './helpers/chain-utils';
+import { getChainData, getNetwork } from './helpers/chain-utils';
 import { getProviderOptions } from './constants/provider-options';
+import { getContract } from './helpers/ethers';
+import { BARN_PRIZE_POOL_ADDRESS } from './constants/contracts';
+import BarnPrizePool from './constants/abis/BarnPrizePool.json';
+import BarnBridgeToken from './constants/abis/BarnBridgeToken.json';
+import { ethers } from 'ethers';
 
-const web3Modal = new Web3Modal({
-	network: getNetwork(1),
-	cacheProvider: true,
-	providerOptions: getProviderOptions()
-  });
+
+
 
 const App = () => {
 	const dateStart = new Date("12/23/2020 12:00:00").getTime()
@@ -40,6 +42,14 @@ const App = () => {
 
 	const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
 	const [connectedWalletName, setConnectedWalletName] = useState('');
+
+	const getNetwork = () => getChainData(chainId).network;
+
+	const web3Modal = new Web3Modal({
+		network: getNetwork(),
+		cacheProvider: true,
+		providerOptions: getProviderOptions()
+	  });
 
 	const setNewTime = useCallback((setCountdown) => { 
         const currentTime = new Date().getTime();
@@ -88,12 +98,15 @@ const App = () => {
 	
 		const address = provider.selectedAddress ? provider.selectedAddress : provider?.accounts[0];
 
+
 		setConnectedWalletAddress(address);
 		setLibrary(library);
 		setConnectedNetwork(network.name);
 		setConnectedWalletName(library.connection.url === 'metamask' ? 'MetaMask' : 'WalletConnect')
 		setConnected(true);
-		await subscribeToProviderEvents(provider, setChainId, setLibrary, setConnectedNetwork, setConnectedWalletAddress, disconnectWalletHandler);
+		setChainId(network.chainId)
+		await subscribeToProviderEvents();
+
 	},[]);
 
 	const disconnectWalletHandler = useCallback(async () => {
@@ -115,6 +128,7 @@ const App = () => {
 	},[]);
 
 	const changedAccount = (accounts) => {
+		console.log(accounts)
 		if(Array.isArray(accounts) && accounts.length >0) {
 			setConnectedWalletAddress(accounts[0]);
 		} else {
