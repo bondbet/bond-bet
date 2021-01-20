@@ -6,9 +6,10 @@ import closeIcon from '../../assets/images/close.svg';
 import minusIcon from '../../assets/images/minus.svg';
 import AppContext from '../../ContextAPI';
 import validator from 'validator';
-
+import * as ethers from 'ethers';
 const GetTickets = () => {
     const {
+        bondBalance,
         connected,
         setModalType,
         ticketAmountRP,
@@ -64,7 +65,6 @@ const GetTickets = () => {
         }
     }
 
-    const PLACEHOLDER_MAX_BONDS_IN_WALLET = 300;
     const PLACEHOLDER_ODDS = 1;
     const PLACEHOLDER_COMMON_ODDS = '1,232,233.23';
 
@@ -112,7 +112,7 @@ const GetTickets = () => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {`${PLACEHOLDER_MAX_BONDS_IN_WALLET} BOND`}
+                                    <img src={walletIcon} alt='Wallet' /> {`${ethers.utils.formatEther(bondBalance)} BOND`}
                                 </div>
                             }
                         </div>
@@ -124,8 +124,8 @@ const GetTickets = () => {
                                 value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP}
                             />
                             {connected && poolType === 'RP' ?
-                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button> :
-                                (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button>
+                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(bondBalance); setMaxAmountSelected(true) }}>MAX</button> :
+                                (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(bondBalance); setMaxAmountSelected(true) }}>MAX</button>
                             }
                         </div>
                     </div>

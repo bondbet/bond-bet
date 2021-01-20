@@ -3,14 +3,18 @@ import './assets/css/App.css';
 import './assets/css/Responsive.css';
 import AppContext from './ContextAPI';
 import Router from './Router';
-
+import * as ethers from 'ethers'
 import { Web3Provider } from '@ethersproject/providers';
 import Web3Modal from 'web3modal';
 import { getChainData, getNetwork } from './helpers/chain-utils';
 import { getProviderOptions } from './constants/provider-options';
 import userEvent from '@testing-library/user-event';
+import { BARN_PRIZE_POOL_ADDRESS } from './constants/contracts';
+import BarnPrizePool from './constants/abis/BarnPrizePool.json'
 
-
+import BarnBridgeToken from './constants/abis/BarnBridgeToken.json'
+import BarnFacetMock from './constants/abis/BarnFacetMock.json'
+import {getContract} from './helpers/ethers'
 
 const App = () => {
 	const dateStart = new Date("12/23/2020 12:00:00").getTime()
@@ -37,7 +41,10 @@ const App = () => {
 	const [provider, setProvider] = useState(null)
 	const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
 	const [connectedWalletName, setConnectedWalletName] = useState('');
-
+	const [bondBalance, setBondBalance] = useState(0);
+	const [bondTokenContract, setBondTokenContract] = useState(null)
+	const [barnPrizePoolContract, setBarnPrizePoolContract] = useState(null)
+	
 	const getNetwork = () => getChainData(chainId).network;
 
 	const web3Modal = new Web3Modal({
@@ -85,7 +92,7 @@ const App = () => {
 	}, []);
 
 	let firstInit = true;
-	const connectWalletHandler = async () => {
+	const connectWalletHandler = useCallback(async (goToGetTicketsModal) => {
 		if(!firstInit) {
 			web3Modal.clearCachedProvider();
 			
@@ -99,6 +106,16 @@ const App = () => {
 		const address = newProvider.selectedAddress ? newProvider.selectedAddress : newProvider?.accounts[0];
 
 
+		const barnPrizePoolContract = getContract(BARN_PRIZE_POOL_ADDRESS, BarnPrizePool.abi, library, address);
+
+		const bondTokenAddress = await barnPrizePoolContract.token();
+	
+		const bondTokenContract = getContract(bondTokenAddress, BarnBridgeToken.abi, library, address);
+
+
+		setBarnPrizePoolContract(barnPrizePoolContract)
+		setBondTokenContract(bondTokenContract)
+		setBondBalance(await bondTokenContract.balanceOf(address));
 		setConnectedWalletAddress(address);
 		setLibrary(library);
 		setConnectedNetwork(network.name);
@@ -106,9 +123,12 @@ const App = () => {
 		setConnected(true);
 		setProvider(newProvider)
 		await subscribeToProviderEvents(newProvider);
-	};
+		if(goToGetTicketsModal) {
+			setOpenModal(true); setModalType('GT'); setPoolType('RP') 
+		}
+	});
 
-	const disconnectWalletHandler = async (provider) => {
+	const disconnectWalletHandler = useCallback(async (provider) => {
 
 		web3Modal.clearCachedProvider();
 		   
@@ -118,7 +138,7 @@ const App = () => {
 		
 		setConnectedWalletAddress("");
 		setLibrary(null);
-		
+		setBondBalance(0);
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
 		setConnected(false);
@@ -126,10 +146,9 @@ const App = () => {
 		await unsubscribeToProviderEvents(provider);
 		
 		
-	};
+	});
 
 	const changedAccount = (accounts) => {
-		console.log(accounts)
 		if(Array.isArray(accounts) && accounts.length >0) {
 			setConnectedWalletAddress(accounts[0]);
 		} else {
@@ -137,15 +156,16 @@ const App = () => {
 		}
 	}
 
-	const networkChanged = async (provider) => {
+	const networkChanged = useCallback(async (provider) => {
 		const library = new Web3Provider(provider);
 		const network = await library.getNetwork();
 		const chainId = network.chainId;
   
+
 		setChainId(chainId);
 		setLibrary(library);
 		setConnectedNetwork(network.name);
-	  }
+	  });
 	const subscribeToProviderEvents = (provider) => {
 
 		if(provider) {
@@ -165,10 +185,10 @@ const App = () => {
 	  }
 
 	const unsubscribeToProviderEvents = (provider) => {
-	
 		if (!provider) {
 			return;
 		  }
+		  console.log(provider)
 
 		  provider.off("accountsChanged", changedAccount);
 		  provider.off("networkChanged", () => networkChanged(provider));
@@ -178,6 +198,9 @@ const App = () => {
 	return (
 		<AppContext.Provider
 			value={{
+				bondTokenContract,
+				barnPrizePoolContract,
+				bondBalance,
 				provider,
 				connectedNetwork,
 				connectedWalletAddress,
