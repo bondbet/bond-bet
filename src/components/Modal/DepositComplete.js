@@ -5,7 +5,7 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import validator from 'validator';
 
 const DepositComplete = () => {
-    const { ticketAmountRP, ticketAmountSP, poolType, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
+    const { ticketAmountRP, poolType, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -45,7 +45,7 @@ const DepositComplete = () => {
             <div className='box-content'>
                 <div className='box-inner'>
                     <h1 className='modal-title'>Deposit Complete</h1>
-                    <h4 className='modal-description'>You got {poolType === 'RP' ? ticketAmountRP : ticketAmountSP} tickets</h4>
+                    <h4 className='modal-description'>You got {ticketAmountRP} tickets</h4>
                     <p className='prize-will-be-awarded-in'>The prize will be awarded in:</p>
                     <Countdown countdown={countdown} />
                 </div>

@@ -5,11 +5,9 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 const ConfirmWithdraw = () => {
     const {
         withdrawAmountRP,
-		withdrawAmountSP,
         poolType,
         setModalType,
         setWithdrawAmountRP,
-        setWithdrawAmountSP
     } = useContext(AppContext);
 
     return (
@@ -18,11 +16,11 @@ const ConfirmWithdraw = () => {
             <div className='box-content'>
                 <div className='box-inner withdraw'>
                     <h1 className='modal-title required-changes'>Confirm withdrawal of tickets</h1>
-                    <h4 className='modal-description withdraw'>Amount to be withdrawn: <b>{poolType === 'RP' ? withdrawAmountRP : withdrawAmountSP} tickets/BOND</b></h4>
+                    <h4 className='modal-description withdraw'>Amount to be withdrawn: <b>{withdrawAmountRP} tickets/BOND</b></h4>
                     <p className='modal-description-sm withdraw'>Withdrawing everything will make you ineligible to win</p>
                 </div>
                 <div className='view-leaderboard'>
-                    <button onClick={() => { setModalType('WDC'); poolType === 'RP' ? setWithdrawAmountRP('') : setWithdrawAmountSP('') }}>Confirm withdrawal</button>
+                    <button onClick={() => { setModalType('WDC'); setWithdrawAmountRP('')}}>Confirm withdrawal</button>
                 </div>
             </div> 
         </div>

@@ -31,12 +31,6 @@ const Header = () => {
         };
     })
 
-    var PLACEHOLDER_ACCOUNT = '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8';
-    PLACEHOLDER_ACCOUNT = PLACEHOLDER_ACCOUNT.substring(0, 6) + '..' + PLACEHOLDER_ACCOUNT.substring(PLACEHOLDER_ACCOUNT.length - 4);
-
-    const PLACEHOLDER_STATUS = 'Connected';
-    const PLACEHOLDER_NETWORK = 'Mainnet';
-    const PLACEHOLDER_WALLET = 'MetaMask';
     return (
         <header>
             <div className='app-logo'>
@@ -61,7 +55,7 @@ const Header = () => {
                                     <div className='dropdown-text'>
                                         <img src={statusImg} alt='Status' /> Status
                                     </div>
-                                    <div className='status'>{PLACEHOLDER_STATUS}</div>
+                                    <div className='status'>Connected</div>
                                 </div>
                                 <div className='dropdown-row'>
                                     <div className='dropdown-text'>

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import walletIcon from '../../assets/images/wallet-sm.svg';
 import logo from '../../assets/images/onlyLogo.svg';
@@ -7,23 +7,35 @@ import minusIcon from '../../assets/images/minus.svg';
 import AppContext from '../../ContextAPI';
 import validator from 'validator';
 import * as ethers from 'ethers';
+import EtherscanLink from '../Shared/EtherscanLink';
+
+
+
+
 const GetTickets = () => {
     const {
+        bondAllowance,
+        allowBondHandler,
         bondBalance,
         connected,
         setModalType,
-        ticketAmountRP,
-		setTicketAmountRP,
-        tokenIsEnabledRP,
-		setTokenIsEnabledRP,
-        maxAmountSelected,
-        setMaxAmountSelected,
-        totalTicketAmountRP,
-		setTotalTicketAmountRP,
-
+        ticketDepositHandler,
+        getTicketsLoading,
+        getTicketsTxId,
     } = useContext(AppContext);
 
+    const [ticketAmountRP, setTicketAmountRP] = useState('');
+	const [totalTicketAmountRP, setTotalTicketAmountRP] = useState(0);
+	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
+	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
+	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
 
+
+    useEffect(() => {
+        if(bondAllowance){
+            setTokenIsEnabledRP(bondAllowance.gt(0))
+            }
+    },[bondAllowance])
     const handleChange = (e) => {
         if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
             setTicketAmountRP(e.target.value)
@@ -63,20 +75,18 @@ const GetTickets = () => {
                             <h1>
                                 <img src={logo} alt='App Logo' /> Bond
                             </h1>
-                            <h2>Enable token
+                            {getTicketsLoading ? <EtherscanLink txId={getTicketsTxId}> </EtherscanLink> : null }
+                            <h2>{ tokenIsEnabledRP ? 'Token enabled' : 'Enable token'}
                                 <input
                                     checked={tokenIsEnabledRP}
-                                    onChange={() =>
-                                            setTokenIsEnabledRP(!tokenIsEnabledRP)
-                                            // setMaxAmountSelected(false), 
-                                            // setTicketAmountRP('')
-                                    }
+                                    onChange={allowBondHandler}
+                                    disabled={tokenIsEnabledRP}
                                     className='switch-checkbox'
                                     id={'switch-new'+'RP'}
                                     type='checkbox'
                                 />
                                 <label
-                                    style={{ background:  tokenIsEnabledRP && '#28D879' }}
+                                    style={{ background:  tokenIsEnabledRP  && '#28D879' }}
                                     className='switch-label'
                                     htmlFor={'switch-new'+"RP"}
                                 >
@@ -101,12 +111,12 @@ const GetTickets = () => {
                         <div className='ticket-amount-input'>
                             <input
                                 type='text'
-                                disabled={connected  && (tokenIsEnabledRP && !maxAmountSelected) && true }
+                                disabled={!(connected  && (tokenIsEnabledRP && !maxAmountSelected)) }
                                 onChange={handleChange}
                                 value={ticketAmountRP}
                             />
                             {connected ?
-                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button> : null
+                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(0); setMaxAmountSelected(true) }}>MAX</button> : null
                             }
                         </div>
                     </div>

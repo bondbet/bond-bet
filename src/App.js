@@ -6,7 +6,10 @@ import Web3Modal from 'web3modal';
 import { getChainData } from './helpers/chain-utils';
 import { getProviderOptions } from './constants/provider-options';
 import Main from './components/Main';
- 
+import BarnBridgeToken from './constants/abis/BarnBridgeToken.json'
+import {getContract} from './helpers/ethers'
+import {BARN_PRIZE_POOL_ADDRESS} from './constants/contracts'
+import BarnPrizePool from './constants/abis/BarnPrizePool.json'
 
 const App = () => {
 	const [provider, setProvider] = useState(null);
@@ -14,8 +17,10 @@ const App = () => {
 	const [connectedNetwork, setConnectedNetwork] = useState('');
 	const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
 	const [connectedWalletName, setConnectedWalletName] = useState('');
-
 	const [chainId, setChainId] = useState(1);
+	const [barnPrizePoolContract, setBarnPrizePoolContract] = useState(null)
+	const [bondTokenContract, setBondTokenContract] = useState(null);
+
 	const getNetwork = () => getChainData(chainId).network;
 
 	const web3Modal = new Web3Modal({
@@ -46,23 +51,25 @@ const App = () => {
 	
 		const address = newProvider.selectedAddress ? newProvider.selectedAddress : newProvider?.accounts[0];
 
+		const barnPrizePoolContractCode = await  library.getCode(BARN_PRIZE_POOL_ADDRESS);
+		if(barnPrizePoolContractCode.length > 2) {
+			const newBarnPrizePoolContract = getContract(BARN_PRIZE_POOL_ADDRESS, BarnPrizePool.abi, library, address);
 
-		const barnPrizePoolContract = getContract(BARN_PRIZE_POOL_ADDRESS, BarnPrizePool.abi, library, address);
-
-		const bondTokenAddress = await barnPrizePoolContract.token();
 	
-		const bondTokenContract = getContract(bondTokenAddress, BarnBridgeToken.abi, library, address);
+			const prizePoolToketAddress = await newBarnPrizePoolContract.token();
+			const newBondTokenContract = getContract(prizePoolToketAddress, BarnBridgeToken.abi, library, address);
+			setBarnPrizePoolContract(newBarnPrizePoolContract);
+			setBondTokenContract(newBondTokenContract);
+		}
+		
 
-
-		setBarnPrizePoolContract(barnPrizePoolContract)
-		setBondTokenContract(bondTokenContract)
-		setBondBalance(await bondTokenContract.balanceOf(address));
 		setConnectedWalletAddress(address);
 		setConnectedNetwork(network.name);
 		setConnectedWalletName(library.connection.url === 'metamask' ? 'MetaMask' : 'WalletConnect')
 		setConnected(true);
 		setProvider(newProvider)
 		await subscribeToProviderEvents(newProvider);
+
 	});
 
 	const disconnectWalletHandler = useCallback(async (provider) => {
@@ -72,6 +79,10 @@ const App = () => {
 		localStorage.removeItem("WEB3_CONNECT_CACHED_PROVIDER");
 		localStorage.removeItem("walletconnect");
 
+
+		setBarnPrizePoolContract(null);
+		setBondTokenContract(null);
+		
 		setConnectedWalletAddress("");
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
@@ -91,6 +102,7 @@ const App = () => {
 	}
 
 	const networkChanged = useCallback(async (provider) => {
+		console.log('network')
 		const library = new Web3Provider(provider);
 		const network = await library.getNetwork();
 		const chainId = network.chainId;
@@ -106,7 +118,6 @@ const App = () => {
 				return;
 			  }
 
-			  provider.on("close", disconnect);
 			  provider.on("accountsChanged", changedAccount);
 			  provider.on("disconnect", disconnect);
 			  provider.on("networkChanged", () => networkChanged(provider));
@@ -121,15 +132,15 @@ const App = () => {
 		if (!provider) {
 			return;
 		  }
-		  console.log(provider)
 
 		  provider.off("accountsChanged", changedAccount);
 		  provider.off("networkChanged", () => networkChanged(provider));
 		  provider.off("disconnect", disconnect);
-		  provider.off("close", disconnect);
 	}
 	return (
 		<Main 
+			barnPrizePoolContract={barnPrizePoolContract}
+			bondTokenContract={bondTokenContract}
 			provider={provider} 
 			connectedNetwork={connectedNetwork} 
 			connectedWalletAddress={connectedWalletAddress}

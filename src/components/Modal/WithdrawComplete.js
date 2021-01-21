@@ -8,7 +8,6 @@ const WithdrawComplete = () => {
         setSelectedMenuItem,
         setOpenModal,
         totalTicketAmountRP,
-        totalTicketAmountSP,
         poolType
     } = useContext(AppContext);
     const history = useHistory();
@@ -19,7 +18,7 @@ const WithdrawComplete = () => {
             <div className='box-content'>
                 <div className='box-inner withdraw'>
                     <h1 className='modal-title required-changes'>Withdrawal Complete</h1>
-                    <h4 className='modal-description withdraw'>Your balance: <b>{poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} tickets</b></h4>
+                    <h4 className='modal-description withdraw'>Your balance: <b>{totalTicketAmountRP} tickets</b></h4>
                 </div>
                 <div className='view-leaderboard'>
                     <button onClick={() => { setSelectedMenuItem(1); setOpenModal(false); history.push('/my-account');  }}>Back to My account</button>

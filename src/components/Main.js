@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import userEvent from '@testing-library/user-event';
 import AppContext from '../ContextAPI';
 import Router from '../Router';
+import { BARN_PRIZE_POOL_ADDRESS } from '../constants/contracts';
+import {BigNumber} from 'ethers';
 
 const Main = (props) => {
     
@@ -11,14 +13,37 @@ const Main = (props) => {
 	const [toggleSidebar, setToggleSidebar] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [modalType, setModalType] = useState('');
-	const [ticketAmountRP, setTicketAmountRP] = useState('');
-	const [totalTicketAmountRP, setTotalTicketAmountRP] = useState(0);
-	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
-	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
-	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
-	
+    const [bondBalance, setBondBalance] = useState(0);
+    const [bondAllowance, setBondAllowance] = useState(0);
+    const [getTicketsLoading, setGetTicketsLoading] = useState(false);
+    const [getTicketsTxId, setGetTicketsTxId] = useState(false);
 
+    
+    useEffect(async () => {
+        if(props.bondTokenContract && props.connectedWalletAddress) {
+            setBondBalance(await props.bondTokenContract.balanceOf(props.connectedWalletAddress));
+            const allowance = await props.bondTokenContract.allowance(props.connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
+            setBondAllowance(BigNumber.from('0'));
+        } 
+        
+    }, [props.connectedWalletAddress, props.bondTokenContract, props.connectedNetwork])
 
+    const allowBondHandler = useCallback(async ()=> {
+        try {
+            const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, Number.MAX_SAFE_INTEGER + '')
+            setGetTicketsLoading(true);
+            setGetTicketsTxId(approveTx.hash)
+            await approveTx.wait()
+        } catch(e) {
+
+        }
+
+        setTimeout(async () => {
+            setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
+            setGetTicketsLoading(false)
+        }, 2000);
+
+    })
     const setNewTime = useCallback((setCountdown) => { 
         const currentTime = new Date().getTime();
         const countdownDate = dateEnd;
@@ -61,7 +86,12 @@ const Main = (props) => {
 				connectedWalletName: props.connectedWalletName,
                 disconnectWalletHandler: props.disconnectWalletHandler,
                 connected: props.connected,
-                
+
+                getTicketsLoading,
+                getTicketsTxId,
+                bondAllowance,
+                allowBondHandler,
+                bondBalance,
                 dateStart,
 				dateEnd,
 				selectedMenuItem,
@@ -72,17 +102,9 @@ const Main = (props) => {
 				setModalType,
 				setNewTime,
 				toggleSidebar,
-				setToggleSidebar,
-				ticketAmountRP,
-				setTicketAmountRP,
-				tokenIsEnabledRP,
-				setTokenIsEnabledRP,
-				maxAmountSelected,
-				setMaxAmountSelected,
-				totalTicketAmountRP,
-				setTotalTicketAmountRP,
-				withdrawAmountRP,
-				setWithdrawAmountRP
+                setToggleSidebar,
+                
+
 			}}
 		>
 			<Router openModal={openModal} />
