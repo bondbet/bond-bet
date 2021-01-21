@@ -16,53 +16,36 @@ const GetTickets = () => {
 		setTicketAmountRP,
         tokenIsEnabledRP,
 		setTokenIsEnabledRP,
-		ticketAmountSP,
-		setTicketAmountSP,
-		tokenIsEnabledSP,
-		setTokenIsEnabledSP,
-        poolType,
         maxAmountSelected,
         setMaxAmountSelected,
         totalTicketAmountRP,
 		setTotalTicketAmountRP,
-		totalTicketAmountSP,
-		setTotalTicketAmountSP
+
     } = useContext(AppContext);
 
 
     const handleChange = (e) => {
         if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
-            poolType === 'RP' ? setTicketAmountRP(e.target.value) : setTicketAmountSP(e.target.value)
+            setTicketAmountRP(e.target.value)
         }
     };
 
     const handleContinue = () => {
-        poolType === 'RP' ? (ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')) :  
-        ticketAmountSP ? setModalType('CW') : alert('Please enter ticket amount.')
+       ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')
     }
 
     const handleDeposit = () => {
-        if (poolType === 'RP') {
+    
             if (ticketAmountRP) {
                 setModalType('CD')
                 setTimeout(() => {
                     setModalType('DC');
-                    poolType === 'RP' ? setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP)) : setTotalTicketAmountSP(Number(totalTicketAmountSP) + Number(ticketAmountSP))
+                    setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP))
                 }, 5000)
             } else {
                 alert('Please enter ticket amount.')
             }
-        } else {
-            if (ticketAmountSP) {
-                setModalType('CD')
-                setTimeout(() => {
-                    setModalType('DC');
-                    poolType === 'RP' ? setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP)) : setTotalTicketAmountSP(Number(totalTicketAmountSP) + Number(ticketAmountSP))
-                }, 5000)
-            } else {
-                alert('Please enter ticket amount.')
-            }
-        }
+
     }
 
     const PLACEHOLDER_ODDS = 1;
@@ -82,25 +65,24 @@ const GetTickets = () => {
                             </h1>
                             <h2>Enable token
                                 <input
-                                    checked={poolType === 'RP' ? tokenIsEnabledRP : tokenIsEnabledSP}
+                                    checked={tokenIsEnabledRP}
                                     onChange={() =>
-                                        poolType === 'RP' ?
-                                            (setTokenIsEnabledRP(!tokenIsEnabledRP), setMaxAmountSelected(false), setTicketAmountRP('')) :
-                                            (setTokenIsEnabledSP(!tokenIsEnabledSP), setMaxAmountSelected(false), setTicketAmountSP(''))
+                                            setTokenIsEnabledRP(!tokenIsEnabledRP)
+                                            // setMaxAmountSelected(false), 
+                                            // setTicketAmountRP('')
                                     }
                                     className='switch-checkbox'
-                                    id={'switch-new'+poolType}
+                                    id={'switch-new'+'RP'}
                                     type='checkbox'
                                 />
                                 <label
-                                    style={{ background: poolType === 'RP' ? tokenIsEnabledRP && '#28D879' : tokenIsEnabledSP && '#28D879' }}
+                                    style={{ background:  tokenIsEnabledRP && '#28D879' }}
                                     className='switch-label'
-                                    htmlFor={'switch-new'+poolType}
+                                    htmlFor={'switch-new'+"RP"}
                                 >
                                     <span className='switch-button'>
                                         {
-                                            poolType === 'RP' ? (tokenIsEnabledRP ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />) :
-                                            tokenIsEnabledSP ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />
+                                            (tokenIsEnabledRP ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />) 
                                         }
                                     </span>
                                 </label>
@@ -119,13 +101,12 @@ const GetTickets = () => {
                         <div className='ticket-amount-input'>
                             <input
                                 type='text'
-                                disabled={connected && poolType === 'RP' ? (tokenIsEnabledRP && !maxAmountSelected) && true : (tokenIsEnabledSP && !maxAmountSelected) && true}
+                                disabled={connected  && (tokenIsEnabledRP && !maxAmountSelected) && true }
                                 onChange={handleChange}
-                                value={poolType === 'RP' ? ticketAmountRP : ticketAmountSP}
+                                value={ticketAmountRP}
                             />
-                            {connected && poolType === 'RP' ?
-                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(bondBalance); setMaxAmountSelected(true) }}>MAX</button> :
-                                (tokenIsEnabledSP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountSP(bondBalance); setMaxAmountSelected(true) }}>MAX</button>
+                            {connected ?
+                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button> : null
                             }
                         </div>
                     </div>

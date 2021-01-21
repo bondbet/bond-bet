@@ -8,37 +8,26 @@ const Withdraw = () => {
     const {
         connected,
         withdrawAmountRP,
-		setWithdrawAmountRP,
-		withdrawAmountSP,
-		setWithdrawAmountSP,
-        poolType,
+        setWithdrawAmountRP,
         setModalType,
         totalTicketAmountRP,
         setTotalTicketAmountRP,
-        totalTicketAmountSP,
-        setTotalTicketAmountSP
     } = useContext(AppContext);
 
     const handleChange = (e) => {
         if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
-            if (poolType === 'RP') {
+       
                 if (e.target.value <= totalTicketAmountRP) {
                     setWithdrawAmountRP(e.target.value)
                 } else {
                     alert('Max amount should be ' + totalTicketAmountRP)
                 }
-            } else {
-                if (e.target.value <= totalTicketAmountSP) {
-                    setWithdrawAmountSP(e.target.value)
-                } else {
-                    alert('Max amount should be ' + totalTicketAmountSP)
-                }
-            }
+            
         }
     };
 
     const handleContinue = () => {
-        if (poolType === 'RP') {
+
             if (withdrawAmountRP) {
                 setModalType('CWD')
                 setTotalTicketAmountRP(old => Number(old) - Number(withdrawAmountRP))
@@ -46,14 +35,7 @@ const Withdraw = () => {
             } else {
                 alert('Please enter ticket amount.')
             }
-        } else {
-            if (withdrawAmountSP) {
-                setModalType('CWD')
-                setTotalTicketAmountSP(old => Number(old) - Number(withdrawAmountSP))
-            } else {
-                alert('Please enter ticket amount.')
-            }
-        }
+        
     }
 
     return (
@@ -68,7 +50,7 @@ const Withdraw = () => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} Tickets/BOND
+                                    <img src={walletIcon} alt='Wallet' /> {totalTicketAmountRP} Tickets/BOND
                                 </div>
                             }
                         </div>
@@ -76,11 +58,11 @@ const Withdraw = () => {
                             <input
                                 type='text'
                                 onChange={handleChange}
-                                value={poolType === 'RP' ? withdrawAmountRP : withdrawAmountSP}
+                                value={withdrawAmountRP}
                             />
-                            {connected && poolType === 'RP' ?
-                                <button className='max-btn' onClick={() => setWithdrawAmountRP(totalTicketAmountRP) }>MAX</button> :
-                                <button className='max-btn' onClick={() => setWithdrawAmountSP(totalTicketAmountSP) }>MAX</button>
+                            {connected ?
+                                <button className='max-btn' onClick={() => setWithdrawAmountRP(totalTicketAmountRP) }>MAX</button>
+                                : null
                             }
                         </div>
                     </div>
