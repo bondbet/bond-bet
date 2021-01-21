@@ -29,20 +29,29 @@ const GetTickets = () => {
 	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
 	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
-
-
+    const [inputValid, setInputValid] = useState(false);
+   
     useEffect(() => {
         if(bondAllowance){
             setTokenIsEnabledRP(bondAllowance.gt(0))
-            }
-    },[bondAllowance])
-    const handleChange = (e) => {
-        if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
-            setTicketAmountRP(e.target.value)
         }
+    },[bondAllowance])
+    const handleTicketInputChange = (value) => {
+        
+        if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
+            setTicketAmountRP(value);
+            const balanceInBigNumber = ethers.utils.parseEther(value || '0');
+            const hasEnoughBond = ethers.utils.parseEther(value || '0').lte(bondBalance);
+            setInputValid(balanceInBigNumber.gt('0') && hasEnoughBond);
+            if(hasEnoughBond) {
+                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(bondBalance)));
+            }
+        }
+    
     };
 
-    const handleContinue = () => {
+    const handleContinue = (value) => {
+       
        ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')
     }
 
@@ -111,12 +120,19 @@ const GetTickets = () => {
                         <div className='ticket-amount-input'>
                             <input
                                 type='text'
-                                disabled={!(connected  && (tokenIsEnabledRP && !maxAmountSelected)) }
-                                onChange={handleChange}
+                                disabled={!(connected  && tokenIsEnabledRP ) }
+                                onChange={ (event) => {
+                                    if(event && event.target) {
+                                            handleTicketInputChange(event.target.value)                        
+                                    }
+                            
+                                }
+                                   
+                                }
                                 value={ticketAmountRP}
                             />
                             {connected ?
-                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(0); setMaxAmountSelected(true) }}>MAX</button> : null
+                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(+ethers.utils.formatEther(bondBalance)); setInputValid(true); setMaxAmountSelected(true) }}>MAX</button> : null
                             }
                         </div>
                     </div>
@@ -128,10 +144,7 @@ const GetTickets = () => {
             </div>
 
             <div className='continue-btn'>
-                {connected ?
-                    <button onClick={handleDeposit}>Deposit</button> :
-                    <button onClick={handleContinue}>Continue</button>
-                }
+                {<button onClick={handleDeposit} disabled={!inputValid}>Deposit</button>}
             </div>
         </div>
     )

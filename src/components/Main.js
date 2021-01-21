@@ -23,6 +23,8 @@ const Main = (props) => {
         if(props.bondTokenContract && props.connectedWalletAddress) {
             setBondBalance(await props.bondTokenContract.balanceOf(props.connectedWalletAddress));
             const allowance = await props.bondTokenContract.allowance(props.connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
+            
+             // '0' To be changed to bondBalance
             setBondAllowance(BigNumber.from('0'));
         } 
         
@@ -38,9 +40,12 @@ const Main = (props) => {
 
         }
 
+
+        // Set timeout to be removed
         setTimeout(async () => {
             setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
-            setGetTicketsLoading(false)
+            setGetTicketsLoading(false);
+            setGetTicketsTxId('')
         }, 2000);
 
     })
