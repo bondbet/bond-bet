@@ -10,16 +10,13 @@ const MyAccount = () => {
     const history = useHistory();
 
     const {
-        poolType,
         setSelectedMenuItem,
         setOpenModal,
         setModalType,
-        setPoolType,
         setNewTime,
         dateEnd,
         dateStart,
         totalTicketAmountRP,
-        totalTicketAmountSP
     } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
@@ -46,23 +43,14 @@ const MyAccount = () => {
     }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
 
     const withdraw = () => {
-        if (poolType === 'RP') {
+
             if (totalTicketAmountRP > 0) {
                 setOpenModal(true);
                 setModalType('WD');
-                setPoolType('RP')
             } else {
                 alert('Sorry. Not enough tickets!')
             }
-        } else {
-            if (totalTicketAmountSP > 0) {
-                setOpenModal(true);
-                setModalType('WD');
-                setPoolType('SP')
-            } else {
-                alert('Sorry. Not enough tickets!')
-            }
-        }
+       
     }
 
     const PLACEHOLDER_CURRENT_WEEK_PRIZE_BOND = 2000;
@@ -251,12 +239,12 @@ const MyAccount = () => {
                         </div>
                         <div className='my-account-pool-buttons'>
                             <button onClick={() => { setSelectedMenuItem(0); history.push('/community-reward-pool/details') }}>Pool Details</button>
-                            <button onClick={() => { setOpenModal(true); setModalType('GT'); setPoolType('RP') }}>Get More Tickets</button>
+                            <button onClick={() => { setOpenModal(true); setModalType('GT'); }}>Get More Tickets</button>
                             <button onClick={withdraw}>Withdraw</button>
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div><b>{poolType === 'RP' ? totalTicketAmountRP : totalTicketAmountSP} Tickets / BOND</b></div>
+                        <div><b>{totalTicketAmountRP} Tickets / BOND</b></div>
                         <div>Current week prize <b>{`${PLACEHOLDER_CURRENT_WEEK_PRIZE_BOND} BOND`}</b></div>
                         <div>Odds <b>{PLACEHOLDER_ODDS}</b> in <b>{PLACEHOLDER_COMMON_ODDS}</b></div>
                         <div><b>{PLACEHOLDER_WINNERS}</b> winners</div>

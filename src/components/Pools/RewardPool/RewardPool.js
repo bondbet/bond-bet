@@ -5,7 +5,7 @@ import PoolBoxContent from '../Components/PoolBoxContent';
 import AppContext from '../../../ContextAPI';
 
 const RewardPool = ({percentageTimePassed, countdown}) => {
-    const { setOpenModal, setModalType, setPoolType } = useContext(AppContext);
+    const { setOpenModal, setModalType } = useContext(AppContext);
     const history = useHistory();
 
     const PLACEHOLDER_BONDS = 13.48;
@@ -22,7 +22,7 @@ const RewardPool = ({percentageTimePassed, countdown}) => {
                 />
 
                 <div className='pools-box-buttons'>
-                    <button onClick={() => { setOpenModal(true); setModalType('GT'); setPoolType('RP') }}>Get Tickets</button>
+                    <button onClick={() => { setOpenModal(true); setModalType('GT'); }}>Get Tickets</button>
                     <button onClick={() => history.push('/community-reward-pool/details')}>Pool Details</button>
                 </div>
             </div>
