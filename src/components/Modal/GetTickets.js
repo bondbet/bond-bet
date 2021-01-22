@@ -25,7 +25,7 @@ const GetTickets = () => {
     } = useContext(AppContext);
 
     const [ticketAmountRP, setTicketAmountRP] = useState('');
-	const [totalTicketAmountRP, setTotalTicketAmountRP] = useState(0);
+	// const [totalTicketAmountRP, setTotalTicketAmountRP] = useState(0);
 	const [tokenIsEnabledRP, setTokenIsEnabledRP] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
 	const [withdrawAmountRP, setWithdrawAmountRP] = useState('');
@@ -54,21 +54,6 @@ const GetTickets = () => {
        
        ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')
     }
-
-    const handleDeposit = () => {
-    
-            if (ticketAmountRP) {
-                setModalType('CD')
-                setTimeout(() => {
-                    setModalType('DC');
-                    setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP))
-                }, 5000)
-            } else {
-                alert('Please enter ticket amount.')
-            }
-
-    }
-
     const PLACEHOLDER_ODDS = 1;
     const PLACEHOLDER_COMMON_ODDS = '1,232,233.23';
 
@@ -144,7 +129,7 @@ const GetTickets = () => {
             </div>
 
             <div className='continue-btn'>
-                {<button onClick={handleDeposit} disabled={!inputValid}>Deposit</button>}
+                {<button onClick={() => ticketDepositHandler(ticketAmountRP)} disabled={!inputValid}>Deposit</button>}
             </div>
         </div>
     )

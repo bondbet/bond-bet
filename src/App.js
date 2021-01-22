@@ -8,8 +8,9 @@ import { getProviderOptions } from './constants/provider-options';
 import Main from './components/Main';
 import BarnBridgeToken from './constants/abis/BarnBridgeToken.json'
 import {getContract} from './helpers/ethers'
-import {BARN_PRIZE_POOL_ADDRESS} from './constants/contracts'
+import {BARN_PRIZE_POOL_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS} from './constants/contracts'
 import BarnPrizePool from './constants/abis/BarnPrizePool.json'
+import PrizeStrategy from './constants/abis/PeriodicPrizeStrategy.json';
 
 const App = () => {
 	const [provider, setProvider] = useState(null);
@@ -20,6 +21,7 @@ const App = () => {
 	const [chainId, setChainId] = useState(1);
 	const [barnPrizePoolContract, setBarnPrizePoolContract] = useState(null)
 	const [bondTokenContract, setBondTokenContract] = useState(null);
+	const [prizeStrategyContract, setPrizeStrategyContract] = useState(null);
 
 	const getNetwork = () => getChainData(chainId).network;
 
@@ -58,6 +60,10 @@ const App = () => {
 	
 			const prizePoolToketAddress = await newBarnPrizePoolContract.token();
 			const newBondTokenContract = getContract(prizePoolToketAddress, BarnBridgeToken.abi, library, address);
+			const newPrizeStrategyContract = getContract(PRIZE_STRATEGY_CONTRACT_ADDRESS, PrizeStrategy.abi, library, address);
+
+
+			setPrizeStrategyContract(newPrizeStrategyContract);
 			setBarnPrizePoolContract(newBarnPrizePoolContract);
 			setBondTokenContract(newBondTokenContract);
 		}
@@ -82,7 +88,7 @@ const App = () => {
 
 		setBarnPrizePoolContract(null);
 		setBondTokenContract(null);
-		
+		setPrizeStrategyContract(null);
 		setConnectedWalletAddress("");
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
@@ -139,6 +145,7 @@ const App = () => {
 	}
 	return (
 		<Main 
+			prizeStrategyContract={prizeStrategyContract}
 			barnPrizePoolContract={barnPrizePoolContract}
 			bondTokenContract={bondTokenContract}
 			provider={provider} 

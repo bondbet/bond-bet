@@ -2,8 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import userEvent from '@testing-library/user-event';
 import AppContext from '../ContextAPI';
 import Router from '../Router';
-import { BARN_PRIZE_POOL_ADDRESS } from '../constants/contracts';
+import { BARN_PRIZE_POOL_ADDRESS, CONTROLLED_TOKEN_ADDRESS } from '../constants/contracts';
 import {BigNumber} from 'ethers';
+import * as ethers from 'ethers';
 
 const Main = (props) => {
     
@@ -17,14 +18,16 @@ const Main = (props) => {
     const [bondAllowance, setBondAllowance] = useState(0);
     const [getTicketsLoading, setGetTicketsLoading] = useState(false);
     const [getTicketsTxId, setGetTicketsTxId] = useState(false);
-
+    const [ticketsBalance, setTicketsBalance] = useState(0);
     
     useEffect(async () => {
         if(props.bondTokenContract && props.connectedWalletAddress) {
+            console.log('tokens', ethers.utils.formatEther(await props.barnPrizePoolContract.liquidityCap()))
+
             setBondBalance(await props.bondTokenContract.balanceOf(props.connectedWalletAddress));
             const allowance = await props.bondTokenContract.allowance(props.connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
             
-             // '0' To be changed to bondBalance
+            console.log(await props.prizeStrategyContract)
             setBondAllowance(BigNumber.from('0'));
         } 
         
@@ -34,7 +37,7 @@ const Main = (props) => {
         try {
             const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, Number.MAX_SAFE_INTEGER + '')
             setGetTicketsLoading(true);
-            setGetTicketsTxId(approveTx.hash)
+            setGetTicketsTxId(approveTx.hash);
             await approveTx.wait()
         } catch(e) {
 
@@ -81,6 +84,18 @@ const Main = (props) => {
 		}
 	}, [])
 
+    const ticketDepositHandler = useCallback(async (ticketAmount) => {
+        const depositTx = await props.barnPrizePoolContract.depositTo(props.connectedWalletAddress, ethers.utils.parseEther(ticketAmount), CONTROLLED_TOKEN_ADDRESS, "0x0000000000000000000000000000000000000000");
+        setModalType('CD')
+        const deposit = await depositTx.wait();
+     
+            setTimeout(() => {
+                setModalType('DC');
+                
+            }, 3000)
+
+
+    })
     return (
 		<AppContext.Provider
 			value={{
@@ -92,6 +107,7 @@ const Main = (props) => {
                 disconnectWalletHandler: props.disconnectWalletHandler,
                 connected: props.connected,
 
+                ticketDepositHandler,
                 getTicketsLoading,
                 getTicketsTxId,
                 bondAllowance,
@@ -108,8 +124,6 @@ const Main = (props) => {
 				setNewTime,
 				toggleSidebar,
                 setToggleSidebar,
-                
-
 			}}
 		>
 			<Router openModal={openModal} />
