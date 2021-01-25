@@ -6,6 +6,7 @@ import {BigNumber} from 'ethers';
 import {getUtcTimestamp} from './../helpers/date';
 
 import * as ethers from 'ethers';
+import CountdownPercantageUpdater from './Shared/CountdownPercentageUpdater';
 
 const Main = (props) => {
     
@@ -22,6 +23,14 @@ const Main = (props) => {
     const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
     const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
     const [totalTicketAmount, setTotalTicketAmount] = useState(0);
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes:0 ,
+        seconds: 0,
+    });
+    const [percentageTimePassed, setPercentageTimePassed] = useState();
+    
 
     useEffect(async () => {
         if(props.bondTokenContract && props.connectedWalletAddress) {
@@ -48,6 +57,7 @@ const Main = (props) => {
     useEffect(async () => {
         if(props.barnPrizePoolContract) {
             setTotalTicketAmount(await props.barnPrizePoolContract.accountedBalance())
+            console.log(ethers.utils.formatEther(await props.barnPrizePoolContract.awardBalance()))
         }
     }, [props.barnPrizePoolContract])
     const allowBondHandler = useCallback(async ()=> {
@@ -118,6 +128,12 @@ const Main = (props) => {
                 disconnectWalletHandler: props.disconnectWalletHandler,
                 connected: props.connected,
 
+
+                days:countdown.days,
+                countdown,
+                setCountdown,
+                percentageTimePassed,
+                setPercentageTimePassed,
                 totalTicketAmount,
                 ticketsBalance,
                 prizePoolRemainingSeconds,
@@ -140,6 +156,7 @@ const Main = (props) => {
                 setToggleSidebar,
 			}}
 		>
+          <CountdownPercantageUpdater/>
 			<Router openModal={openModal} />
 		</AppContext.Provider>
     );

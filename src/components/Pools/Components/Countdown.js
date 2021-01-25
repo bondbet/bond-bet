@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useContext } from 'react'
+import AppContext from '../../../ContextAPI';
 
-const Countdown = ({countdown}) => {
-    const numbersToAddZeroTo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+const Countdown = () => {
+    const {countdown} = useContext(AppContext);
+
+    const numbersToAddZeroTo = [1, 2, 3, 4, 5, 6, 7, 8, 9]; 
     return (
+        
         <div className="pools-box-countdown">
             <div className="pools-box-countdown-cubes">
                 <div className="pools-box-countdown-cubes-n">

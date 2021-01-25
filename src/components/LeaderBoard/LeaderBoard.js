@@ -122,12 +122,6 @@ const LeaderBoard = () => {
                 <Table title='Community Reward Pool Winners' data={rp_data} columns={rp_columns} pageSize={6} isLeaderboardTable={true} isHashtag={true} />
             </div>
 
-            <div className='sp-leaderboard'>
-                <h3 className='leaderboard-desc'>
-                    <img src={logo} alt='DAO Staking Pool' /> DAO Staking Pool
-                </h3>
-                <Table title='DAO Staking Pool Winners' data={sp_data} columns={sp_columns} pageSize={6} isLeaderboardTable={true} isHashtag={true} />
-            </div>
         </div>
     )
 }
