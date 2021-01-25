@@ -1,20 +1,19 @@
-import React, {useContext, useState, useEffect} from 'react'
+import React, {useContext, useState, useEffect} from 'react';
 import AppContext from '../../ContextAPI';
 import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
-import validator from 'validator';
 import { ethers } from 'ethers';
 
 const DepositComplete = () => {
-    const { ticketsBalance, poolType, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
+    const { ticketsBalance, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
         minutes: 0,
         seconds: 0,
     });
+    
     const [percentageTimePassed, setPercentageTimePassed] = useState();
-    const [email, setEmail] = useState('');
     
     useEffect(() => {
         const interval = setInterval(() => {
@@ -34,12 +33,6 @@ const DepositComplete = () => {
         };
     }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime, setModalType]);
 
-    const checkEmail = () => {
-        if (!validator.isEmail(email)) {
-            alert("Incorrect email format!")
-        }
-    };
-
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Deposit Complete' />
@@ -49,13 +42,6 @@ const DepositComplete = () => {
                    {ticketsBalance ? <h4 className='modal-description'>You got total of {ethers.utils.formatEther(ticketsBalance)} tickets</h4> : null}
                     <p className='prize-will-be-awarded-in'>The prize will be awarded in:</p>
                     <Countdown countdown={countdown} />
-                </div>
-                <div className='get-notified'>
-                    <div className='get-notified-label'>Get notified about the winner by email</div>
-                    <div className='get-notified-field'>
-                        <input type='text' placeholder='Enter your email adress' onChange={(e) => setEmail(e.target.value)} value={email} />
-                        <button onClick={checkEmail}>Get notified</button>
-                    </div>
                 </div>
             </div>
         </div>

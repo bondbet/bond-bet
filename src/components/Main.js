@@ -21,6 +21,7 @@ const Main = (props) => {
     const [prizePeriodStartedAt, setPrizePeriodStartedAt] = useState(0);
     const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
     const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
+    const [totalTicketAmount, setTotalTicketAmount] = useState(0);
 
     useEffect(async () => {
         if(props.bondTokenContract && props.connectedWalletAddress) {
@@ -44,9 +45,14 @@ const Main = (props) => {
         }
     }, [props.prizeStrategyContract])
 
+    useEffect(async () => {
+        if(props.barnPrizePoolContract) {
+            setTotalTicketAmount(await props.barnPrizePoolContract.accountedBalance())
+        }
+    }, [props.barnPrizePoolContract])
     const allowBondHandler = useCallback(async ()=> {
 
-            const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, BigNumber.from('1000000000000000000000000'))
+            const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
             await approveTx.wait();
@@ -95,7 +101,7 @@ const Main = (props) => {
         setGetTicketsLoading(true);
         setGetTicketsTxId(depositTx.hash)
         const deposit = await depositTx.wait();
-        setTicketsBalance(ticketsBalance.add(BigNumber.from(ticketAmount + '')))
+        setTicketsBalance(ticketsBalance.add(ethers.utils.parseEther(ticketAmount + '')))
         setGetTicketsLoading(false);
         setGetTicketsTxId('');
         setModalType('DC');
@@ -112,6 +118,7 @@ const Main = (props) => {
                 disconnectWalletHandler: props.disconnectWalletHandler,
                 connected: props.connected,
 
+                totalTicketAmount,
                 ticketsBalance,
                 prizePoolRemainingSeconds,
                 ticketDepositHandler,
