@@ -51,14 +51,13 @@ const GetTickets = () => {
     
     };
 
-    console.log()
-    console.log( +depositAmount +  +ethers.utils.formatEther(ticketsBalance))
     const getOdds = () => {
 
         const currentTotalTickets = +depositAmount + +ethers.utils.formatEther(totalTicketAmount);
         const currentTicketsBalance = +depositAmount +  +ethers.utils.formatEther(ticketsBalance);
 
-        return (currentTotalTickets / currentTicketsBalance).toFixed(2);
+        console.log(currentTotalTickets, currentTicketsBalance)
+        return ((currentTotalTickets ? currentTotalTickets : 1)/ (currentTicketsBalance ? currentTicketsBalance : 1)).toFixed(2);
     }
     return (
         <div className='pools-box'>
@@ -125,7 +124,7 @@ const GetTickets = () => {
                         </div>
                     </div>
                     {
-                        totalTicketAmount && ticketsBalance ?  
+                        totalTicketAmount !== undefined && ticketsBalance !== undefined ?  
                         <div className='odds'>
                             { depositAmount > 0 ? <div>New odds of winning:</div> : <div>Odds of winning:</div>}
                             

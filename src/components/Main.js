@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AppContext from '../ContextAPI';
 import Router from '../Router';
-import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS, CONTROLLED_TOKEN_ADDRESS } from '../constants/contracts';
+import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts';
 import {BigNumber} from 'ethers';
 import {getUtcTimestamp} from './../helpers/date';
 
