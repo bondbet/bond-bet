@@ -3,9 +3,10 @@ import AppContext from '../../ContextAPI';
 import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import validator from 'validator';
+import { ethers } from 'ethers';
 
 const DepositComplete = () => {
-    const { ticketAmountRP, poolType, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
+    const { ticketsBalance, poolType, setNewTime, dateEnd, dateStart, setModalType } = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -45,7 +46,7 @@ const DepositComplete = () => {
             <div className='box-content'>
                 <div className='box-inner'>
                     <h1 className='modal-title'>Deposit Complete</h1>
-                    <h4 className='modal-description'>You got {ticketAmountRP} tickets</h4>
+                   {ticketsBalance ? <h4 className='modal-description'>You got total of {ethers.utils.formatEther(ticketsBalance)} tickets</h4> : null}
                     <p className='prize-will-be-awarded-in'>The prize will be awarded in:</p>
                     <Countdown countdown={countdown} />
                 </div>

@@ -4,9 +4,8 @@ import AppContext from '../../ContextAPI';
 
 const EtherscanLink = (props) => {
 
-    const {network} = useContext(AppContext);
-
-    const link = `https://${network ? network + '.': ""}etherscan.io/tx/${props.txId}`
+    const {connectedNetwork} = useContext(AppContext);
+    const link = `https://${connectedNetwork ? connectedNetwork + '.': ""}etherscan.io/tx/${props.txId}`
     return (
         <div>
             <a href={link}>See on Etherscan</a>

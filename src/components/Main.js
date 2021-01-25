@@ -1,75 +1,80 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import userEvent from '@testing-library/user-event';
 import AppContext from '../ContextAPI';
 import Router from '../Router';
-import { BARN_PRIZE_POOL_ADDRESS, CONTROLLED_TOKEN_ADDRESS } from '../constants/contracts';
+import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS, CONTROLLED_TOKEN_ADDRESS } from '../constants/contracts';
 import {BigNumber} from 'ethers';
+import {getUtcTimestamp} from './../helpers/date';
+
 import * as ethers from 'ethers';
 
 const Main = (props) => {
     
-    const dateStart = new Date("12/23/2020 12:00:00").getTime()
-	const dateEnd = new Date("01/30/2021 12:00:00").getTime();
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 	const [toggleSidebar, setToggleSidebar] = useState(false);
 	const [openModal, setOpenModal] = useState(false);
 	const [modalType, setModalType] = useState('');
     const [bondBalance, setBondBalance] = useState(0);
     const [bondAllowance, setBondAllowance] = useState(0);
-    const [getTicketsLoading, setGetTicketsLoading] = useState(false);
+    const [getTicketsLoading, setGetTicketsLoading] = useState(false); 
     const [getTicketsTxId, setGetTicketsTxId] = useState(false);
     const [ticketsBalance, setTicketsBalance] = useState(0);
-    
+    const [prizePeriodStartedAt, setPrizePeriodStartedAt] = useState(0);
+    const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
+    const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
+
     useEffect(async () => {
         if(props.bondTokenContract && props.connectedWalletAddress) {
-            console.log('tokens', ethers.utils.formatEther(await props.barnPrizePoolContract.liquidityCap()))
+            const bondTokenBalance = await props.bondTokenContract.balanceOf(props.connectedWalletAddress)
+            setBondBalance(bondTokenBalance);
 
-            setBondBalance(await props.bondTokenContract.balanceOf(props.connectedWalletAddress));
             const allowance = await props.bondTokenContract.allowance(props.connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
-            
-            console.log(await props.prizeStrategyContract)
-            setBondAllowance(BigNumber.from('0'));
+            setBondAllowance(allowance);
         } 
-        
+       if(props.bondTicketsContract && props.connectedWalletAddress) {
+           const bondTicketsBalance = await props.bondTicketsContract.balanceOf(props.connectedWalletAddress);
+           setTicketsBalance(bondTicketsBalance);
+       }
     }, [props.connectedWalletAddress, props.bondTokenContract, props.connectedNetwork])
 
+    useEffect(async () => {
+        if(props.prizeStrategyContract) {
+            setPrizePeriodEnds(await props.prizeStrategyContract.prizePeriodEndAt());
+            setPrizePeriodStartedAt(await props.prizeStrategyContract.prizePeriodStartedAt())
+            setPrizePoolRemainingSeconds(await props.prizeStrategyContract.prizePeriodRemainingSeconds())
+        }
+    }, [props.prizeStrategyContract])
+
     const allowBondHandler = useCallback(async ()=> {
-        try {
-            const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, Number.MAX_SAFE_INTEGER + '')
+
+            const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, BigNumber.from('1000000000000000000000000'))
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
-            await approveTx.wait()
-        } catch(e) {
-
-        }
-
-
-        // Set timeout to be removed
-        setTimeout(async () => {
+            await approveTx.wait();
             setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
             setGetTicketsLoading(false);
             setGetTicketsTxId('')
-        }, 2000);
 
     })
-    const setNewTime = useCallback((setCountdown) => { 
-        const currentTime = new Date().getTime();
-        const countdownDate = dateEnd;
+    const setNewTime = (setCountdown) => { 
+            const currentTime = getUtcTimestamp();
+            const countdownDate = prizePeriodEnds.toNumber();
+    
+           
+            let distanceToDateInMilliseconds = (countdownDate - currentTime) * 1000;
 
-        let distanceToDate = countdownDate - currentTime;
+            let daysLeft = Math.floor(distanceToDateInMilliseconds / (1000 * 60 * 60 * 24));
+            let hoursLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            let minutesLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
+            let secondsLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60)) / 1000);
+    
+            setCountdown({
+                days: daysLeft,
+                hours: hoursLeft,
+                minutes: minutesLeft,
+                seconds: secondsLeft,
+            });
 
-        let daysLeft = Math.floor(distanceToDate / (1000 * 60 * 60 * 24));
-        let hoursLeft = Math.floor((distanceToDate % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutesLeft = Math.floor((distanceToDate % (1000 * 60 * 60)) / (1000 * 60));
-        let secondsLeft = Math.floor((distanceToDate % (1000 * 60)) / 1000);
-
-        setCountdown({
-            days: daysLeft,
-            hours: hoursLeft,
-            minutes: minutesLeft,
-            seconds: secondsLeft,
-        });
-	},[]);
+	};
 	
 	useEffect(() => {
 		switch (window.location.pathname) {
@@ -85,15 +90,15 @@ const Main = (props) => {
 	}, [])
 
     const ticketDepositHandler = useCallback(async (ticketAmount) => {
-        const depositTx = await props.barnPrizePoolContract.depositTo(props.connectedWalletAddress, ethers.utils.parseEther(ticketAmount), CONTROLLED_TOKEN_ADDRESS, "0x0000000000000000000000000000000000000000");
         setModalType('CD')
+        const depositTx = await props.barnPrizePoolContract.depositTo(props.connectedWalletAddress, ethers.utils.parseEther(ticketAmount), BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
+        setGetTicketsLoading(true);
+        setGetTicketsTxId(depositTx.hash)
         const deposit = await depositTx.wait();
-     
-            setTimeout(() => {
-                setModalType('DC');
-                
-            }, 3000)
-
+        setTicketsBalance(ticketsBalance.add(BigNumber.from(ticketAmount + '')))
+        setGetTicketsLoading(false);
+        setGetTicketsTxId('');
+        setModalType('DC');
 
     })
     return (
@@ -107,14 +112,16 @@ const Main = (props) => {
                 disconnectWalletHandler: props.disconnectWalletHandler,
                 connected: props.connected,
 
+                ticketsBalance,
+                prizePoolRemainingSeconds,
                 ticketDepositHandler,
                 getTicketsLoading,
                 getTicketsTxId,
                 bondAllowance,
                 allowBondHandler,
                 bondBalance,
-                dateStart,
-				dateEnd,
+                prizePeriodStartedAt,
+				prizePeriodEnds,
 				selectedMenuItem,
 				setSelectedMenuItem,				
 				openModal,

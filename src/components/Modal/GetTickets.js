@@ -32,8 +32,8 @@ const GetTickets = () => {
     const [inputValid, setInputValid] = useState(false);
    
     useEffect(() => {
-        if(bondAllowance){
-            setTokenIsEnabledRP(bondAllowance.gt(0))
+        if(bondAllowance ){
+            setTokenIsEnabledRP(bondAllowance.gt(0) )
         }
     },[bondAllowance])
     const handleTicketInputChange = (value) => {
