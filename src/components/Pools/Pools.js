@@ -5,10 +5,10 @@ import RewardPool from './RewardPool/RewardPool';
 const Pools = () => {
     const { setNewTime, prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds} = useContext(AppContext);
     const [countdown, setCountdown] = useState({
-        days: 3,
-        hours: 3,
-        minutes:3 ,
-        seconds: 3,
+        days: 0,
+        hours: 0,
+        minutes:0 ,
+        seconds: 0,
     });
 	const [percentageTimePassed, setPercentageTimePassed] = useState();
 
