@@ -2,7 +2,6 @@ import React from 'react'
 
 const Countdown = ({countdown}) => {
     const numbersToAddZeroTo = [1, 2, 3, 4, 5, 6, 7, 8, 9];
-    
     return (
         <div className="pools-box-countdown">
             <div className="pools-box-countdown-cubes">

@@ -3,30 +3,38 @@ import AppContext from '../../ContextAPI';
 import RewardPool from './RewardPool/RewardPool';
 
 const Pools = () => {
-    const { setNewTime, dateEnd, dateStart } = useContext(AppContext);
+    const { setNewTime, prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds} = useContext(AppContext);
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
-        minutes: 0,
+        minutes:0 ,
         seconds: 0,
     });
 	const [percentageTimePassed, setPercentageTimePassed] = useState();
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setNewTime(setCountdown);
-        }, 1000);
+        if(prizePeriodEnds && prizePeriodStartedAt && prizePoolRemainingSeconds && prizePeriodEnds.gt(0) && prizePeriodStartedAt.gt(0)) {
+            const interval = setInterval(() => {
+                  setNewTime(setCountdown);
+            }, 1000);
+    
+            if (percentageTimePassed >= 100) {
+                clearInterval(interval);
+            } 
 
-        if (percentageTimePassed >= 100) {
-            clearInterval(interval);
+            const totalSeconds = prizePeriodEnds.sub(prizePeriodStartedAt)
+            const secondsPassed = totalSeconds.sub(prizePoolRemainingSeconds);
+        
+            setPercentageTimePassed(
+                Math.floor(secondsPassed.toNumber() / totalSeconds.toNumber() * 100)
+            );
+    
+            return () => {
+                clearInterval(interval);
+            };
         }
-
-        setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
+        
+    }, [countdown, percentageTimePassed, prizePeriodStartedAt, prizePeriodEnds, setNewTime]);
 
     return (
         <div className='lottery-pools-container'>

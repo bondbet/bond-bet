@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import walletIcon from '../../assets/images/wallet-sm.svg';
 import logo from '../../assets/images/onlyLogo.svg';
@@ -6,51 +6,59 @@ import closeIcon from '../../assets/images/close.svg';
 import minusIcon from '../../assets/images/minus.svg';
 import AppContext from '../../ContextAPI';
 import validator from 'validator';
+import * as ethers from 'ethers';
+import EtherscanLink from '../Shared/EtherscanLink';
+import { getProviderDescription } from 'web3modal';
+
+
+
 
 const GetTickets = () => {
     const {
+        bondAllowance,
+        allowBondHandler,
+        bondBalance,
         connected,
-        setModalType,
-        ticketAmountRP,
-		setTicketAmountRP,
-        tokenIsEnabledRP,
-		setTokenIsEnabledRP,
-        maxAmountSelected,
-        setMaxAmountSelected,
-        totalTicketAmountRP,
-		setTotalTicketAmountRP,
-
+        ticketDepositHandler,
+        getTicketsLoading,
+        getTicketsTxId,
+        totalTicketAmount,
+        ticketsBalance
     } = useContext(AppContext);
 
+	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
+	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
+	const [withdrawAmount, setWithdrawAmount] = useState('');
+    const [inputValid, setInputValid] = useState(false);
+    const [depositAmount, setDepositAmount] = useState(0);
 
-    const handleChange = (e) => {
-        if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
-            setTicketAmountRP(e.target.value)
+    useEffect(() => {
+        if(bondAllowance ){
+            setTokenIsEnabled(bondAllowance.gt(0) )
         }
+    },[bondAllowance])
+    const handleTicketInputChange = (value) => {
+        
+        if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
+            setDepositAmount(value);
+            const balanceInBigNumber = ethers.utils.parseEther(value || '0');
+            const hasEnoughBond = ethers.utils.parseEther(value || '0').lte(bondBalance);
+            setInputValid(balanceInBigNumber.gt('0') && hasEnoughBond);
+            if(hasEnoughBond) {
+                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(bondBalance)));
+            }
+        }
+    
     };
 
-    const handleContinue = () => {
-       ticketAmountRP ? setModalType('CW') : alert('Please enter ticket amount.')
+    const getOdds = () => {
+
+        const currentTotalTickets = +depositAmount + +ethers.utils.formatEther(totalTicketAmount);
+        const currentTicketsBalance = +depositAmount +  +ethers.utils.formatEther(ticketsBalance);
+
+        console.log(currentTotalTickets, currentTicketsBalance)
+        return ((currentTotalTickets ? currentTotalTickets : 1)/ (currentTicketsBalance ? currentTicketsBalance : 1)).toFixed(2);
     }
-
-    const handleDeposit = () => {
-    
-            if (ticketAmountRP) {
-                setModalType('CD')
-                setTimeout(() => {
-                    setModalType('DC');
-                    setTotalTicketAmountRP(Number(totalTicketAmountRP) + Number(ticketAmountRP))
-                }, 5000)
-            } else {
-                alert('Please enter ticket amount.')
-            }
-
-    }
-
-    const PLACEHOLDER_MAX_BONDS_IN_WALLET = 300;
-    const PLACEHOLDER_ODDS = 1;
-    const PLACEHOLDER_COMMON_ODDS = '1,232,233.23';
-
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Get Tickets' />
@@ -63,26 +71,24 @@ const GetTickets = () => {
                             <h1>
                                 <img src={logo} alt='App Logo' /> Bond
                             </h1>
-                            <h2>Enable token
+                            {getTicketsLoading ? <EtherscanLink txId={getTicketsTxId}> </EtherscanLink> : null }
+                            <h2>{ tokenIsEnabled ? 'Token enabled' : 'Enable token'}
                                 <input
-                                    checked={tokenIsEnabledRP}
-                                    onChange={() =>
-                                            setTokenIsEnabledRP(!tokenIsEnabledRP)
-                                            // setMaxAmountSelected(false), 
-                                            // setTicketAmountRP('')
-                                    }
+                                    checked={tokenIsEnabled}
+                                    onChange={allowBondHandler}
+                                    disabled={tokenIsEnabled}
                                     className='switch-checkbox'
                                     id={'switch-new'+'RP'}
                                     type='checkbox'
                                 />
                                 <label
-                                    style={{ background:  tokenIsEnabledRP && '#28D879' }}
+                                    style={{ background:  tokenIsEnabled  && '#28D879' }}
                                     className='switch-label'
                                     htmlFor={'switch-new'+"RP"}
                                 >
                                     <span className='switch-button'>
                                         {
-                                            (tokenIsEnabledRP ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />) 
+                                            (tokenIsEnabled ? <img src={minusIcon} alt='Minus' /> : <img src={closeIcon} alt='Close' />) 
                                         }
                                     </span>
                                 </label>
@@ -94,34 +100,44 @@ const GetTickets = () => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {`${PLACEHOLDER_MAX_BONDS_IN_WALLET} BOND`}
+                                    <img src={walletIcon} alt='Wallet' /> {`${ethers.utils.formatEther(bondBalance)} BOND`}
                                 </div>
                             }
                         </div>
                         <div className='ticket-amount-input'>
                             <input
                                 type='text'
-                                disabled={connected  && (tokenIsEnabledRP && !maxAmountSelected) && true }
-                                onChange={handleChange}
-                                value={ticketAmountRP}
+                                disabled={!(connected  && tokenIsEnabled ) }
+                                onChange={ (event) => {
+                                    if(event && event.target) {
+                                            handleTicketInputChange(event.target.value)                        
+                                    }
+                            
+                                }
+                                   
+                                }
+                                value={depositAmount}
                             />
                             {connected ?
-                                (tokenIsEnabledRP && !maxAmountSelected) && <button className='max-btn' onClick={() => { setTicketAmountRP(PLACEHOLDER_MAX_BONDS_IN_WALLET); setMaxAmountSelected(true) }}>MAX</button> : null
+                                (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { setDepositAmount(+ethers.utils.formatEther(bondBalance)); setInputValid(true); setMaxAmountSelected(true) }}>MAX</button> : null
                             }
                         </div>
                     </div>
-                    <div className='odds'>
-                        <div>New odds of winning:</div>
-                        <div>{PLACEHOLDER_ODDS} in {PLACEHOLDER_COMMON_ODDS}</div>
-                    </div>
+                    {
+                        totalTicketAmount !== undefined && ticketsBalance !== undefined ?  
+                        <div className='odds'>
+                            { depositAmount > 0 ? <div>New odds of winning:</div> : <div>Odds of winning:</div>}
+                            
+                            <div>1 in {getOdds()}</div>
+                        </div>
+                        : null
+                    }
+                   
                 </div>
             </div>
 
             <div className='continue-btn'>
-                {connected ?
-                    <button onClick={handleDeposit}>Deposit</button> :
-                    <button onClick={handleContinue}>Continue</button>
-                }
+                {<button onClick={() => ticketDepositHandler(depositAmount)} disabled={!inputValid}>Deposit</button>}
             </div>
         </div>
     )
