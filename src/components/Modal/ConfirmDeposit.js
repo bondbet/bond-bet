@@ -1,12 +1,11 @@
 import React, {useContext} from 'react';
 import AppContext from '../../ContextAPI';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
-import loading from '../../assets/images/loading.svg';
 import EtherscanLink from '../Shared/EtherscanLink';
 
 
 const ConfirmDeposit = () => {
-    const { ticketAmountRP, poolType , getTicketsTxId, getTicketsLoading} = useContext(AppContext);
+    const { ticketAmountRP , getTicketsTxId, getTicketsLoading} = useContext(AppContext);
 
     return (
         <div className='pools-box'>

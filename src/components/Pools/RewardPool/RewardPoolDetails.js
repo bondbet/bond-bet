@@ -13,9 +13,10 @@ import timeImg from '../../../assets/images/time.svg';
 import bigWalletImg from '../../../assets/images/wallet-lg.svg';
 import Table from '../../Table/Table';
 import * as ethers from 'ethers';
+import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 
 const RewardPoolDetails = () => {
-    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount } = useContext(AppContext);
+    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice } = useContext(AppContext);
     const history = useHistory();
 
     const PLACEHOLDER_PLAYERS = '3,045';
@@ -142,7 +143,7 @@ const RewardPoolDetails = () => {
                             </h1>
                             <div className='pools-box-screen required-changes'>
                                 <div className='pools-box-screen-inner'>
-                                    {`${ethers.utils.formatEther(totalTicketAmount)} bond`}
+                                    {`${formatEtherWithDecimals(currentWeekPrice, 2)} bond`}
                                 </div>
                             </div>
                         </div>

@@ -1,10 +1,12 @@
 import React, {useContext, useState, useEffect} from 'react'
+import * as ethers from 'ethers'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import logo from '../../assets/images/onlyLogo.svg';
 import diamond from '../../assets/images/diamond.svg';
 import { useHistory } from 'react-router-dom';
 import Table from '../Table/Table';
 import AppContext from '../../ContextAPI';
+import { formatEtherWithDecimals } from '../../helpers/format-utils';
 
 const MyAccount = () => {
     const history = useHistory();
@@ -13,38 +15,25 @@ const MyAccount = () => {
         setSelectedMenuItem,
         setOpenModal,
         setModalType,
-        setNewTime,
-        dateEnd,
-        dateStart,
-        totalTicketAmountRP,
+        totalTicketAmount,
+        ticketsBalance,
+        bondBalance,
+        countdown,
+        currentWeekPrice,
     } = useContext(AppContext);
-    const [countdown, setCountdown] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
-	const [percentageTimePassed, setPercentageTimePassed] = useState();
 
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setNewTime(setCountdown);
-        }, 1000);
+    const [odds, setOdds] = useState(1);
 
-        if (percentageTimePassed >= 100) {
-            clearInterval(interval);
+    useEffect(()=> {
+        if(totalTicketAmount && ticketsBalance) {
+            const odds = +ethers.utils.formatEther(totalTicketAmount) / +ethers.utils.formatEther(ticketsBalance);
+            setOdds(odds.toFixed(2))
         }
-
-        setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
-
+       
+    }, [totalTicketAmount, ticketsBalance])
     const withdraw = () => {
 
-            if (totalTicketAmountRP > 0) {
+            if (ticketsBalance > 0) {
                 setOpenModal(true);
                 setModalType('WD');
             } else {
@@ -53,11 +42,7 @@ const MyAccount = () => {
        
     }
 
-    const PLACEHOLDER_CURRENT_WEEK_PRIZE_BOND = 2000;
     const PLACEHOLDER_BOND = 13.48;
-    const PLACEHOLDER_ODDS = 1;
-    const PLACEHOLDER_COMMON_ODDS = '50,6443234';
-    const PLACEHOLDER_WINNERS = 3;
     const PLACEHOLDER_TIMES = 3;
 
     const PLACEHOLDER_DATA = React.useMemo(() => [
@@ -244,10 +229,10 @@ const MyAccount = () => {
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div><b>{totalTicketAmountRP} Tickets / BOND</b></div>
-                        <div>Current week prize <b>{`${PLACEHOLDER_CURRENT_WEEK_PRIZE_BOND} BOND`}</b></div>
-                        <div>Odds <b>{PLACEHOLDER_ODDS}</b> in <b>{PLACEHOLDER_COMMON_ODDS}</b></div>
-                        <div><b>{PLACEHOLDER_WINNERS}</b> winners</div>
+                        <div><b>{formatEtherWithDecimals(ticketsBalance)} Tickets /  {formatEtherWithDecimals(bondBalance)} BOND</b></div>
+                        <div>Current week prize <b>{`${currentWeekPrice ? formatEtherWithDecimals(currentWeekPrice, 2) : 0} BOND`}</b></div>
+                        <div>Odds <b>1</b> in <b>{odds}</b></div>
+                        <div><b>1</b> winners</div>
                         <div><b>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</b></div>
                     </div>
                 </div>

@@ -1,26 +1,32 @@
 import React, {useContext} from 'react'
 import AppContext from '../../ContextAPI';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
+import EtherscanLink from '../Shared/EtherscanLink';
 
 const ConfirmWithdraw = () => {
     const {
-        withdrawAmountRP,
-        poolType,
-        setModalType,
-        setWithdrawAmountRP,
+        withdrawLoading, withdrawTxId
     } = useContext(AppContext);
 
+    console.log(withdrawLoading, withdrawTxId)
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Confirm' />
             <div className='box-content'>
                 <div className='box-inner withdraw'>
-                    <h1 className='modal-title required-changes'>Confirm withdrawal of tickets</h1>
-                    <h4 className='modal-description withdraw'>Amount to be withdrawn: <b>{withdrawAmountRP} tickets/BOND</b></h4>
+                {!withdrawLoading ? <div>
+                    <h1 className='modal-title required-changes'>Confirm withdrawal in your wallet</h1>
                     <p className='modal-description-sm withdraw'>Withdrawing everything will make you ineligible to win</p>
+                    </div> :
+                    <div>
+
+                    <h4 className='modal-description'>Withdrawing...</h4>
+                    <EtherscanLink txId={withdrawTxId}> </EtherscanLink> 
+
+                    
                 </div>
-                <div className='view-leaderboard'>
-                    <button onClick={() => { setModalType('WDC'); setWithdrawAmountRP('')}}>Confirm withdrawal</button>
+                }
+               
                 </div>
             </div> 
         </div>
