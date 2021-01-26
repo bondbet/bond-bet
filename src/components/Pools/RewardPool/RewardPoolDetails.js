@@ -14,9 +14,10 @@ import bigWalletImg from '../../../assets/images/wallet-lg.svg';
 import Table from '../../Table/Table';
 import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
+import { formatToHumatReadableDate } from '../../../helpers/date';
 
 const RewardPoolDetails = () => {
-    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice } = useContext(AppContext);
+    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice, previousAwards } = useContext(AppContext);
     const history = useHistory();
 
     const PLACEHOLDER_PLAYERS = '3,045';
@@ -169,7 +170,7 @@ const RewardPoolDetails = () => {
                 <PoolBoxStats
                     winners="1"
                     players={PLACEHOLDER_PLAYERS}
-                    totalTickets={ethers.utils.formatEther(totalTicketAmount)}
+                    totalTickets={formatEtherWithDecimals(totalTicketAmount, 2)}
                 />
             </div>
 
@@ -198,12 +199,12 @@ const RewardPoolDetails = () => {
                                 <img src={presentImg} alt='Past 5 prizes' /> Past 5 prizes
                             </h1>
                             <div className='pools-box-screen required-changes'>
-                                {PLACEHOLDER_PAST_FIVE_PRIZES.map(item => {
+                                {previousAwards.slice().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map(item => {
                                     return (
-                                        <div key={item.id} className='past-prizes'>
-                                            <div>{item.date}</div>
+                                        <div key={item.timestamp} className='past-prizes'>
+                                            <div>{formatToHumatReadableDate(item.timestamp)}</div>
                                             <div></div>
-                                            <div>${item.prize}</div>
+                                            <div>{formatEtherWithDecimals(item.amount, 2)}</div>
                                         </div>
                                     )
                                 })}

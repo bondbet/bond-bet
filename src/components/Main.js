@@ -6,7 +6,7 @@ import {BigNumber} from 'ethers';
 import {getUtcTimestamp} from './../helpers/date';
 
 import * as ethers from 'ethers';
-import CountdownPercantageUpdater from './Shared/CountdownPercentageUpdater';
+import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
 
 const Main = (
@@ -39,18 +39,11 @@ const Main = (
     const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
     const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
     const [totalTicketAmount, setTotalTicketAmount] = useState(0);
-    const [countdown, setCountdown] = useState({
-        days: 0,
-        hours: 0,
-        minutes:0 ,
-        seconds: 0,
-    });
     const [percentageTimePassed, setPercentageTimePassed] = useState(0);
     const [currentWeekPrice, setCurrentWeekPrice] = useState(0)
+    const [previousAwards, setPreviousAwards] = useState([]);
 
-
-
-    useEffect(async () => {
+     useEffect(async () => {
         if(bondTokenContract && connectedWalletAddress) {
             const bondTokenBalance = await bondTokenContract.balanceOf(connectedWalletAddress)
             setBondBalance(bondTokenBalance);
@@ -78,12 +71,19 @@ const Main = (
             setTotalTicketAmount(await barnPrizePoolContract.accountedBalance())
             setCurrentWeekPrice(await barnPrizePoolContract.awardBalance());
             
-             const allEvents = await barnPrizePoolContract.queryFilter('Deposited');
-             const blocks = await getEventsTimestamps(allEvents);
-        
-                
-          
+             const allAwardEvents = await barnPrizePoolContract.queryFilter('Awarded');
+           
+             const timestamps = await getEventsTimestamps(allAwardEvents);   
+             const prizeDetails = allAwardEvents.map((award, index) => {
+                const prize = {};
+                prize.amount = award.args.amount;
+                prize.awardedTo = award.args.winner;
+                prize.timestamp = timestamps[index];
+                return prize;
+              });
+              console.log(prizeDetails)
 
+             setPreviousAwards(prizeDetails);
         }
     }, [barnPrizePoolContract])
     const allowBondHandler = useCallback(async ()=> {
@@ -97,26 +97,6 @@ const Main = (
             setGetTicketsTxId('')
 
     })
-    const setNewTime = (setCountdown) => { 
-            const currentTime = getUtcTimestamp();
-            const countdownDate = prizePeriodEnds.toNumber();
-    
-           
-            let distanceToDateInMilliseconds = (countdownDate - currentTime) * 1000;
-
-            let daysLeft = Math.floor(distanceToDateInMilliseconds / (1000 * 60 * 60 * 24));
-            let hoursLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutesLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-            let secondsLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60)) / 1000);
-    
-            setCountdown({
-                days: daysLeft,
-                hours: hoursLeft,
-                minutes: minutesLeft,
-                seconds: secondsLeft,
-            });
-
-    };
     
  
 	
@@ -158,7 +138,6 @@ const Main = (
         setTicketsBalance(ticketsBalance.sub(ethers.utils.parseEther(amount + '')));
         setBondBalance(bondBalance.add(ethers.utils.parseEther(amount + '')));
 
-        console.log('here')
         setWithdrawLoading(false);
         setWithdrawTxId('');
         setModalType('WDC');
@@ -174,12 +153,12 @@ const Main = (
                 disconnectWalletHandler,
                 connected,
 
+
+                previousAwards,
                 withdrawTxId,
                 withdrawLoading,
                 ticketWithdrawHandler,
                 currentWeekPrice,
-                countdown,
-                setCountdown,
                 percentageTimePassed,
                 setPercentageTimePassed,
                 totalTicketAmount,
@@ -199,7 +178,6 @@ const Main = (
 				setOpenModal,
 				modalType,
 				setModalType,
-				setNewTime,
 				toggleSidebar,
                 setToggleSidebar,
 			}}

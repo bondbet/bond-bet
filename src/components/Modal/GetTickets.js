@@ -8,8 +8,6 @@ import AppContext from '../../ContextAPI';
 import validator from 'validator';
 import * as ethers from 'ethers';
 import EtherscanLink from '../Shared/EtherscanLink';
-import { getProviderDescription } from 'web3modal';
-
 
 
 
