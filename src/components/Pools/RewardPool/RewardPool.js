@@ -9,7 +9,6 @@ import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 const RewardPool = () => {
     const { setOpenModal, setModalType, connected, connectWalletHandler , totalTicketAmount,percentageTimePassed} = useContext(AppContext);
     const history = useHistory();
-    console.log(percentageTimePassed)
 
     return (
         
