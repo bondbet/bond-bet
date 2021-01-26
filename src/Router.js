@@ -12,6 +12,7 @@ import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails'
 
 function Router({openModal}) {
     return (
+
         <Routes>
 			<Header />
 			<div className='app-wrapper'>
@@ -32,6 +33,7 @@ function Router({openModal}) {
 				<Modal />
 			}
 		</Routes>
+
     )
 }
 

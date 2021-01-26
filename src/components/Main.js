@@ -6,8 +6,23 @@ import {BigNumber} from 'ethers';
 import {getUtcTimestamp} from './../helpers/date';
 
 import * as ethers from 'ethers';
+import CountdownPercantageUpdater from './Shared/CountdownPercentageUpdater';
+import { getEventsTimestamps } from '../helpers/ethers';
 
-const Main = (props) => {
+const Main = (
+    {
+        connectedWalletAddress, 
+        connected, 
+        disconnectWalletHandler, 
+        connectedWalletName, 
+        bondTokenContract, 
+        provider, 
+        connectWalletHandler,
+        barnPrizePoolContract,
+        prizeStrategyContract,
+        connectedNetwork,
+        bondTicketsContract
+    }) => {
     
 	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
 	const [toggleSidebar, setToggleSidebar] = useState(false);
@@ -17,42 +32,63 @@ const Main = (props) => {
     const [bondAllowance, setBondAllowance] = useState(0);
     const [getTicketsLoading, setGetTicketsLoading] = useState(false); 
     const [getTicketsTxId, setGetTicketsTxId] = useState(false);
+    const [withdrawLoading, setWithdrawLoading] = useState(false); 
+    const [withdrawTxId, setWithdrawTxId] = useState(false);
     const [ticketsBalance, setTicketsBalance] = useState(0);
     const [prizePeriodStartedAt, setPrizePeriodStartedAt] = useState(0);
     const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
     const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
     const [totalTicketAmount, setTotalTicketAmount] = useState(0);
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes:0 ,
+        seconds: 0,
+    });
+    const [percentageTimePassed, setPercentageTimePassed] = useState(0);
+    const [currentWeekPrice, setCurrentWeekPrice] = useState(0)
+
+
 
     useEffect(async () => {
-        if(props.bondTokenContract && props.connectedWalletAddress) {
-            const bondTokenBalance = await props.bondTokenContract.balanceOf(props.connectedWalletAddress)
+        if(bondTokenContract && connectedWalletAddress) {
+            const bondTokenBalance = await bondTokenContract.balanceOf(connectedWalletAddress)
             setBondBalance(bondTokenBalance);
 
-            const allowance = await props.bondTokenContract.allowance(props.connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
+            const allowance = await bondTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
             setBondAllowance(allowance);
         } 
-       if(props.bondTicketsContract && props.connectedWalletAddress) {
-           const bondTicketsBalance = await props.bondTicketsContract.balanceOf(props.connectedWalletAddress);
+       if(bondTicketsContract && connectedWalletAddress) {
+           const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);
            setTicketsBalance(bondTicketsBalance);
        }
-    }, [props.connectedWalletAddress, props.bondTokenContract, props.connectedNetwork])
+    }, [connectedWalletAddress, bondTokenContract, connectedNetwork])
 
     useEffect(async () => {
-        if(props.prizeStrategyContract) {
-            setPrizePeriodEnds(await props.prizeStrategyContract.prizePeriodEndAt());
-            setPrizePeriodStartedAt(await props.prizeStrategyContract.prizePeriodStartedAt())
-            setPrizePoolRemainingSeconds(await props.prizeStrategyContract.prizePeriodRemainingSeconds())
+        if(prizeStrategyContract) {
+            setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
+            setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
+            setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
         }
-    }, [props.prizeStrategyContract])
+    }, [prizeStrategyContract])
 
     useEffect(async () => {
-        if(props.barnPrizePoolContract) {
-            setTotalTicketAmount(await props.barnPrizePoolContract.accountedBalance())
+        if(barnPrizePoolContract) {
+            
+            setTotalTicketAmount(await barnPrizePoolContract.accountedBalance())
+            setCurrentWeekPrice(await barnPrizePoolContract.awardBalance());
+            
+             const allEvents = await barnPrizePoolContract.queryFilter('Deposited');
+             const blocks = await getEventsTimestamps(allEvents);
+        
+                
+          
+
         }
-    }, [props.barnPrizePoolContract])
+    }, [barnPrizePoolContract])
     const allowBondHandler = useCallback(async ()=> {
 
-            const approveTx = await props.bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
+            const approveTx = await bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
             await approveTx.wait();
@@ -80,7 +116,9 @@ const Main = (props) => {
                 seconds: secondsLeft,
             });
 
-	};
+    };
+    
+ 
 	
 	useEffect(() => {
 		switch (window.location.pathname) {
@@ -97,27 +135,53 @@ const Main = (props) => {
 
     const ticketDepositHandler = useCallback(async (ticketAmount) => {
         setModalType('CD')
-        const depositTx = await props.barnPrizePoolContract.depositTo(props.connectedWalletAddress, ethers.utils.parseEther(ticketAmount), BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
+        const depositTx = await barnPrizePoolContract.depositTo(connectedWalletAddress, ethers.utils.parseEther(ticketAmount), BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
         setGetTicketsLoading(true);
         setGetTicketsTxId(depositTx.hash)
         const deposit = await depositTx.wait();
         setTicketsBalance(ticketsBalance.add(ethers.utils.parseEther(ticketAmount + '')))
+        setBondBalance(bondBalance.sub(ethers.utils.parseEther(ticketAmount + '')));
+
         setGetTicketsLoading(false);
         setGetTicketsTxId('');
         setModalType('DC');
 
     })
+
+    const ticketWithdrawHandler = useCallback(async (amount) => {
+        setModalType('CWD')
+        const withdrawTx = await barnPrizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, ethers.utils.parseEther(amount), BOND_TICKETS_CONTRACT_ADDRESS, 0)
+        setWithdrawLoading(true);
+        setWithdrawTxId(withdrawTx.hash);
+        
+        const withdraw = await withdrawTx.wait();
+        setTicketsBalance(ticketsBalance.sub(ethers.utils.parseEther(amount + '')));
+        setBondBalance(bondBalance.add(ethers.utils.parseEther(amount + '')));
+
+        console.log('here')
+        setWithdrawLoading(false);
+        setWithdrawTxId('');
+        setModalType('WDC');
+    })
     return (
 		<AppContext.Provider
 			value={{
-				provider: props.provider,
-				connectedNetwork: props.connectedNetwork,
-				connectedWalletAddress: props.connectedWalletAddress,
-				connectWalletHandler: props.connectWalletHandler,
-				connectedWalletName: props.connectedWalletName,
-                disconnectWalletHandler: props.disconnectWalletHandler,
-                connected: props.connected,
+				provider,
+				connectedNetwork,
+				connectedWalletAddress,
+				connectWalletHandler,
+				connectedWalletName,
+                disconnectWalletHandler,
+                connected,
 
+                withdrawTxId,
+                withdrawLoading,
+                ticketWithdrawHandler,
+                currentWeekPrice,
+                countdown,
+                setCountdown,
+                percentageTimePassed,
+                setPercentageTimePassed,
                 totalTicketAmount,
                 ticketsBalance,
                 prizePoolRemainingSeconds,
@@ -140,6 +204,7 @@ const Main = (props) => {
                 setToggleSidebar,
 			}}
 		>
+          <CountdownPercantageUpdater/>
 			<Router openModal={openModal} />
 		</AppContext.Provider>
     );

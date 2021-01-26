@@ -98,9 +98,7 @@ const App = () => {
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
 		setConnected(false);
-		setProvider(null)
-		await unsubscribeToProviderEvents(provider);
-		
+		setProvider(null)		
 		
 	});
 
@@ -138,15 +136,7 @@ const App = () => {
 		disconnectWalletHandler();
 	  }
 
-	const unsubscribeToProviderEvents = (provider) => {
-		if (!provider) {
-			return;
-		  }
 
-		  provider.off("accountsChanged", changedAccount);
-		  provider.off("networkChanged", () => networkChanged(provider));
-		  provider.off("disconnect", disconnect);
-	}
 	return (
 		<Main 
 			bondTicketsContract={bondTicketsContract}

@@ -12,39 +12,14 @@ import presentImg from '../../../assets/images/present.svg';
 import timeImg from '../../../assets/images/time.svg';
 import bigWalletImg from '../../../assets/images/wallet-lg.svg';
 import Table from '../../Table/Table';
+import * as ethers from 'ethers';
+import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 
 const RewardPoolDetails = () => {
-    const { setNewTime, dateEnd, dateStart, setSelectedMenuItem } = useContext(AppContext);
+    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice } = useContext(AppContext);
     const history = useHistory();
 
-    const [countdown, setCountdown] = useState({
-        days: 0,
-        hours: 0,
-        minutes: 0,
-        seconds: 0,
-    });
-    const [percentageTimePassed, setPercentageTimePassed] = useState();
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setNewTime(setCountdown);
-        }, 1000);
-
-        if (percentageTimePassed >= 100) {
-            clearInterval(interval);
-        } else {
-            setPercentageTimePassed(Math.floor(((new Date().getTime() - dateStart) / (dateEnd - dateStart)) * 100));
-        }
-
-
-        return () => {
-            clearInterval(interval);
-        };
-    }, [countdown, percentageTimePassed, dateStart, dateEnd, setNewTime]);
-
-    const PLACEHOLDER_BONDS = '13.48';
-    const PLACEHOLDER_WINNERS = '3';
     const PLACEHOLDER_PLAYERS = '3,045';
-    const PLACEHOLDER_TOTAL_TICKETS = '1,342,045';
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
     const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
     const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
@@ -168,7 +143,7 @@ const RewardPoolDetails = () => {
                             </h1>
                             <div className='pools-box-screen required-changes'>
                                 <div className='pools-box-screen-inner'>
-                                    {`${PLACEHOLDER_BONDS} bond`}
+                                    {`${formatEtherWithDecimals(currentWeekPrice, 2)} bond`}
                                 </div>
                             </div>
                         </div>
@@ -183,7 +158,7 @@ const RewardPoolDetails = () => {
                                 <img src={timeImg} alt='Time Left' /> Time Left
                             </h1>
                             <ProgressBar percentageTimePassed={percentageTimePassed} />
-                            <Countdown countdown={countdown} />
+                            <Countdown />
                         </div>
                     </div>
                 </div>
@@ -192,9 +167,9 @@ const RewardPoolDetails = () => {
             <div className='pools-box required-changes'>
                 <PoolBoxHeader title='Pool Information' />
                 <PoolBoxStats
-                    winners={PLACEHOLDER_WINNERS}
+                    winners="1"
                     players={PLACEHOLDER_PLAYERS}
-                    totalTickets={PLACEHOLDER_TOTAL_TICKETS}
+                    totalTickets={ethers.utils.formatEther(totalTicketAmount)}
                 />
             </div>
 

@@ -1,42 +1,34 @@
-import React, {useContext} from 'react'
+import React, {useContext, useState} from 'react'
 import AppContext from '../../ContextAPI';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import walletIcon from '../../assets/images/wallet-sm.svg';
 import validator from 'validator';
+import * as ethers from 'ethers';
 
 const Withdraw = () => {
     const {
         connected,
-        withdrawAmountRP,
-        setWithdrawAmountRP,
-        setModalType,
-        totalTicketAmountRP,
-        setTotalTicketAmountRP,
+        ticketWithdrawHandler,
+        ticketsBalance,
     } = useContext(AppContext);
 
-    const handleChange = (e) => {
-        if (e.target.value === '' || (validator.isNumeric(e.target.value) && !e.target.value.startsWith('0'))) {
-       
-                if (e.target.value <= totalTicketAmountRP) {
-                    setWithdrawAmountRP(e.target.value)
-                } else {
-                    alert('Max amount should be ' + totalTicketAmountRP)
-                }
-            
-        }
-    };
+    const [inputValid, setInputValid] = useState(false);
+    const [withdrawAmount, setWithdrawAmount] = useState('');
+	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
 
-    const handleContinue = () => {
-
-            if (withdrawAmountRP) {
-                setModalType('CWD')
-                setTotalTicketAmountRP(old => Number(old) - Number(withdrawAmountRP))
-
-            } else {
-                alert('Please enter ticket amount.')
-            }
+    const handleTicketInputChange = (value) => {
         
-    }
+        if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
+            setWithdrawAmount(value);
+            const balanceInBigNumber = ethers.utils.parseEther(value || '0');
+            const hasEnoughTickets = ethers.utils.parseEther(value || '0').lte(ticketsBalance);
+            setInputValid(balanceInBigNumber.gt('0') && hasEnoughTickets);
+            if(hasEnoughTickets) {
+                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(ticketsBalance)));
+            }
+        }
+    
+    };
 
     return (
         <div className='pools-box'>
@@ -50,27 +42,34 @@ const Withdraw = () => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {totalTicketAmountRP} Tickets/BOND
+                                    <img src={walletIcon} alt='Wallet' /> {ethers.utils.formatEther(ticketsBalance)} Tickets
                                 </div>
                             }
                         </div>
                         <div className='ticket-amount-input'>
                             <input
                                 type='text'
-                                onChange={handleChange}
-                                value={withdrawAmountRP}
+                                disabled={!(connected ) }
+                                onChange={ (event) => {
+                                    if(event && event.target) {
+                                            handleTicketInputChange(event.target.value)                        
+                                    }
+                            
+                                }}
+                                value={withdrawAmount}
+
                             />
                             {connected ?
-                                <button className='max-btn' onClick={() => setWithdrawAmountRP(totalTicketAmountRP) }>MAX</button>
-                                : null
+                                ( !maxAmountSelected) && <button className='max-btn' onClick={() => { setWithdrawAmount(+ethers.utils.formatEther(ticketsBalance)); setInputValid(true); setMaxAmountSelected(true) }}>MAX</button> : null
                             }
                         </div>
                     </div>
                 </div>
-                <div className='view-leaderboard'>
-                    <button onClick={handleContinue}>Continue</button>
-                </div>
+        
             </div> 
+            <div className='continue-btn'>
+                {<button onClick={() => ticketWithdrawHandler(withdrawAmount)} disabled={!inputValid}>Withdraw</button>}
+            </div>
         </div>
     )
 }

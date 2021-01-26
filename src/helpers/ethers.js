@@ -25,3 +25,7 @@ export function getContract(address, ABI, library, account) {
 
   return new Contract(address, ABI, getProviderOrSigner(library, account));
 }
+
+export function getEventsTimestamps(events) {
+  return Promise.all(events.map(x => x.getBlock())).then(x => x.map(block => block.timestamp))
+}

@@ -28,7 +28,6 @@ const GetTickets = () => {
 
 	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
-	const [withdrawAmount, setWithdrawAmount] = useState('');
     const [inputValid, setInputValid] = useState(false);
     const [depositAmount, setDepositAmount] = useState(0);
 
@@ -55,8 +54,6 @@ const GetTickets = () => {
 
         const currentTotalTickets = +depositAmount + +ethers.utils.formatEther(totalTicketAmount);
         const currentTicketsBalance = +depositAmount +  +ethers.utils.formatEther(ticketsBalance);
-
-        console.log(currentTotalTickets, currentTicketsBalance)
         return ((currentTotalTickets ? currentTotalTickets : 1)/ (currentTicketsBalance ? currentTicketsBalance : 1)).toFixed(2);
     }
     return (

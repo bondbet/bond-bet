@@ -9,7 +9,7 @@ import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
-import { capitalize } from '../../helpers/string-utils';
+import { capitalize } from '../../helpers/format-utils';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
