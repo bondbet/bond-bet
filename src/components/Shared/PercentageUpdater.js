@@ -9,12 +9,12 @@ const CountdownPercantageUpdater = () => {
 
 
     useEffect(() => {
-        console.log(prizePeriodEnds, prizePeriodStartedAt)
-        if(prizePeriodEnds && prizePeriodEnds.gt(0) && prizePeriodStartedAt) {
+        
+        if(prizePoolRemainingSeconds && prizePeriodEnds && prizePeriodEnds.gt(0) && prizePeriodStartedAt && prizePeriodStartedAt.gt(0)) {
 
             const totalSeconds = prizePeriodEnds.sub(prizePeriodStartedAt)
             const secondsPassed = totalSeconds.sub(prizePoolRemainingSeconds);
-        
+
             setPercentageTimePassed(
                 Math.floor(secondsPassed.toNumber() / totalSeconds.toNumber() * 100)
             );
@@ -22,7 +22,7 @@ const CountdownPercantageUpdater = () => {
      
         }
         
-    }, [prizePeriodEnds, prizePeriodStartedAt]);
+    }, [prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds]);
 
     return (null)
 };

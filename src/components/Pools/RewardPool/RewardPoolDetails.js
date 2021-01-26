@@ -12,7 +12,6 @@ import presentImg from '../../../assets/images/present.svg';
 import timeImg from '../../../assets/images/time.svg';
 import bigWalletImg from '../../../assets/images/wallet-lg.svg';
 import Table from '../../Table/Table';
-import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import { formatToHumatReadableDate } from '../../../helpers/date';
 
