@@ -3,7 +3,7 @@ import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
 
-const PoolBoxContent = ({title, bonds, percentageTimePassed, countdown}) => {
+const PoolBoxContent = ({title, bonds, percentageTimePassed}) => {
     return (
         <div className='pools-box-inner'>
             <h1 className='pools-box-inner-title'>
@@ -14,7 +14,7 @@ const PoolBoxContent = ({title, bonds, percentageTimePassed, countdown}) => {
                 <div className='pools-box-screen-inner'>{bonds}</div>
             </div>
             <ProgressBar percentageTimePassed={percentageTimePassed} />
-            <Countdown countdown={countdown} />
+            <Countdown />
         </div>
     )
 }

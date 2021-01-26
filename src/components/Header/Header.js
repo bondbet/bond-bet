@@ -9,7 +9,7 @@ import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
-import { capitalize } from '../../helpers/format-utils';
+import { capitalize, shortenEthereumAddress } from '../../helpers/format-utils';
 
 const Header = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -47,7 +47,7 @@ const Header = () => {
                     <button onClick={connectWalletHandler}>Connect wallet</button> :
                     <div className='connected'>
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
-                            <img src={prizeImg} alt='Prize' /> {connectedWalletAddress.substring(0,5) + "..." + connectedWalletAddress.substring(connectedWalletAddress.length - 6, connectedWalletAddress.length)}
+                            <img src={prizeImg} alt='Prize' /> {shortenEthereumAddress(connectedWalletAddress)}
                         </button>
                         {openDropdown && 
                             <div ref={ref} className='dropdown'>

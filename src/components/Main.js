@@ -2,70 +2,65 @@ import React, { useState, useEffect, useCallback } from 'react';
 import AppContext from '../ContextAPI';
 import Router from '../Router';
 import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts';
-import {BigNumber} from 'ethers';
-import {getUtcTimestamp} from './../helpers/date';
+import { BigNumber } from 'ethers';
+import { getUtcTimestamp } from './../helpers/date';
 
 import * as ethers from 'ethers';
-import CountdownPercantageUpdater from './Shared/CountdownPercentageUpdater';
+import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
 
 const Main = (
     {
-        connectedWalletAddress, 
-        connected, 
-        disconnectWalletHandler, 
-        connectedWalletName, 
-        bondTokenContract, 
-        provider, 
+        connectedWalletAddress,
+        connected,
+        disconnectWalletHandler,
+        connectedWalletName,
+        bondTokenContract,
+        provider,
         connectWalletHandler,
         barnPrizePoolContract,
         prizeStrategyContract,
         connectedNetwork,
         bondTicketsContract
     }) => {
-    
-	const [selectedMenuItem, setSelectedMenuItem] = useState(0);
-	const [toggleSidebar, setToggleSidebar] = useState(false);
-	const [openModal, setOpenModal] = useState(false);
-	const [modalType, setModalType] = useState('');
+
+    const [selectedMenuItem, setSelectedMenuItem] = useState(0);
+    const [toggleSidebar, setToggleSidebar] = useState(false);
+    const [openModal, setOpenModal] = useState(false);
+    const [modalType, setModalType] = useState('');
     const [bondBalance, setBondBalance] = useState(0);
     const [bondAllowance, setBondAllowance] = useState(0);
-    const [getTicketsLoading, setGetTicketsLoading] = useState(false); 
+    const [getTicketsLoading, setGetTicketsLoading] = useState(false);
     const [getTicketsTxId, setGetTicketsTxId] = useState(false);
-    const [withdrawLoading, setWithdrawLoading] = useState(false); 
+    const [withdrawLoading, setWithdrawLoading] = useState(false);
     const [withdrawTxId, setWithdrawTxId] = useState(false);
     const [ticketsBalance, setTicketsBalance] = useState(0);
     const [prizePeriodStartedAt, setPrizePeriodStartedAt] = useState(0);
     const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
     const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
     const [totalTicketAmount, setTotalTicketAmount] = useState(0);
-    const [countdown, setCountdown] = useState({
-        days: 0,
-        hours: 0,
-        minutes:0 ,
-        seconds: 0,
-    });
     const [percentageTimePassed, setPercentageTimePassed] = useState(0);
     const [currentWeekPrice, setCurrentWeekPrice] = useState(0)
-
-
+    const [previousAwards, setPreviousAwards] = useState([]);
+    const [allDeposits, setAllDeposits] = useState([]);
+    const [allWithdraws, setAllWithdraws] = useState([]);
 
     useEffect(async () => {
-        if(bondTokenContract && connectedWalletAddress) {
+        if (bondTokenContract && connectedWalletAddress) {
             const bondTokenBalance = await bondTokenContract.balanceOf(connectedWalletAddress)
             setBondBalance(bondTokenBalance);
 
             const allowance = await bondTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
             setBondAllowance(allowance);
-        } 
-       if(bondTicketsContract && connectedWalletAddress) {
-           const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);
-           setTicketsBalance(bondTicketsBalance);
-       }
+        }
+        if (bondTicketsContract && connectedWalletAddress) {
+            const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);
+            setTicketsBalance(bondTicketsBalance);
+        }
     }, [connectedWalletAddress, bondTokenContract, connectedNetwork])
 
     useEffect(async () => {
-        if(prizeStrategyContract) {
+        if (prizeStrategyContract) {
             setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
             setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
             setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
@@ -73,65 +68,72 @@ const Main = (
     }, [prizeStrategyContract])
 
     useEffect(async () => {
-        if(barnPrizePoolContract) {
-            
+        if (barnPrizePoolContract) {
+
             setTotalTicketAmount(await barnPrizePoolContract.accountedBalance())
             setCurrentWeekPrice(await barnPrizePoolContract.awardBalance());
-            
-             const allEvents = await barnPrizePoolContract.queryFilter('Deposited');
-             const blocks = await getEventsTimestamps(allEvents);
-        
-                
-          
 
+
+
+            const allDeposits = await barnPrizePoolContract.queryFilter('Deposited');
+
+            const depositTimestamps = await getEventsTimestamps(allDeposits);
+            const deposits = allDeposits.map((deposit, index) => ({
+                amount: deposit.args.amount,
+                address: deposit.args.to,
+                timestamp: depositTimestamps[index]
+            }))
+
+
+            const allWithdraws = await barnPrizePoolContract.queryFilter('InstantWithdrawal');
+            const withdrawTimestamps = await getEventsTimestamps(allWithdraws);
+            const withdraws = allWithdraws.map((withdraw, index) => ({
+                amount: withdraw.args.amount,
+                address: withdraw.args.from,
+                timestamp: withdrawTimestamps[index]
+            }))
+
+
+            const allAwardEvents = await barnPrizePoolContract.queryFilter('Awarded');
+
+            const awardTimestamps = await getEventsTimestamps(allAwardEvents);
+            const prizeDetails = allAwardEvents.map((award, index) => ({
+                amount: award.args.amount,
+                awardedTo: award.args.winner,
+                timestamp: awardTimestamps[index]
+            }));
+
+            setAllDeposits(deposits);
+            setAllWithdraws(withdraws)
+            setPreviousAwards(prizeDetails);
         }
-    }, [barnPrizePoolContract])
-    const allowBondHandler = useCallback(async ()=> {
+    }, [barnPrizePoolContract, connectedWalletAddress])
+    const allowBondHandler = useCallback(async () => {
 
-            const approveTx = await bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
-            setGetTicketsLoading(true);
-            setGetTicketsTxId(approveTx.hash);
-            await approveTx.wait();
-            setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
-            setGetTicketsLoading(false);
-            setGetTicketsTxId('')
+        const approveTx = await bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
+        setGetTicketsLoading(true);
+        setGetTicketsTxId(approveTx.hash);
+        await approveTx.wait();
+        setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
+        setGetTicketsLoading(false);
+        setGetTicketsTxId('')
 
     })
-    const setNewTime = (setCountdown) => { 
-            const currentTime = getUtcTimestamp();
-            const countdownDate = prizePeriodEnds.toNumber();
-    
-           
-            let distanceToDateInMilliseconds = (countdownDate - currentTime) * 1000;
 
-            let daysLeft = Math.floor(distanceToDateInMilliseconds / (1000 * 60 * 60 * 24));
-            let hoursLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutesLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60 * 60)) / (1000 * 60));
-            let secondsLeft = Math.floor((distanceToDateInMilliseconds % (1000 * 60)) / 1000);
-    
-            setCountdown({
-                days: daysLeft,
-                hours: hoursLeft,
-                minutes: minutesLeft,
-                seconds: secondsLeft,
-            });
 
-    };
-    
- 
-	
-	useEffect(() => {
-		switch (window.location.pathname) {
-			case '/my-account': 
-				setSelectedMenuItem(1);
-				break;
-			case '/leaderboard': 
-				setSelectedMenuItem(2);
-				break;
-			default: 
-				setSelectedMenuItem(0);
-		}
-	}, [])
+
+    useEffect(() => {
+        switch (window.location.pathname) {
+            case '/my-account':
+                setSelectedMenuItem(1);
+                break;
+            case '/leaderboard':
+                setSelectedMenuItem(2);
+                break;
+            default:
+                setSelectedMenuItem(0);
+        }
+    }, [])
 
     const ticketDepositHandler = useCallback(async (ticketAmount) => {
         setModalType('CD')
@@ -153,33 +155,34 @@ const Main = (
         const withdrawTx = await barnPrizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, ethers.utils.parseEther(amount), BOND_TICKETS_CONTRACT_ADDRESS, 0)
         setWithdrawLoading(true);
         setWithdrawTxId(withdrawTx.hash);
-        
+
         const withdraw = await withdrawTx.wait();
         setTicketsBalance(ticketsBalance.sub(ethers.utils.parseEther(amount + '')));
         setBondBalance(bondBalance.add(ethers.utils.parseEther(amount + '')));
 
-        console.log('here')
         setWithdrawLoading(false);
         setWithdrawTxId('');
         setModalType('WDC');
     })
     return (
-		<AppContext.Provider
-			value={{
-				provider,
-				connectedNetwork,
-				connectedWalletAddress,
-				connectWalletHandler,
-				connectedWalletName,
+        <AppContext.Provider
+            value={{
+                provider,
+                connectedNetwork,
+                connectedWalletAddress,
+                connectWalletHandler,
+                connectedWalletName,
                 disconnectWalletHandler,
                 connected,
 
+
+                allDeposits,
+                allWithdraws,
+                previousAwards,
                 withdrawTxId,
                 withdrawLoading,
                 ticketWithdrawHandler,
                 currentWeekPrice,
-                countdown,
-                setCountdown,
                 percentageTimePassed,
                 setPercentageTimePassed,
                 totalTicketAmount,
@@ -192,21 +195,20 @@ const Main = (
                 allowBondHandler,
                 bondBalance,
                 prizePeriodStartedAt,
-				prizePeriodEnds,
-				selectedMenuItem,
-				setSelectedMenuItem,				
-				openModal,
-				setOpenModal,
-				modalType,
-				setModalType,
-				setNewTime,
-				toggleSidebar,
+                prizePeriodEnds,
+                selectedMenuItem,
+                setSelectedMenuItem,
+                openModal,
+                setOpenModal,
+                modalType,
+                setModalType,
+                toggleSidebar,
                 setToggleSidebar,
-			}}
-		>
-          <CountdownPercantageUpdater/>
-			<Router openModal={openModal} />
-		</AppContext.Provider>
+            }}
+        >
+            <CountdownPercantageUpdater />
+            <Router openModal={openModal} />
+        </AppContext.Provider>
     );
 }
 

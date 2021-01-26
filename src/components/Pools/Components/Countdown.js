@@ -1,9 +1,28 @@
-import React, { useContext } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import AppContext from '../../../ContextAPI';
+import { setNewTime } from '../../../helpers/countdown-setter';
 
 
 const Countdown = () => {
-    const {countdown} = useContext(AppContext);
+    const {prizePeriodEnds} = useContext(AppContext);
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes:0 ,
+        seconds: 0,
+    });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNewTime(setCountdown, prizePeriodEnds);
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [prizePeriodEnds])
+    
+
+
 
     const numbersToAddZeroTo = [1, 2, 3, 4, 5, 6, 7, 8, 9]; 
     return (

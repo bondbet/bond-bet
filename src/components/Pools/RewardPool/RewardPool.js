@@ -4,9 +4,10 @@ import PoolBoxHeader from '../Components/PoolBoxHeader';
 import PoolBoxContent from '../Components/PoolBoxContent';
 import AppContext from '../../../ContextAPI';
 import * as ethers from 'ethers';
+import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 
 const RewardPool = () => {
-    const { setOpenModal, setModalType, connected, connectWalletHandler , totalTicketAmount, countdown, percentageTimePassed} = useContext(AppContext);
+    const { setOpenModal, setModalType, connected, connectWalletHandler , totalTicketAmount,percentageTimePassed} = useContext(AppContext);
     const history = useHistory();
 
     return (
@@ -16,9 +17,8 @@ const RewardPool = () => {
                 <div className='pools-box-content'>
                     <PoolBoxContent
                         title='Community Reward Pool'
-                        bonds={`${ethers.utils.formatEther(totalTicketAmount)} bond`}
+                        bonds={`${formatEtherWithDecimals(totalTicketAmount, 2)} bond`}
                         percentageTimePassed={percentageTimePassed}
-                        countdown={countdown}
                     />
 
                     <div className='pools-box-buttons'>

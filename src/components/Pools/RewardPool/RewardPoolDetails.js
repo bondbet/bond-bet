@@ -12,97 +12,21 @@ import presentImg from '../../../assets/images/present.svg';
 import timeImg from '../../../assets/images/time.svg';
 import bigWalletImg from '../../../assets/images/wallet-lg.svg';
 import Table from '../../Table/Table';
-import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
+import { formatToHumatReadableDate } from '../../../helpers/date';
+import { BigNumber, ethers } from 'ethers';
 
 const RewardPoolDetails = () => {
-    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice } = useContext(AppContext);
+    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
     const history = useHistory();
 
-    const PLACEHOLDER_PLAYERS = '3,045';
+    const [playerData, setPlayerData] = useState([]);
+
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
     const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
     const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
-    const PLACEHOLDER_PAST_FIVE_PRIZES = [
-        {
-            id: 1,
-            date: 'Jan 1st',
-            prize: '3,196.90'
-        },
-        {
-            id: 2,
-            date: 'Jan 1st',
-            prize: '3,196.90'
-        },
-        {
-            id: 3,
-            date: 'Jan 1st',
-            prize: '3,196.90'
-        },
-        {
-            id: 4,
-            date: 'Jan 1st',
-            prize: '3,196.90'
-        },
-        {
-            id: 5,
-            date: 'Jan 1st',
-            prize: '3,196.90'
-        },
-    ];
 
-    const PLACEHOLDER_DATA = React.useMemo(() => [
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-        {
-            col1: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col2: '198,249.86',
-            col3: '1 in 2.87',
-        },
-    ], [])
+ 
 
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
@@ -121,6 +45,36 @@ const RewardPoolDetails = () => {
         },
     ], [history, setSelectedMenuItem])
 
+
+    useEffect(() => {
+        if(allWithdraws && allDeposits) {
+            const playerToCurrentTicketBalanceMap = new Map();
+
+         allWithdraws.forEach((withdraw) => {
+             if(!playerToCurrentTicketBalanceMap.has(withdraw.address)) {
+                playerToCurrentTicketBalanceMap.set(withdraw.address, BigNumber.from('0'));
+             }
+             playerToCurrentTicketBalanceMap.set(withdraw.address, playerToCurrentTicketBalanceMap.get(withdraw.address).sub(withdraw.amount))
+         })
+
+         allDeposits.forEach((deposit) => {
+            if(!playerToCurrentTicketBalanceMap.has(deposit.address)) {
+               playerToCurrentTicketBalanceMap.set(deposit.address,  BigNumber.from('0'));
+            }
+          
+            playerToCurrentTicketBalanceMap.set(deposit.address, playerToCurrentTicketBalanceMap.get(deposit.address).add(deposit.amount))
+        }) ;
+           
+        setPlayerData([...playerToCurrentTicketBalanceMap.keys()].map(x => ({
+            col1: x, 
+            col2: formatEtherWithDecimals(playerToCurrentTicketBalanceMap.get(x),2), 
+            col3: (+ethers.utils.formatEther(totalTicketAmount) / +ethers.utils.formatEther(playerToCurrentTicketBalanceMap.get(x))).toFixed(2)
+        })).sort((a,b) => +b.col2 - +a.col2)
+        )
+
+        }
+   
+    }, [allDeposits, allWithdraws])
     
     return (
         <div className='reward-pool-details-section'>
@@ -168,8 +122,8 @@ const RewardPoolDetails = () => {
                 <PoolBoxHeader title='Pool Information' />
                 <PoolBoxStats
                     winners="1"
-                    players={PLACEHOLDER_PLAYERS}
-                    totalTickets={ethers.utils.formatEther(totalTicketAmount)}
+                    players={playerData.length}
+                    totalTickets={formatEtherWithDecimals(totalTicketAmount, 2)}
                 />
             </div>
 
@@ -198,12 +152,12 @@ const RewardPoolDetails = () => {
                                 <img src={presentImg} alt='Past 5 prizes' /> Past 5 prizes
                             </h1>
                             <div className='pools-box-screen required-changes'>
-                                {PLACEHOLDER_PAST_FIVE_PRIZES.map(item => {
+                                {previousAwards.slice().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map(item => {
                                     return (
-                                        <div key={item.id} className='past-prizes'>
-                                            <div>{item.date}</div>
+                                        <div key={item.timestamp} className='past-prizes'>
+                                            <div>{formatToHumatReadableDate(item.timestamp)}</div>
                                             <div></div>
-                                            <div>${item.prize}</div>
+                                            <div>{formatEtherWithDecimals(item.amount, 2)}</div>
                                         </div>
                                     )
                                 })}
@@ -214,7 +168,7 @@ const RewardPoolDetails = () => {
             </div>
 
             <div className='players'>
-                <Table title='Players' data={PLACEHOLDER_DATA} columns={PLACEHOLDER_COLUMNS} pageSize={6} isLeaderboardTable={true} isAddress={true} />
+                <Table title='Players' data={playerData} columns={PLACEHOLDER_COLUMNS} pageSize={6} isLeaderboardTable={true} isAddress={true} />
             </div>
 
             <div className='pools-box'>

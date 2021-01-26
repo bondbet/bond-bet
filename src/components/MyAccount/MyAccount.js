@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 import Table from '../Table/Table';
 import AppContext from '../../ContextAPI';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
+import { setNewTime } from '../../helpers/countdown-setter';
 
 const MyAccount = () => {
     const history = useHistory();
@@ -18,11 +19,27 @@ const MyAccount = () => {
         totalTicketAmount,
         ticketsBalance,
         bondBalance,
-        countdown,
         currentWeekPrice,
+        prizePeriodEnds
     } = useContext(AppContext);
 
     const [odds, setOdds] = useState(1);
+
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes:0 ,
+        seconds: 0,
+    });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNewTime(setCountdown, prizePeriodEnds);
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [prizePeriodEnds])
 
     useEffect(()=> {
         if(totalTicketAmount && ticketsBalance) {
