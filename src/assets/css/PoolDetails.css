@@ -90,6 +90,7 @@
     font-style: normal;
     font-weight: normal;
     font-size: 18px;
+    margin-bottom: 15px;
 }
 
 .yield-source-title img {
@@ -126,7 +127,7 @@
 
 .yield-source .pools-box-screen,
 .past-five-prizes .pools-box-screen {
-    min-height: 84%;
+    height: calc(100% - 47px);
 }
 
 .players {
