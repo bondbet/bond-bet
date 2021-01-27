@@ -32,7 +32,6 @@ const Main = (
         setPrizePoolRemainingSeconds
     }) => {
 
-        console.log('mian')
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
     const [bondBalance, setBondBalance] = useState(0);
     const [bondAllowance, setBondAllowance] = useState(0);
@@ -69,7 +68,6 @@ const Main = (
 
             setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
             setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
-            console.log('about to set', await prizeStrategyContract.prizePeriodRemainingSeconds())
             setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
         }
     }, [prizeStrategyContract])
@@ -133,7 +131,6 @@ const Main = (
     })
     const updatePrizePoolDependantState = useCallback(async (barnPrizePoolContract) => {
         setTotalTicketAmount(await barnPrizePoolContract.accountedBalance())
-        console.log(await barnPrizePoolContract.owedReward())
         setCurrentWeekPrice(await barnPrizePoolContract.owedReward());
 
         updateDeposits(barnPrizePoolContract);

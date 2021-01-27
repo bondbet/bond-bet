@@ -8,10 +8,7 @@ import { ACTION_TYPE } from '../../store/action-type';
 const CountdownPercantageUpdater = ({setPercentageTimePassed,  prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds}) => {
 
     useEffect(() => {
-        console.log('in setter', prizePoolRemainingSeconds, prizePeriodStartedAt, prizePeriodEnds)
         if(prizePoolRemainingSeconds && prizePeriodEnds && prizePeriodEnds.gt(0) && prizePeriodStartedAt && prizePeriodStartedAt.gt(0)) {
-
-          console.log("DASDADADSDSSADSDASDSADS")
             const totalSeconds = prizePeriodEnds.sub(prizePeriodStartedAt)
             const secondsPassed = totalSeconds.sub(prizePoolRemainingSeconds);
 
