@@ -13,7 +13,6 @@ const LeaderBoard = () => {
     const [awardData, setAwardData ] = useState([]);
     useEffect(() => {
         if (previousAwards) {
-            console.log(2)
             setAwardData(previousAwards.slice().sort((a, b) => {
                 const greater = a.amount.gt(b.amount);
                 if(greater) {

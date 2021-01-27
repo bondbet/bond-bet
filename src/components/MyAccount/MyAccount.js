@@ -46,7 +46,6 @@ const MyAccount = () => {
     useEffect(()=> {
         if(previousAwards && connectedWalletAddress) {
             const userAwards = previousAwards.filter(x => x.awardedTo.toUpperCase() === connectedWalletAddress.toUpperCase());
-            console.log(userAwards)
             setNumberOfAwards(userAwards.length)
             setTotalAwards(
                 userAwards.reduce((acc, x) => acc + acc.add(x.amount), ethers.BigNumber.from('0'))
@@ -145,7 +144,7 @@ const MyAccount = () => {
                         <div><b>{formatEtherWithDecimals(ticketsBalance, 2)} Tickets /  {formatEtherWithDecimals(bondBalance, 2)} BOND</b></div>
                         <div>Current week prize <b>{`${currentWeekPrice ? formatEtherWithDecimals(currentWeekPrice, 2) : 0} BOND`}</b></div>
                         <div>Odds <b>1</b> in <b>{odds}</b></div>
-                        <div><b>{previousAwards.length}</b> winners</div>
+                        <div><b>1</b> winner</div>
                         <div><b>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</b></div>
                     </div>
                 </div>

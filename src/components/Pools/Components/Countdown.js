@@ -13,7 +13,6 @@ const Countdown = () => {
     });
 
     useEffect(() => {
-        console.log('in countdown prize period ends', prizePeriodEnds)
         const interval = setInterval(() => {
             setNewTime(setCountdown, prizePeriodEnds);
         }, 1000);

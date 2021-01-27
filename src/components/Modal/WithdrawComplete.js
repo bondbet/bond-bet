@@ -11,7 +11,6 @@ const WithdrawComplete = () => {
         ticketsBalance,
     } = useContext(AppContext);
     const history = useHistory();
-console.log('withdraw complete')
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Complete' />

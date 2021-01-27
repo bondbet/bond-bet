@@ -61,7 +61,7 @@ const Main = (
 
     useEffect(async () => {
         if (prizeStrategyContract) {
-            // await prizeStrategyContract.completeAward()
+            await prizeStrategyContract.completeAward()
             setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
             setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
             setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
