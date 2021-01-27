@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import AppContext from '../../../ContextAPI';
 import { setNewTime } from '../../../helpers/countdown-setter';
+import {connect} from 'react-redux';
 
 
-const Countdown = () => {
-    const {prizePeriodEnds} = useContext(AppContext);
+const Countdown = ({prizePeriodEnds})  => {
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
@@ -63,5 +63,7 @@ const Countdown = () => {
         </div>
     )
 }
+const mapStateToProps = ({prizePeriodEnds}) => ({prizePeriodEnds})
 
-export default Countdown
+
+export default connect(mapStateToProps)(Countdown);

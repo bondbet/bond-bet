@@ -27,6 +27,9 @@ const Main = (
         setGetTicketsLoading,
         setGetTicketsTxId,
         setModalType,
+        setPrizePeriodEnds,
+        setPrizePeriodStartedAt,
+        setPrizePoolRemainingSeconds
     }) => {
 
         console.log('mian')
@@ -36,9 +39,6 @@ const Main = (
     const [withdrawLoading, setWithdrawLoading] = useState(false);
     const [withdrawTxId, setWithdrawTxId] = useState(false);
     const [ticketsBalance, setTicketsBalance] = useState(0);
-    const [prizePeriodStartedAt, setPrizePeriodStartedAt] = useState(0);
-    const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
-    const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
 
     const [totalTicketAmount, setTotalTicketAmount] = useState(0);
     const [currentWeekPrice, setCurrentWeekPrice] = useState(0)
@@ -69,6 +69,7 @@ const Main = (
 
             setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
             setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
+            console.log('about to set', await prizeStrategyContract.prizePeriodRemainingSeconds())
             setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
         }
     }, [prizeStrategyContract])
@@ -240,13 +241,10 @@ const Main = (
                 currentWeekPrice,
                 totalTicketAmount,
                 ticketsBalance,
-                prizePoolRemainingSeconds,
                 ticketDepositHandler,
                 bondAllowance,
                 allowBondHandler,
                 bondBalance,
-                prizePeriodStartedAt,
-                prizePeriodEnds,
                 selectedMenuItem,
                 setSelectedMenuItem
             }}
@@ -261,6 +259,9 @@ const mapDispatchToProps = dispatch => ({
     setGetTicketsLoading: (value) => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
     setGetTicketsTxId: value => dispatch({type: ACTION_TYPE.GET_TICKETS_TX_ID, value}),
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
-    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
+    setPrizePeriodEnds: value => dispatch({type: ACTION_TYPE.PRIZE_PERIOD_ENDS, value}),
+    setPrizePeriodStartedAt: value => dispatch({type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value}),
+    setPrizePoolRemainingSeconds: value => dispatch({type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value}),
 })
 export default connect(null, mapDispatchToProps)(Main);

@@ -6,7 +6,7 @@ import ProgressBar from './ProgressBar';
 import {connect} from 'react-redux';
 
 
-const PoolBoxContent = ({title, bonds, percentageTimePassed}) => {
+const PoolBoxContent = ({title, bonds}) => {
 
     return (
         <div className='pools-box-inner'>
@@ -17,7 +17,7 @@ const PoolBoxContent = ({title, bonds, percentageTimePassed}) => {
             <div className='pools-box-screen'>
                 <div className='pools-box-screen-inner'>{bonds}</div>
             </div>
-            <ProgressBar percentageTimePassed={percentageTimePassed} />
+            <ProgressBar/>
             <Countdown />
         </div>
     )

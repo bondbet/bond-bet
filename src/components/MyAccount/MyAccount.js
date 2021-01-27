@@ -9,19 +9,18 @@ import AppContext from '../../ContextAPI';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
 import { setNewTime } from '../../helpers/countdown-setter';
 import { formatTimestampToTimeAgo } from '../../helpers/date';
+import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../store/action-type';
 
-const MyAccount = () => {
+const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds}) => {
     const history = useHistory();
 
     const {
         setSelectedMenuItem,
-        setOpenModal,
-        setModalType,
         totalTicketAmount,
         ticketsBalance,
         bondBalance,
         currentWeekPrice,
-        prizePeriodEnds,
         allDeposits,
         allWithdraws,
         connectedWalletAddress,
@@ -48,7 +47,7 @@ const MyAccount = () => {
             const userAwards = previousAwards.filter(x => x.awardedTo.toUpperCase() === connectedWalletAddress.toUpperCase());
             setNumberOfAwards(userAwards.length)
             setTotalAwards(
-                userAwards.reduce((acc, x) => acc + acc.add(x.amount), ethers.BigNumber.from('0'))
+                userAwards.reduce((acc, x) => acc.add(x.amount), ethers.BigNumber.from('0'))
             )
         }
     }, [previousAwards, connectedWalletAddress])
@@ -183,5 +182,12 @@ const MyAccount = () => {
         </div>
     )
 }
+const mapDispatchToProps = dispatch => ({
+    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+   setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
 
-export default MyAccount;
+})
+
+const mapStateToProps = ({prizePeriodEnds}) => ({prizePeriodEnds})
+
+export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);

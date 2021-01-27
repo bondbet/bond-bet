@@ -7,6 +7,10 @@ const initialState = {
     getTicketsTxId: '',
     openModal: false,
     modalType: '',
+    prizePeriodEnds: 0,
+    prizePeriodStartedAt:0,
+    prizePoolRemainingSeconds:0
+
 }
 
 const reducer = (state = initialState, action) => {
@@ -45,6 +49,24 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             modalType: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PRIZE_PERIOD_ENDS) {
+        return {
+            ...state,
+            prizePeriodEnds: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PRIZE_PERIOD_STARTED_AT) {
+        return {
+            ...state,
+            prizePeriodStartedAt: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS) {
+        return {
+            ...state,
+            prizePoolRemainingSeconds: action.value
         }
     }
     return state;
