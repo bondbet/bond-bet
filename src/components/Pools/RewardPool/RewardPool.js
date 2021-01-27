@@ -7,7 +7,7 @@ import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 
 const RewardPool = () => {
-    const { setOpenModal, setModalType, connected, connectWalletHandler , totalTicketAmount,percentageTimePassed} = useContext(AppContext);
+    const { setOpenModal, setModalType, connected, connectWalletHandler , totalTicketAmount} = useContext(AppContext);
     const history = useHistory();
 
     return (
@@ -18,7 +18,6 @@ const RewardPool = () => {
                     <PoolBoxContent
                         title='Community Reward Pool'
                         bonds={`${formatEtherWithDecimals(totalTicketAmount, 2)} bond`}
-                        percentageTimePassed={percentageTimePassed}
                     />
 
                     <div className='pools-box-buttons'>

@@ -10,7 +10,7 @@ import BarnBridgeToken from './constants/abis/BarnBridgeToken.json'
 import {getContract} from './helpers/ethers'
 import {BARN_PRIZE_POOL_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS} from './constants/contracts'
 import BarnPrizePool from './constants/abis/BarnPrizePool.json'
-import PrizeStrategy from './constants/abis/PeriodicPrizeStrategy.json';
+import MultipleWinners from './constants/abis/MultipleWinners.json';
 import ControlledToken from './constants/abis/ControlledToken.json';
 
 const App = () => {
@@ -43,6 +43,9 @@ const App = () => {
 
 	let firstInit = true;
 	const connectWalletHandler = useCallback(async () => {
+		try {
+
+	
 		if(!firstInit) {
 			web3Modal.clearCachedProvider();
 			
@@ -63,7 +66,7 @@ const App = () => {
 			const bondTokenAddress = await newBarnPrizePoolContract.token();
 		
 			const newBondTokenContract = getContract(bondTokenAddress, BarnBridgeToken.abi, library, address);
-			const newPrizeStrategyContract = getContract(PRIZE_STRATEGY_CONTRACT_ADDRESS, PrizeStrategy.abi, library, address);
+			const newPrizeStrategyContract = getContract(PRIZE_STRATEGY_CONTRACT_ADDRESS, MultipleWinners.abi, library, address);
 			const newBondTicketsContract = getContract(BOND_TICKETS_CONTRACT_ADDRESS, ControlledToken.abi, library, address);
 
 			setPrizeStrategyContract(newPrizeStrategyContract);
@@ -79,7 +82,9 @@ const App = () => {
 		setConnected(true);
 		setProvider(newProvider)
 		await subscribeToProviderEvents(newProvider);
-
+	}	catch(e) {
+		alert('Something went wrong when connecting the contracts. Please check your connected network.')
+	}
 	});
 
 	const disconnectWalletHandler = useCallback(async (provider) => {

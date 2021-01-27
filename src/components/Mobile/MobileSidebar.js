@@ -11,7 +11,7 @@ import AppContext from '../../ContextAPI';
 
 const MobileSidebar = () => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar } = useContext(AppContext)
+    const { connected, provider, setOpenModal, setModalType, toggleSidebar, connectWalletHandler, disconnectWalletHandler,setToggleSidebar } = useContext(AppContext)
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -52,11 +52,7 @@ const MobileSidebar = () => {
                     <div>
                         <div className='connect-wallet-mobile'>
                             {!connected ?
-                                <button onClick={() => {
-                                    setOpenModal(true);
-                                    setModalType('CW');
-                                    setToggleSidebar(!toggleSidebar)
-                                }}>Connect wallet</button> :
+                                <button onClick={connectWalletHandler}>Connect wallet</button> :
                                 <div className='connected'>
                                     <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                                         <img src={prizeImg} alt='Prize' /> {PLACEHOLDER_ACCOUNT.toLocaleLowerCase()}
@@ -82,7 +78,7 @@ const MobileSidebar = () => {
                                                 <div className='network'>{PLACEHOLDER_NETWORK}</div>
                                             </div>
                                             <div className='disconnect-button'>
-                                                <button onClick={() => { setOpenDropdown(!openDropdown); setConnected(false) }}>Disconnect</button>
+                                                <button onClick={() => { disconnectWalletHandler(provider) }}>Disconnect</button>
                                             </div>
                                         </div>
                                     }

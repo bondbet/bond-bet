@@ -3,6 +3,7 @@ import AppContext from '../../ContextAPI';
 import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import { ethers } from 'ethers';
+import { formatEtherWithDecimals } from '../../helpers/format-utils';
 
 const DepositComplete = () => {
     const { ticketsBalance } = useContext(AppContext);
@@ -15,7 +16,7 @@ const DepositComplete = () => {
                     <div className='box-content'>
                         <div className='box-inner'>
                             <h1 className='modal-title'>Deposit Complete</h1>
-                        {ticketsBalance ? <h4 className='modal-description'>You got total of {ethers.utils.formatEther(ticketsBalance)} tickets</h4> : null}
+                        {ticketsBalance ? <h4 className='modal-description'>You got total of {formatEtherWithDecimals(ticketsBalance, 2)} tickets</h4> : null}
                             <p className='prize-will-be-awarded-in'>The prize will be awarded in:</p>
                             <Countdown/>
                         </div>

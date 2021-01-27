@@ -1,3 +1,7 @@
+import TimeAgo from 'javascript-time-ago'
+import en from 'javascript-time-ago/locale/en'
+
+TimeAgo.addLocale(en)
 export const getUtcTimestamp = () => {
     let now = new Date;
     return Date.UTC(now.getUTCFullYear(),now.getUTCMonth(), now.getUTCDate() , 
@@ -17,4 +21,9 @@ let sec = a.getSeconds();
 let time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
 return time;
 }
-// } new Date(timestamp).toLocaleDateString()
+
+
+export const formatTimestampToTimeAgo = (timestamp) => {
+  const timeAgo = new TimeAgo('en-US')
+  return timeAgo.format(timestamp * 1000);
+}

@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
+import AppContext from '../../../ContextAPI';
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
 
-const PoolBoxContent = ({title, bonds, percentageTimePassed}) => {
+const PoolBoxContent = ({title, bonds}) => {
+    const { percentageTimePassed} = useContext(AppContext);
+
     return (
         <div className='pools-box-inner'>
             <h1 className='pools-box-inner-title'>

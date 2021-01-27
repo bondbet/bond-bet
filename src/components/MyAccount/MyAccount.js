@@ -8,6 +8,7 @@ import Table from '../Table/Table';
 import AppContext from '../../ContextAPI';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
 import { setNewTime } from '../../helpers/countdown-setter';
+import { formatTimestampToTimeAgo } from '../../helpers/date';
 
 const MyAccount = () => {
     const history = useHistory();
@@ -20,7 +21,12 @@ const MyAccount = () => {
         ticketsBalance,
         bondBalance,
         currentWeekPrice,
-        prizePeriodEnds
+        prizePeriodEnds,
+        allDeposits,
+        allWithdraws,
+        connectedWalletAddress,
+        previousAwards
+
     } = useContext(AppContext);
 
     const [odds, setOdds] = useState(1);
@@ -32,6 +38,39 @@ const MyAccount = () => {
         seconds: 0,
     });
 
+    const [userTxData, setUserTxData] = useState([]);
+
+    const [totalAwards, setTotalAwards] = useState(0);
+    const [numberOfAwards, setNumberOfAwards] = useState(0);
+
+    useEffect(()=> {
+        if(previousAwards && connectedWalletAddress) {
+            const userAwards = previousAwards.filter(x => x.awardedTo.toUpperCase() === connectedWalletAddress.toUpperCase());
+            console.log(userAwards)
+            setNumberOfAwards(userAwards.length)
+            setTotalAwards(
+                userAwards.reduce((acc, x) => acc + acc.add(x.amount), ethers.BigNumber.from('0'))
+            )
+        }
+    }, [previousAwards, connectedWalletAddress])
+    useEffect(() => {
+
+        if(allDeposits && allWithdraws) {
+            const allUserTxs = [
+                ...allDeposits.filter(x => x.address.toLowerCase() === connectedWalletAddress.toLowerCase()),
+                ...allWithdraws.filter(x => x.address.toLowerCase() === connectedWalletAddress.toLowerCase())
+            ].sort((a,b) => b.timestamp - a.timestamp)
+        
+            setUserTxData(
+                allUserTxs.map(x => ({
+                    col1: formatEtherWithDecimals(x.amount, 2),
+                    col2: x.hash,
+                    col3: formatTimestampToTimeAgo(x.timestamp),
+                    col4: x.type 
+                }))
+            )
+        }
+    }, [allDeposits, allWithdraws])
     useEffect(() => {
         const interval = setInterval(() => {
             setNewTime(setCountdown, prizePeriodEnds);
@@ -58,167 +97,24 @@ const MyAccount = () => {
             }
        
     }
-
-    const PLACEHOLDER_BOND = 13.48;
-    const PLACEHOLDER_TIMES = 3;
-
-    const PLACEHOLDER_DATA = React.useMemo(() => [
-        {
-            col1: 'DAO Staking Pool',
-            col2: '10',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: 'about 2 hours ago',
-            col5: 'Deposit',
-        },
-        {
-            col1: 'DAO Staking Pool',
-            col2: '5',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '3 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-        {
-            col1: 'Community Reward Pool',
-            col2: '43',
-            col3: '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8',
-            col4: '15 days ago',
-            col5: 'Withdraw',
-        },
-    ], [])
     
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
-            Header: 'Pool',
+            Header: 'Tickets / BOND',
             accessor: 'col1',
         },
         {
-            Header: 'Tickets / BOND',
-            accessor: 'col2',
-        },
-        {
             Header: 'TX Hash',
-            accessor: 'col3',
-            Cell: ({ row }) => (row.values.col3.substring(0,6) + '..' + row.values.col3.substring(row.values.col3.length - 4))
+            accessor: 'col2',
+            Cell: ({ row }) => (row.values.col2.substring(0,6) + '..' + row.values.col2.substring(row.values.col2.length - 4))
         },
         {
             Header: 'Time',
-            accessor: 'col4',
+            accessor: 'col3',
         },
         {
             Header: 'Type',
-            accessor: 'col5',
+            accessor: 'col4',
         },
     ], [])
 
@@ -246,10 +142,10 @@ const MyAccount = () => {
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div><b>{formatEtherWithDecimals(ticketsBalance)} Tickets /  {formatEtherWithDecimals(bondBalance)} BOND</b></div>
+                        <div><b>{formatEtherWithDecimals(ticketsBalance, 2)} Tickets /  {formatEtherWithDecimals(bondBalance, 2)} BOND</b></div>
                         <div>Current week prize <b>{`${currentWeekPrice ? formatEtherWithDecimals(currentWeekPrice, 2) : 0} BOND`}</b></div>
                         <div>Odds <b>1</b> in <b>{odds}</b></div>
-                        <div><b>1</b> winners</div>
+                        <div><b>{previousAwards.length}</b> winners</div>
                         <div><b>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</b></div>
                     </div>
                 </div>
@@ -262,7 +158,7 @@ const MyAccount = () => {
                         <div className='pools-box-content required-changes'>
                             <div className='pools-box-inner required-changes'>
                                 <div className='pools-box-screen required-changes'>
-                                    <div className='pools-box-screen-inner required-changes'>{`${PLACEHOLDER_BOND} bond`}</div>
+                                    <div className='pools-box-screen-inner required-changes'>{`${formatEtherWithDecimals(totalAwards, 2)} bond`}</div>
                                 </div>
                             </div>
                         </div>
@@ -274,7 +170,7 @@ const MyAccount = () => {
                         <div className='pools-box-content required-changes'>
                             <div className='pools-box-inner required-changes'>
                                 <div className='pools-box-screen required-changes'>
-                                    <div className='pools-box-screen-inner required-changes'>{`${PLACEHOLDER_TIMES} times`}</div>
+                                    <div className='pools-box-screen-inner required-changes'>{`${numberOfAwards} times`}</div>
                                 </div>
                             </div>
                         </div>
@@ -283,7 +179,7 @@ const MyAccount = () => {
             </div>
 
             <div className='transactions'>
-                <Table title='My Transactions' data={PLACEHOLDER_DATA} columns={PLACEHOLDER_COLUMNS} pageSize={4} />
+                <Table title='My Transactions' data={userTxData} columns={PLACEHOLDER_COLUMNS} pageSize={4} />
             </div>
         </div>
     )
