@@ -8,6 +8,8 @@ import { getUtcTimestamp } from './../helpers/date';
 import * as ethers from 'ethers';
 import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
+import { ACTION_TYPE } from '../store/action-type';
+import {connect} from 'react-redux';
 
 const Main = (
     {
@@ -21,29 +23,31 @@ const Main = (
         barnPrizePoolContract,
         prizeStrategyContract,
         connectedNetwork,
-        bondTicketsContract
+        bondTicketsContract,
+        setGetTicketsLoading,
+        setGetTicketsTxId,
+        setModalType,
     }) => {
 
+        console.log('mian')
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
-    const [toggleSidebar, setToggleSidebar] = useState(false);
-    const [openModal, setOpenModal] = useState(false);
-    const [modalType, setModalType] = useState('');
     const [bondBalance, setBondBalance] = useState(0);
     const [bondAllowance, setBondAllowance] = useState(0);
-    const [getTicketsLoading, setGetTicketsLoading] = useState(false);
-    const [getTicketsTxId, setGetTicketsTxId] = useState(false);
     const [withdrawLoading, setWithdrawLoading] = useState(false);
     const [withdrawTxId, setWithdrawTxId] = useState(false);
     const [ticketsBalance, setTicketsBalance] = useState(0);
     const [prizePeriodStartedAt, setPrizePeriodStartedAt] = useState(0);
     const [prizePeriodEnds, setPrizePeriodEnds] = useState(0);
     const [prizePoolRemainingSeconds, setPrizePoolRemainingSeconds] = useState(0);
+
     const [totalTicketAmount, setTotalTicketAmount] = useState(0);
-    const [percentageTimePassed, setPercentageTimePassed] = useState(0);
     const [currentWeekPrice, setCurrentWeekPrice] = useState(0)
     const [previousAwards, setPreviousAwards] = useState([]);
     const [allDeposits, setAllDeposits] = useState([]);
     const [allWithdraws, setAllWithdraws] = useState([]);
+
+
+
 
     useEffect(async () => {
         if (bondTokenContract && connectedWalletAddress) {
@@ -61,7 +65,8 @@ const Main = (
 
     useEffect(async () => {
         if (prizeStrategyContract) {
-            await prizeStrategyContract.completeAward()
+                        // await prizeStrategyContract.completeAward()
+
             setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
             setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
             setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
@@ -233,33 +238,29 @@ const Main = (
                 withdrawLoading,
                 ticketWithdrawHandler,
                 currentWeekPrice,
-                percentageTimePassed,
-                setPercentageTimePassed,
                 totalTicketAmount,
                 ticketsBalance,
                 prizePoolRemainingSeconds,
                 ticketDepositHandler,
-                getTicketsLoading,
-                getTicketsTxId,
                 bondAllowance,
                 allowBondHandler,
                 bondBalance,
                 prizePeriodStartedAt,
                 prizePeriodEnds,
                 selectedMenuItem,
-                setSelectedMenuItem,
-                openModal,
-                setOpenModal,
-                modalType,
-                setModalType,
-                toggleSidebar,
-                setToggleSidebar,
+                setSelectedMenuItem
             }}
         >
             <CountdownPercantageUpdater />
-            <Router openModal={openModal} />
+            <Router/>
         </AppContext.Provider>
     );
 }
 
-export default Main;
+const mapDispatchToProps = dispatch => ({
+    setGetTicketsLoading: (value) => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
+    setGetTicketsTxId: value => dispatch({type: ACTION_TYPE.GET_TICKETS_TX_ID, value}),
+    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+})
+export default connect(null, mapDispatchToProps)(Main);

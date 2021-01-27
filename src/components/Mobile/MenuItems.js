@@ -4,9 +4,10 @@ import poolsImg from '../../assets/images/pools.svg';
 import myAccountImg from '../../assets/images/my-account.svg';
 import leaderboardImg from '../../assets/images/leaderboard.svg';
 import AppContext from '../../ContextAPI';
+import {connect} from 'react-redux';
 
-const MenuItems = () => {
-    const { selectedMenuItem, setSelectedMenuItem, toggleSidebar, setToggleSidebar } = useContext(AppContext);
+const MenuItems = (props) => {
+    const { selectedMenuItem, setSelectedMenuItem} = useContext(AppContext);
     
     const menuItems = [
         {
@@ -31,7 +32,7 @@ const MenuItems = () => {
             {menuItems.map((menu, index) => {
                 return (
                     <li key={index}>
-                        <Link to={menu.path} className={selectedMenuItem === index ? 'active' : ''} onClick={() => { setSelectedMenuItem(index); toggleSidebar && setToggleSidebar(!toggleSidebar) }}>
+                        <Link to={menu.path} className={selectedMenuItem === index ? 'active' : ''} onClick={() => { setSelectedMenuItem(index); props.toggleSidebar && props.setToggleSidebar(!props.toggleSidebar) }}>
                             <img src={menu.icon} alt={menu.text} /> {menu.text}
                         </Link>
                     </li>
@@ -40,5 +41,10 @@ const MenuItems = () => {
         </>
     )
 }
-
-export default MenuItems
+const mapStateToProps = ({toggleSidebar}) => ({
+    toggleSidebar
+})
+const mapDispatchToProps = dispatch => ({
+    setToggleSidebar: (x) => dispatch({type: 'TOGGLE_SIDEBAR', value: x})
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MenuItems)

@@ -1,5 +1,7 @@
 import React from 'react'
 import inRoadImg from '../../../assets/images/in-road.svg';
+import {connect} from 'react-redux';
+
 
 const ProgressBar = ({percentageTimePassed}) => {
 
@@ -13,5 +15,8 @@ const ProgressBar = ({percentageTimePassed}) => {
         </div>
     )
 }
+const mapStateToProps = ({percentageTimePassed}) => ({
+    percentageTimePassed
+})
 
-export default ProgressBar
+export default connect(mapStateToProps)(ProgressBar)

@@ -1,11 +1,12 @@
 import React, {useEffect, useState, useContext} from 'react'
 import AppContext from '../../ContextAPI';
+import {connect} from 'react-redux';
 
 
 
-const CountdownPercantageUpdater = () => {
+const CountdownPercantageUpdater = ({setPercentageTimePassed}) => {
 
-    const { prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds, setPercentageTimePassed} = useContext(AppContext);
+    const { prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds} = useContext(AppContext);
 
 
     useEffect(() => {
@@ -26,4 +27,8 @@ const CountdownPercantageUpdater = () => {
 
     return (null)
 };
-export default CountdownPercantageUpdater;
+const mapDispatchToProps = (dispatch) => ({
+    setPercentageTimePassed: (value) => dispatch({type: 'PERCENTAGE_TIME_PASSED', value})
+})
+
+export default connect(null, mapDispatchToProps)(CountdownPercantageUpdater);

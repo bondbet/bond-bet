@@ -15,9 +15,10 @@ import Table from '../../Table/Table';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import { formatToHumatReadableDate } from '../../../helpers/date';
 import { BigNumber, ethers } from 'ethers';
+import {connect} from 'react-redux';
 
-const RewardPoolDetails = () => {
-    const {  percentageTimePassed, setSelectedMenuItem, totalTicketAmount, currentWeekPrice, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
+const RewardPoolDetails = ({percentageTimePassed}) => {
+    const { setSelectedMenuItem, totalTicketAmount, currentWeekPrice, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
     const history = useHistory();
 
     const [playerData, setPlayerData] = useState([]);
@@ -182,5 +183,8 @@ const RewardPoolDetails = () => {
         </div>
     )
 }
+const mapStateToProps = ({percentageTimePassed}) => ({
+    percentageTimePassed
+})
 
-export default RewardPoolDetails
+export default connect(mapStateToProps)(RewardPoolDetails)

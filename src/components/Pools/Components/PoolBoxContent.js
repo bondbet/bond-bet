@@ -3,9 +3,10 @@ import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import AppContext from '../../../ContextAPI';
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
+import {connect} from 'react-redux';
 
-const PoolBoxContent = ({title, bonds}) => {
-    const { percentageTimePassed} = useContext(AppContext);
+
+const PoolBoxContent = ({title, bonds, percentageTimePassed}) => {
 
     return (
         <div className='pools-box-inner'>
@@ -22,4 +23,8 @@ const PoolBoxContent = ({title, bonds}) => {
     )
 }
 
-export default PoolBoxContent
+const mapStateToProps = ({percentageTimePassed}) => ({
+    percentageTimePassed
+})
+
+export default connect(mapStateToProps)(PoolBoxContent)

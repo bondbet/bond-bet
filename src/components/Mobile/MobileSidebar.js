@@ -8,10 +8,12 @@ import statusImg from '../../assets/images/status.svg';
 import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import AppContext from '../../ContextAPI';
+import {connect} from 'react-redux';
 
-const MobileSidebar = () => {
+
+const MobileSidebar = (props) => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, provider, setOpenModal, setModalType, toggleSidebar, connectWalletHandler, disconnectWalletHandler,setToggleSidebar } = useContext(AppContext)
+    const { connected, provider, connectWalletHandler, disconnectWalletHandler} = useContext(AppContext)
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -44,7 +46,7 @@ const MobileSidebar = () => {
                         <img src={noLossLotteryImg} alt='No Loss Lottery' />
                         <h2>No Loss Lottery</h2>
                     </div>
-                    <button className='close-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
+                    <button className='close-sidebar' onClick={() => props.setToggleSidebar(!props.toggleSidebar)}>
                         <img src={closeIcon} alt='Close Sidebar Icon' />
                     </button>
                 </div>
@@ -98,5 +100,10 @@ const MobileSidebar = () => {
         </div>
     )
 }
-
-export default MobileSidebar
+const mapStateToProps = ({toggleSidebar}) => ({
+    toggleSidebar
+})
+const mapDispatchToProps = dispatch => ({
+    setToggleSidebar: (x) => dispatch({type: 'TOGGLE_SIDEBAR', value: x})
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MobileSidebar)

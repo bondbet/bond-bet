@@ -4,9 +4,11 @@ import prizeAwardedImg from '../../assets/images/prize-awarded.svg'
 import youWonImg from '../../assets/images/you-won.svg'
 import { useHistory } from 'react-router-dom'
 import AppContext from '../../ContextAPI'
+import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../store/action-type'
 
-const PrizeAwarded = () => {
-    const { setSelectedMenuItem, setOpenModal } = useContext(AppContext);
+const PrizeAwarded = ({setOpenModal}) => {
+    const { setSelectedMenuItem } = useContext(AppContext);
     const history = useHistory();
 
     const PLACEHOLDER_WINNER = false;
@@ -59,5 +61,7 @@ const PrizeAwarded = () => {
         </div>
     )
 }
-
-export default PrizeAwarded
+const mapDispatchToProps = dispatch => ({
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+})
+export default connect(null, mapDispatchToProps)(PrizeAwarded)

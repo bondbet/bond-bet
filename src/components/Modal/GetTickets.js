@@ -8,18 +8,17 @@ import AppContext from '../../ContextAPI';
 import validator from 'validator';
 import * as ethers from 'ethers';
 import EtherscanLink from '../Shared/EtherscanLink';
+import {connect} from 'react-redux'
 
 
 
-const GetTickets = () => {
+const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
     const {
         bondAllowance,
         allowBondHandler,
         bondBalance,
         connected,
         ticketDepositHandler,
-        getTicketsLoading,
-        getTicketsTxId,
         totalTicketAmount,
         ticketsBalance
     } = useContext(AppContext);
@@ -137,5 +136,6 @@ const GetTickets = () => {
         </div>
     )
 }
+const mapStateToProps = ({getTicketsLoading, getTicketsTxId}) => ({getTicketsLoading, getTicketsTxId})
 
-export default GetTickets
+export default connect(mapStateToProps)(GetTickets)
