@@ -11,11 +11,8 @@ const LeaderBoard = () => {
     const { setSelectedMenuItem, previousAwards } = useContext(AppContext);
 
     const [awardData, setAwardData ] = useState([]);
-
-    console.log(1)
     useEffect(() => {
         if (previousAwards) {
-            console.log(2)
             setAwardData(previousAwards.slice().sort((a, b) => {
                 const greater = a.amount.gt(b.amount);
                 if(greater) {

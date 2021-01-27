@@ -10,10 +10,11 @@ import networkImg from '../../assets/images/network.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
 import { capitalize, shortenEthereumAddress } from '../../helpers/format-utils';
+import {connect} from 'react-redux';
 
-const Header = () => {
+const Header = (props) => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, provider, connectedWalletName, toggleSidebar, setToggleSidebar, wallet, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
+    const { connected, provider, connectedWalletName, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -79,15 +80,20 @@ const Header = () => {
             </div>
 
             <div className='mobile-menu'>
-                <button className='open-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
+                <button className='open-sidebar' onClick={() => props.setToggleSidebar(!props.toggleSidebar)}>
                     <img src={hamburgerIcon} alt='Hamburger Icon' />
                 </button>
-                {toggleSidebar &&
+                {props.toggleSidebar &&
                     <MobileSidebar />
                 }
             </div>
         </header>
     )
 }
-
-export default Header;
+const mapStateToProps = ({toggleSidebar}) => ({
+    toggleSidebar
+})
+const mapDispatchToProps = dispatch => ({
+    setToggleSidebar: (x) => dispatch({type: 'TOGGLE_SIDEBAR', value: x})
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Header);

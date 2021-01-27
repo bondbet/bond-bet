@@ -8,7 +8,6 @@ const ConfirmWithdraw = () => {
         withdrawLoading, withdrawTxId
     } = useContext(AppContext);
 
-    console.log(withdrawLoading, withdrawTxId)
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Confirm' />

@@ -10,9 +10,12 @@ import GetTickets from './GetTickets';
 import PrizeAwarded from './PrizeAwarded';
 import Withdraw from './Withdraw';
 import WithdrawComplete from './WithdrawComplete';
+import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../store/action-type';
 
-const Modal = () => {
-    const { modalType, setModalType, openModal, setOpenModal, connected } = useContext(AppContext);
+
+const Modal = ({ modalType, setModalType, openModal, setOpenModal }) => {
+    const {connected } = useContext(AppContext);
 
     const backTo = () => {
         switch (modalType) {
@@ -84,5 +87,9 @@ const Modal = () => {
         </div>
     )
 }
-
-export default Modal
+const mapStateToProps =  ({ modalType, openModal }) => ({ modalType, openModal }) ;
+const mapDispatchToProps = dispatch => ({
+    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Modal)

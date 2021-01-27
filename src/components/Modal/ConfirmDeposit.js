@@ -2,10 +2,10 @@ import React, {useContext} from 'react';
 import AppContext from '../../ContextAPI';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import EtherscanLink from '../Shared/EtherscanLink';
+import {connect} from 'react-redux'
 
-
-const ConfirmDeposit = () => {
-    const { ticketAmountRP , getTicketsTxId, getTicketsLoading} = useContext(AppContext);
+const ConfirmDeposit = ({getTicketsLoading, getTicketsTxId}) => {
+    const { ticketAmountRP } = useContext(AppContext);
 
     return (
         <div className='pools-box'>
@@ -34,5 +34,5 @@ const ConfirmDeposit = () => {
         </div>
     )
 }
-
-export default ConfirmDeposit
+const mapStateToProps = ({getTicketsLoading, getTicketsTxId}) => ({getTicketsLoading, getTicketsTxId})
+export default connect(mapStateToProps)(ConfirmDeposit)

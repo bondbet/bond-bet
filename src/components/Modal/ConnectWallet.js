@@ -7,9 +7,11 @@ import trezor from '../../assets/images/trezor.svg';
 import coinbase from '../../assets/images/coinbase.svg';
 import portis from '../../assets/images/portis.svg';
 import AppContext from '../../ContextAPI';
+import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../store/action-type';
 
-const ConnectWallet = () => {
-    const { setOpenModal, setConnected } = useContext(AppContext);
+const ConnectWallet = ({setOpenModal}) => {
+    const { setConnected } = useContext(AppContext);
 
     return (
         <div className='pools-box'>
@@ -31,5 +33,7 @@ const ConnectWallet = () => {
         </div>
     )
 }
-
-export default ConnectWallet
+const mapDispatchToProps = dispatch => ({
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+})
+export default connect(null, mapDispatchToProps)(ConnectWallet)

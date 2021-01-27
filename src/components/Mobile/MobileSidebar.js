@@ -8,10 +8,12 @@ import statusImg from '../../assets/images/status.svg';
 import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import AppContext from '../../ContextAPI';
+import {connect} from 'react-redux';
 
-const MobileSidebar = () => {
+
+const MobileSidebar = (props) => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, setConnected, setOpenModal, setModalType, toggleSidebar, setToggleSidebar } = useContext(AppContext)
+    const { connected, provider, connectWalletHandler, disconnectWalletHandler} = useContext(AppContext)
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -44,7 +46,7 @@ const MobileSidebar = () => {
                         <img src={noLossLotteryImg} alt='No Loss Lottery' />
                         <h2>No Loss Lottery</h2>
                     </div>
-                    <button className='close-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
+                    <button className='close-sidebar' onClick={() => props.setToggleSidebar(!props.toggleSidebar)}>
                         <img src={closeIcon} alt='Close Sidebar Icon' />
                     </button>
                 </div>
@@ -52,11 +54,7 @@ const MobileSidebar = () => {
                     <div>
                         <div className='connect-wallet-mobile'>
                             {!connected ?
-                                <button onClick={() => {
-                                    setOpenModal(true);
-                                    setModalType('CW');
-                                    setToggleSidebar(!toggleSidebar)
-                                }}>Connect wallet</button> :
+                                <button onClick={connectWalletHandler}>Connect wallet</button> :
                                 <div className='connected'>
                                     <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                                         <img src={prizeImg} alt='Prize' /> {PLACEHOLDER_ACCOUNT.toLocaleLowerCase()}
@@ -82,7 +80,7 @@ const MobileSidebar = () => {
                                                 <div className='network'>{PLACEHOLDER_NETWORK}</div>
                                             </div>
                                             <div className='disconnect-button'>
-                                                <button onClick={() => { setOpenDropdown(!openDropdown); setConnected(false) }}>Disconnect</button>
+                                                <button onClick={() => { disconnectWalletHandler(provider) }}>Disconnect</button>
                                             </div>
                                         </div>
                                     }
@@ -102,5 +100,10 @@ const MobileSidebar = () => {
         </div>
     )
 }
-
-export default MobileSidebar
+const mapStateToProps = ({toggleSidebar}) => ({
+    toggleSidebar
+})
+const mapDispatchToProps = dispatch => ({
+    setToggleSidebar: (x) => dispatch({type: 'TOGGLE_SIDEBAR', value: x})
+})
+export default connect(mapStateToProps, mapDispatchToProps)(MobileSidebar)

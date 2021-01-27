@@ -5,9 +5,11 @@ import PoolBoxContent from '../Components/PoolBoxContent';
 import AppContext from '../../../ContextAPI';
 import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
+import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPool = () => {
-    const { setOpenModal, setModalType, connected, connectWalletHandler , totalTicketAmount,percentageTimePassed} = useContext(AppContext);
+const RewardPool = ({setOpenModal, setModalType}) => {
+    const { connected, connectWalletHandler , totalTicketAmount} = useContext(AppContext);
     const history = useHistory();
 
     return (
@@ -18,7 +20,6 @@ const RewardPool = () => {
                     <PoolBoxContent
                         title='Community Reward Pool'
                         bonds={`${formatEtherWithDecimals(totalTicketAmount, 2)} bond`}
-                        percentageTimePassed={percentageTimePassed}
                     />
 
                     <div className='pools-box-buttons'>
@@ -39,4 +40,9 @@ const RewardPool = () => {
     )
 }
 
-export default RewardPool
+const mapDispatchToProps = dispatch => ({
+    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+})
+
+export default connect(null, mapDispatchToProps)(RewardPool)

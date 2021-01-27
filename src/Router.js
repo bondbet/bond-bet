@@ -9,6 +9,7 @@ import Modal from './components/Modal/Modal';
 import RewardPoolPrizeDetails from './components/Pools/RewardPool/RewardPoolPrizeDetails'
 import RewardPoolPlayerDetails from './components/Pools/RewardPool/RewardPoolPlayerDetails'
 import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails'
+import {connect} from 'react-redux';
 
 function Router({openModal}) {
     return (
@@ -36,5 +37,5 @@ function Router({openModal}) {
 
     )
 }
-
-export default Router
+const mapStateToProps = ({openModal}) => ({openModal})
+export default connect(mapStateToProps)(Router)
