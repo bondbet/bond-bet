@@ -3,8 +3,6 @@ import AppContext from '../ContextAPI';
 import Router from '../Router';
 import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts';
 import { BigNumber } from 'ethers';
-import { getUtcTimestamp } from './../helpers/date';
-
 import * as ethers from 'ethers';
 import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
