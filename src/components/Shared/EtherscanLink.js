@@ -9,9 +9,9 @@ const EtherscanLink = (props) => {
     const link = `https://${connectedNetwork ? connectedNetwork + '.': ""}etherscan.io/tx/${props.txId}`
     return (
         <div className="etherscanContainer">
-
+                <img src={loading} alt='Loading...' className="etherscanImage"/><br></br><br></br>
               <a href={link} className='etherscanLink'>See on Etherscan</a>
-            <img src={loading} alt='Loading...' className="etherscanImage"/>
+           
         </div>
     )
 }
