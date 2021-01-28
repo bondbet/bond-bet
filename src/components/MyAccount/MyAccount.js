@@ -12,7 +12,7 @@ import { formatTimestampToTimeAgo } from '../../helpers/date';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
 
-const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds}) => {
+const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPrice}) => {
     const history = useHistory();
 
     const {
@@ -20,7 +20,6 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds}) => {
         totalTicketAmount,
         ticketsBalance,
         bondBalance,
-        currentWeekPrice,
         allDeposits,
         allWithdraws,
         connectedWalletAddress,
@@ -28,6 +27,7 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds}) => {
 
     } = useContext(AppContext);
 
+    console.log('my acc', currentWeekPrice)
     const [odds, setOdds] = useState(1);
 
     const [countdown, setCountdown] = useState({
@@ -182,12 +182,13 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds}) => {
         </div>
     )
 }
+const mapStateToProps = ({prizePeriodEnds, currentWeekPrice}) => ({prizePeriodEnds, currentWeekPrice})
+
 const mapDispatchToProps = dispatch => ({
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
 
 })
 
-const mapStateToProps = ({prizePeriodEnds}) => ({prizePeriodEnds})
 
 export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);

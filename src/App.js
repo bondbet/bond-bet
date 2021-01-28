@@ -12,6 +12,7 @@ import {BARN_PRIZE_POOL_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS, BOND_TICKETS_C
 import BarnPrizePool from './constants/abis/BarnPrizePool.json'
 import MultipleWinners from './constants/abis/MultipleWinners.json';
 import ControlledToken from './constants/abis/ControlledToken.json';
+import BarnFacetMock from './constants/abis/BarnFacetMock.json';
 
 const App = () => {
 	const [provider, setProvider] = useState(null);
@@ -24,6 +25,7 @@ const App = () => {
 	const [bondTokenContract, setBondTokenContract] = useState(null);
 	const [bondTicketsContract, setBondTicketsContrat] = useState(null);
 	const [prizeStrategyContract, setPrizeStrategyContract] = useState(null);
+	const [barnContract, setBarnContract] = useState(null);
 
 	const getNetwork = () => getChainData(chainId).network;
 
@@ -43,7 +45,7 @@ const App = () => {
 
 	let firstInit = true;
 	const connectWalletHandler = useCallback(async () => {
-		try {
+		// try {
 
 	
 		if(!firstInit) {
@@ -51,6 +53,7 @@ const App = () => {
 			
 		}
 		firstInit = false;
+
 		let newProvider =  await web3Modal.connect();
 
 		const library = new Web3Provider(newProvider);
@@ -68,7 +71,12 @@ const App = () => {
 			const newBondTokenContract = getContract(bondTokenAddress, BarnBridgeToken.abi, library, address);
 			const newPrizeStrategyContract = getContract(PRIZE_STRATEGY_CONTRACT_ADDRESS, MultipleWinners.abi, library, address);
 			const newBondTicketsContract = getContract(BOND_TICKETS_CONTRACT_ADDRESS, ControlledToken.abi, library, address);
+			const barnTokenAddress = await newBarnPrizePoolContract.barn();
 
+			const newBarnContract = getContract(barnTokenAddress, BarnFacetMock.abi, library, address);
+
+
+			setBarnContract(newBarnContract);
 			setPrizeStrategyContract(newPrizeStrategyContract);
 			setBarnPrizePoolContract(newBarnPrizePoolContract);
 			setBondTokenContract(newBondTokenContract);
@@ -82,9 +90,9 @@ const App = () => {
 		setConnected(true);
 		setProvider(newProvider)
 		await subscribeToProviderEvents(newProvider);
-	}	catch(e) {
-		alert('Something went wrong when connecting the contracts. Please check your connected network.')
-	}
+	// }	catch(e) {
+	// 	alert('Something went wrong when connecting the contracts. Please check your connected network.')
+	// }
 	});
 
 	const disconnectWalletHandler = useCallback(async (provider) => {
@@ -99,6 +107,7 @@ const App = () => {
 		setBondTokenContract(null);
 		setBondTicketsContrat(null);
 		setPrizeStrategyContract(null);
+		setBarnContract(null);
 		setConnectedWalletAddress("");
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
@@ -116,13 +125,18 @@ const App = () => {
 	}
 
 	const networkChanged = useCallback(async (provider) => {
-		const library = new Web3Provider(provider);
-		const network = await library.getNetwork();
-		const chainId = network.chainId;
-  
+		try{
+			const library = new Web3Provider(provider);
+			const network = await library.getNetwork();
+			const chainId = network.chainId;
+	  
+	
+			setChainId(chainId);
+			setConnectedNetwork(network.name);
+		} catch(e) {
+			alert('Smething went wrong when chaning network, please refresh')
+		}
 
-		setChainId(chainId);
-		setConnectedNetwork(network.name);
 	  });
 	const subscribeToProviderEvents = (provider) => {
 
@@ -155,6 +169,7 @@ const App = () => {
 			connected={connected}
 			disconnectWalletHandler={disconnectWalletHandler}
 			connectWalletHandler={connectWalletHandler}
+			barnContract={barnContract}
 		></Main>
 	)
 

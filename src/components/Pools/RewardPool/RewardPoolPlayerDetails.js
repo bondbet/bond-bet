@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import { useParams } from 'react-router-dom';
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import arrowToRight from '../../../assets/images/arrowToRight.svg';
@@ -9,19 +9,44 @@ import ticketImg from '../../../assets/images/ticket.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../../ContextAPI';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
+import {connect} from 'react-redux';
+import { setNewTime } from '../../../helpers/countdown-setter';
+import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 
-const RewardPoolPlayerDetails = () => {
+const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrize}) => {
     const { id } = useParams();
     const { setSelectedMenuItem } = useContext(AppContext);
 
-    const PLACEHOLDER_BONDS = 13.48;
-    const PLACEHOLDER_DAYS = '01';
-    const PLACEHOLDER_HOURS = '18';
-    const PLACEHOLDER_MINUTES = '55';
-    const PLACEHOLDER_SECONDS = '07';
-    const PLACEHOLDER_ODDS = 1;
-    const PLACEHOLDER_COMMON_ODDS = '3.12';
-    const PLACEHOLDER_TICKETS = '202,485';
+    const [chosenPlayerData, setChosenPlayerData] = useState({
+        ticketsBalance: 0,
+        odds: 1,
+        address: ''
+    });
+
+    const [countdown, setCountdown] = useState({
+        days: 0,
+        hours: 0,
+        minutes:0 ,
+        seconds: 0,
+    });
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setNewTime(setCountdown, prizePeriodEnds);
+        }, 1000);
+        return () => {
+            clearInterval(interval);
+        };
+    }, [prizePeriodEnds])
+    
+
+
+    useEffect(() => {
+        if(playerData) {
+            setChosenPlayerData(playerData.filter(x => x.address.toUpperCase() === id.toUpperCase())[0])
+     }
+    },[playerData])
+
 
     return (
         <div className='reward-pool-details-section'>
@@ -45,17 +70,17 @@ const RewardPoolPlayerDetails = () => {
                     <div className='player-info-box'>
                         <div>
                             <h3>
-                                <img src={presentImg} alt='Player' />Prize: <p className='player-info-box-value'> {`${PLACEHOLDER_BONDS} BOND in ${PLACEHOLDER_DAYS}d : ${PLACEHOLDER_HOURS}h : ${PLACEHOLDER_MINUTES}m : ${PLACEHOLDER_SECONDS}s`}</p>
+                                <img src={presentImg} alt='Player' />Prize: <p className='player-info-box-value'> {`${formatEtherWithDecimals(currentWeekPrize, 2)} BOND in ${countdown.days}d : ${countdown.hours}h : ${countdown.minutes}m : ${countdown.seconds}s`}</p>
                             </h3>
                         </div>
                         <div>
                             <h3>
-                                <img src={cupImg} alt='Player' />Winning odds: <p className='player-info-box-value'>{`${PLACEHOLDER_ODDS} in ${PLACEHOLDER_COMMON_ODDS}`}</p>
+                                <img src={cupImg} alt='Player' />Winning odds: <p className='player-info-box-value'>{`${1} in ${chosenPlayerData.odds}`}</p>
                             </h3>
                         </div>
                         <div>
                             <h3>
-                                <img src={ticketImg} alt='Player' />Player tickets: <p className='player-info-box-value'>{PLACEHOLDER_TICKETS}</p>
+                                <img src={ticketImg} alt='Player' />Player tickets: <p className='player-info-box-value'>{chosenPlayerData.ticketsBalance}</p>
                             </h3>
                         </div>
                     </div>
@@ -65,4 +90,7 @@ const RewardPoolPlayerDetails = () => {
     )
 }
 
-export default RewardPoolPlayerDetails
+const mapStateToProps = ({playerData, prizePeriodEnds, currentWeekPrize}) => 
+                        ({playerData, prizePeriodEnds, currentWeekPrize})
+
+export default connect(mapStateToProps)(RewardPoolPlayerDetails)
