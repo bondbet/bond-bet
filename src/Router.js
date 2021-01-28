@@ -20,12 +20,12 @@ function Router({openModal}) {
 				<Sidebar />
 				<div className='app-content'>
 					<Switch>
-						<Route exact path="/" component={() => <Pools />} />
-						<Route exact path="/my-account" component={() => <MyAccount />} />
-						<Route exact path="/leaderboard" component={() => <LeaderBoard />} />
-						<Route exact path="/community-reward-pool/details" component={() => <RewardPoolDetails />} />
-						<Route exact path="/community-reward-pool/prize/:id" component={() => <RewardPoolPrizeDetails />} />
-						<Route exact path="/community-reward-pool/player/:id" component={() => <RewardPoolPlayerDetails />} />
+						<Route exact path="/" component={() => <div>{document.title = 'Pools'}<Pools /></div>} />
+						<Route exact path="/my-account" component={() => <div>{document.title = 'My Account'}<MyAccount /></div>} />
+						<Route exact path="/leaderboard" component={() => <div>{document.title = 'Leaderboard'}<LeaderBoard /></div>} />
+						<Route exact path="/community-reward-pool/details" component={() => <div>{document.title = 'Community Reward Pool'}<RewardPoolDetails /></div>} />
+						<Route exact path="/community-reward-pool/prize/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPrizeDetails /></div>} />
+						<Route exact path="/community-reward-pool/player/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPlayerDetails /></div>} />
 						<Route path="*" component={() => <Redirect to='/' />} />
 					</Switch>
 				</div>
