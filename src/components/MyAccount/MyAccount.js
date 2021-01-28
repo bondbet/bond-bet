@@ -1,6 +1,6 @@
-import React, {useContext, useState, useEffect} from 'react'
-import * as ethers from 'ethers'
-import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
+import React, {useContext, useState, useEffect} from 'react';
+import * as ethers from 'ethers';
+import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import logo from '../../assets/images/onlyLogo.svg';
 import diamond from '../../assets/images/diamond.svg';
 import { useHistory } from 'react-router-dom';
@@ -27,7 +27,6 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
 
     } = useContext(AppContext);
 
-    console.log('my acc', currentWeekPrice)
     const [odds, setOdds] = useState(1);
 
     const [countdown, setCountdown] = useState({

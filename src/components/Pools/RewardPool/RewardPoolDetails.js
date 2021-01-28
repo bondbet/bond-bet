@@ -25,6 +25,7 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
     const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
     const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
+    console.log('my aasdasdascc', currentWeekPrice)
 
 
     useEffect(() => {
@@ -54,7 +55,7 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
 
 
     useEffect(() => {
-        if(allWithdraws && allDeposits) {
+        if(allWithdraws && allDeposits && previousAwards) {
             const playerToCurrentTicketBalanceMap = new Map();
 
          allWithdraws.forEach((withdraw) => {
@@ -71,17 +72,26 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
           
             playerToCurrentTicketBalanceMap.set(deposit.address, playerToCurrentTicketBalanceMap.get(deposit.address).add(deposit.amount))
         }) ;
-           
-        setPlayerData([...playerToCurrentTicketBalanceMap.keys()].map(x => ({
+        previousAwards.forEach((award) => {
+            if(!playerToCurrentTicketBalanceMap.has(award.awardedTo)) {
+               playerToCurrentTicketBalanceMap.set(award.awardedTo,  BigNumber.from('0'));
+            }
+          
+            playerToCurrentTicketBalanceMap.set(award.awardedTo, playerToCurrentTicketBalanceMap.get(award.awardedTo).add(award.amount))
+        }) ;
+
+        const playersWithMoreThanZeroTickets = [...playerToCurrentTicketBalanceMap.keys()].filter(x => playerToCurrentTicketBalanceMap.get(x).gt('0'))
+        setPlayerData(playersWithMoreThanZeroTickets.map(x => ({
             address: x, 
             ticketsBalance: formatEtherWithDecimals(playerToCurrentTicketBalanceMap.get(x),2), 
             odds: (+ethers.utils.formatEther(totalTicketAmount) / +ethers.utils.formatEther(playerToCurrentTicketBalanceMap.get(x))).toFixed(2)
         })).sort((a,b) => +b.ticketsBalance - +a.ticketsBalance)
         )
 
+
         }
    
-    }, [allDeposits, allWithdraws])
+    }, [allDeposits, allWithdraws, previousAwards])
     
     return (
         <div className='reward-pool-details-section'>

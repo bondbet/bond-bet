@@ -131,7 +131,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
             </div>
 
             <div className='continue-btn'>
-                {<button onClick={() => ticketDepositHandler(depositAmount)} disabled={!inputValid}>Deposit</button>}
+                {<button onClick={() => ticketDepositHandler(depositAmount, maxAmountSelected)} disabled={!inputValid}>Deposit</button>}
             </div>
         </div>
     )
