@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { ACTION_TYPE } from "./action-type";
 
 const initialState = {
@@ -9,11 +10,13 @@ const initialState = {
     modalType: '',
     prizePeriodEnds: 0,
     prizePeriodStartedAt:0,
-    prizePoolRemainingSeconds:0
-
+    prizePoolRemainingSeconds:0,
+    playerData: [],
+    currentWeekPrize: BigNumber.from('0')
 }
 
 const reducer = (state = initialState, action) => {
+  
     if(action.type === ACTION_TYPE.TOGGLE_SIDEBAR) {
         return {
             ...state,
@@ -24,6 +27,13 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             percentageTimePassed: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.CURRENT_WEEK_PRIZE) {
+        console.log(action)
+        return {
+            ...state,
+            currentWeekPrice: action.value
         }
     }
     if(action.type === ACTION_TYPE.GET_TICKETS_LOADING) {
@@ -60,6 +70,12 @@ const reducer = (state = initialState, action) => {
         return {
             ...state,
             prizePeriodStartedAt: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PLAYER_DATA) {
+        return {
+            ...state,
+            playerData: action.value
         }
     }
     if(action.type === ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS) {

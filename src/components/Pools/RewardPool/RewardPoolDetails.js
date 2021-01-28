@@ -16,33 +16,39 @@ import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import { formatToHumatReadableDate } from '../../../helpers/date';
 import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPoolDetails = ({percentageTimePassed}) => {
-    const { setSelectedMenuItem, totalTicketAmount, currentWeekPrice, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
+const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, currentWeekPrice}) => {
+    const { setSelectedMenuItem, totalTicketAmount, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
     const history = useHistory();
-
-    const [playerData, setPlayerData] = useState([]);
 
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
     const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
     const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
 
- 
+
+    useEffect(() => {
+        console.log(currentWeekPrice)
+    }, [currentWeekPrice])
 
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Address',
-            accessor: 'col1',
-            Cell: ({ row }) => (row.values.col1.substring(0,6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
+            accessor: 'address',
+            Cell: ({ row }) => (row.values.address.substring(0,6) + '..' + row.values.address.substring(row.values.address.length - 4))
         },
         {
             Header: 'Tickets',
-            accessor: 'col2',
+            accessor: 'ticketsBalance',
         },
         {
             Header: 'Odds',
             accessor: 'col3',
-            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
+            Cell: ({ row }) => 
+            (<div className='view-details'>{row.values.odds} 
+              <button 
+                    onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.address.toLowerCase()}`) }}>View player
+              </button></div> )
         },
     ], [history, setSelectedMenuItem])
 
@@ -67,10 +73,10 @@ const RewardPoolDetails = ({percentageTimePassed}) => {
         }) ;
            
         setPlayerData([...playerToCurrentTicketBalanceMap.keys()].map(x => ({
-            col1: x, 
-            col2: formatEtherWithDecimals(playerToCurrentTicketBalanceMap.get(x),2), 
-            col3: (+ethers.utils.formatEther(totalTicketAmount) / +ethers.utils.formatEther(playerToCurrentTicketBalanceMap.get(x))).toFixed(2)
-        })).sort((a,b) => +b.col2 - +a.col2)
+            address: x, 
+            ticketsBalance: formatEtherWithDecimals(playerToCurrentTicketBalanceMap.get(x),2), 
+            odds: (+ethers.utils.formatEther(totalTicketAmount) / +ethers.utils.formatEther(playerToCurrentTicketBalanceMap.get(x))).toFixed(2)
+        })).sort((a,b) => +b.ticketsBalance - +a.ticketsBalance)
         )
 
         }
@@ -97,9 +103,10 @@ const RewardPoolDetails = ({percentageTimePassed}) => {
                                 <img src={presentImg} alt='Current Week Prize' /> Current Week Prize
                             </h1>
                             <div className='pools-box-screen required-changes'>
-                                <div className='pools-box-screen-inner'>
+                                {currentWeekPrice ? <div className='pools-box-screen-inner'>
                                     {`${formatEtherWithDecimals(currentWeekPrice, 2)} bond`}
                                 </div>
+                                : null}
                             </div>
                         </div>
                     </div>
@@ -183,8 +190,9 @@ const RewardPoolDetails = ({percentageTimePassed}) => {
         </div>
     )
 }
-const mapStateToProps = ({percentageTimePassed}) => ({
-    percentageTimePassed
+const mapStateToProps = ({percentageTimePassed, playerData, currentWeekPrice}) => 
+                        ({percentageTimePassed, playerData, currentWeekPrice})
+const mapDispatchToProps = (dispatch) => ({
+    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, value})
 })
-
-export default connect(mapStateToProps)(RewardPoolDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolDetails)
