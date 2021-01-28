@@ -54,7 +54,6 @@ const Main = (
 
                 const allowance = await bondTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
                 setBondAllowance(allowance);
-                console.log(bondTokenBalance)
             }
             if (bondTicketsContract && connectedWalletAddress) {
                 const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);

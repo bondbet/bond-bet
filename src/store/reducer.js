@@ -30,7 +30,6 @@ const reducer = (state = initialState, action) => {
         }
     }
     if(action.type === ACTION_TYPE.CURRENT_WEEK_PRIZE) {
-        console.log(action)
         return {
             ...state,
             currentWeekPrice: action.value
