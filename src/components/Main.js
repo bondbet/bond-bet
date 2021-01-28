@@ -54,6 +54,7 @@ const Main = (
 
                 const allowance = await bondTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
                 setBondAllowance(allowance);
+                console.log(bondTokenBalance)
             }
             if (bondTicketsContract && connectedWalletAddress) {
                 const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);
@@ -62,7 +63,7 @@ const Main = (
         }  catch(e) {
             alert('Something went wrong.')
         }
-    }, [bondTokenContract, bondTicketsContract])
+    }, [bondTokenContract, bondTicketsContract, connectedWalletAddress, connectedNetwork])
 
     useEffect(async () => {
         if (prizeStrategyContract) {
