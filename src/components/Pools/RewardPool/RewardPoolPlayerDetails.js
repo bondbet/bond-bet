@@ -13,7 +13,7 @@ import {connect} from 'react-redux';
 import { setNewTime } from '../../../helpers/countdown-setter';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 
-const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrize}) => {
+const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrice}) => {
     const { id } = useParams();
     const { setSelectedMenuItem } = useContext(AppContext);
 
@@ -70,7 +70,7 @@ const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrize}
                     <div className='player-info-box'>
                         <div>
                             <h3>
-                                <img src={presentImg} alt='Player' />Prize: <p className='player-info-box-value'> {`${formatEtherWithDecimals(currentWeekPrize, 2)} BOND in ${countdown.days}d : ${countdown.hours}h : ${countdown.minutes}m : ${countdown.seconds}s`}</p>
+                                <img src={presentImg} alt='Player' />Prize: <p className='player-info-box-value'> {`${formatEtherWithDecimals(currentWeekPrice, 5)} BOND in ${countdown.days}d : ${countdown.hours}h : ${countdown.minutes}m : ${countdown.seconds}s`}</p>
                             </h3>
                         </div>
                         <div>
@@ -90,7 +90,7 @@ const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrize}
     )
 }
 
-const mapStateToProps = ({playerData, prizePeriodEnds, currentWeekPrize}) => 
-                        ({playerData, prizePeriodEnds, currentWeekPrize})
+const mapStateToProps = ({playerData, prizePeriodEnds, currentWeekPrice}) => 
+                        ({playerData, prizePeriodEnds, currentWeekPrice})
 
 export default connect(mapStateToProps)(RewardPoolPlayerDetails)
