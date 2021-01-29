@@ -164,6 +164,8 @@ const App = () => {
 			prizeStrategyContract={prizeStrategyContract}
 			barnPrizePoolContract={barnPrizePoolContract}
 			bondTokenContract={bondTokenContract}
+			barnContract={barnContract}
+			
 			provider={provider} 
 			connectedNetwork={connectedNetwork} 
 			connectedWalletAddress={connectedWalletAddress}
@@ -171,7 +173,7 @@ const App = () => {
 			connected={connected}
 			disconnectWalletHandler={disconnectWalletHandler}
 			connectWalletHandler={connectWalletHandler}
-			barnContract={barnContract}
+	
 		></Main>
 	)
 

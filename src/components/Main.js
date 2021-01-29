@@ -273,7 +273,7 @@ const Main = (
 }
 
 const mapDispatchToProps = dispatch => ({
-    setGetTicketsLoading: (value) => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
+    setGetTicketsLoading: value => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
     setGetTicketsTxId: value => dispatch({type: ACTION_TYPE.GET_TICKETS_TX_ID, value}),
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),

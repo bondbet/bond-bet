@@ -9,11 +9,12 @@ import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import AppContext from '../../ContextAPI';
 import {connect} from 'react-redux';
+import { capitalize, shortenEthereumAddress } from '../../helpers/format-utils';
 
 
 const MobileSidebar = (props) => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, provider, connectWalletHandler, disconnectWalletHandler} = useContext(AppContext)
+    const { connected, provider, connectedWalletName, connectedNetwork, connectedWalletAddress, connectWalletHandler, disconnectWalletHandler} = useContext(AppContext)
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -31,12 +32,8 @@ const MobileSidebar = (props) => {
         };
     })
 
-    var PLACEHOLDER_ACCOUNT = '0X2117C37A65AD3C0489682386F7D81D4C6D08B3C8';
-    PLACEHOLDER_ACCOUNT = PLACEHOLDER_ACCOUNT.substring(0, 6) + '..' + PLACEHOLDER_ACCOUNT.substring(PLACEHOLDER_ACCOUNT.length - 4);
 
-    const PLACEHOLDER_STATUS = 'Connected';
-    const PLACEHOLDER_NETWORK = 'Mainnet';
-    const PLACEHOLDER_WALLET = 'MetaMask';
+
 
     return (
         <div className='sidebar-overlay'>
@@ -57,7 +54,7 @@ const MobileSidebar = (props) => {
                                 <button onClick={connectWalletHandler}>Connect wallet</button> :
                                 <div className='connected'>
                                     <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
-                                        <img src={prizeImg} alt='Prize' /> {PLACEHOLDER_ACCOUNT.toLocaleLowerCase()}
+                                        <img src={prizeImg} alt='Prize' /> {shortenEthereumAddress(connectedWalletAddress)}
                                     </button>
                                     {openDropdown && 
                                         <div ref={ref} className='dropdown'>
@@ -65,19 +62,19 @@ const MobileSidebar = (props) => {
                                                 <div className='dropdown-text'>
                                                     <img src={statusImg} alt='Status' /> Status
                                                 </div>
-                                                <div className='status'>{PLACEHOLDER_STATUS}</div>
+                                                <div className='status'>Connected</div>
                                             </div>
                                             <div className='dropdown-row'>
                                                 <div className='dropdown-text'>
                                                     <img src={walletImg} alt='Wallet' /> Wallet
                                                 </div>
-                                                <div className='wallet'>{PLACEHOLDER_WALLET}</div>
+                                                <div className='wallet'>{capitalize(connectedWalletName)}</div>
                                             </div>
                                             <div className='dropdown-row'>
                                                 <div className='dropdown-text'>
                                                     <img src={networkImg} alt='Network' /> Network
                                                 </div>
-                                                <div className='network'>{PLACEHOLDER_NETWORK}</div>
+                                                <div className='network'>{capitalize(connectedNetwork)}</div>
                                             </div>
                                             <div className='disconnect-button'>
                                                 <button onClick={() => { disconnectWalletHandler(provider) }}>Disconnect</button>
