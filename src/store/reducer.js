@@ -12,11 +12,47 @@ const initialState = {
     prizePeriodStartedAt:0,
     prizePoolRemainingSeconds:0,
     playerData: [],
-    currentWeekPrize: BigNumber.from('0')
+    currentWeekPrize: BigNumber.from('0'),
+    
+    prizePoolContract:null,
+	mainAssetTokenContract:null,
+	ticketsContract:null,
+	prizeStrategyContract:null,
+	mainAssetContract:null
 }
 
 const reducer = (state = initialState, action) => {
   
+    if(action.type === ACTION_TYPE.PRIZE_POOL_CONTRACT) {
+        return {
+            ...state,
+            prizePoolContract: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT) {
+        return {
+            ...state,
+            mainAssetTokenContract: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.TICKETS_CONTRACT) {
+        return {
+            ...state,
+            ticketsContract: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PRIZE_STRATEGY_CONTRACT) {
+        return {
+            ...state,
+            prizeStrategyContract: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.MAIN_ASSET_CONTRACT) {
+        return {
+            ...state,
+            mainAssetContract: action.value
+        }
+    }
     if(action.type === ACTION_TYPE.TOGGLE_SIDEBAR) {
         return {
             ...state,

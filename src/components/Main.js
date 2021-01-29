@@ -7,7 +7,7 @@ import * as ethers from 'ethers';
 import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
 import { ACTION_TYPE } from '../store/action-type';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 const Main = (
     {
@@ -15,21 +15,23 @@ const Main = (
         connected,
         disconnectWalletHandler,
         connectedWalletName,
-        bondTokenContract,
         provider,
         connectWalletHandler,
-        barnPrizePoolContract,
-        prizeStrategyContract,
         connectedNetwork,
-        bondTicketsContract,
+
         setGetTicketsLoading,
         setGetTicketsTxId,
         setModalType,
         setPrizePeriodEnds,
         setPrizePeriodStartedAt,
-        setPrizePoolRemainingSeconds, 
-        barnContract,
-        setCurrentWeekPrice
+        setPrizePoolRemainingSeconds,
+        setCurrentWeekPrice,
+
+        prizePoolContract,
+        mainAssetTokenContract,
+        ticketsContract,
+        prizeStrategyContract,
+        mainAssetContract
     }) => {
 
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
@@ -48,30 +50,31 @@ const Main = (
 
     useEffect(async () => {
         try {
-            if (bondTokenContract && connectedWalletAddress) {
-                const bondTokenBalance = await bondTokenContract.balanceOf(connectedWalletAddress)
+            if (mainAssetTokenContract && connectedWalletAddress) {
+                console.log('main ass', mainAssetContract)
+                const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
                 setBondBalance(bondTokenBalance);
 
-                const allowance = await bondTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
+                const allowance = await mainAssetTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
                 setBondAllowance(allowance);
             }
-            if (bondTicketsContract && connectedWalletAddress) {
-                const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);
+            if (ticketsContract && connectedWalletAddress) {
+                const bondTicketsBalance = await ticketsContract.balanceOf(connectedWalletAddress);
                 setTicketsBalance(bondTicketsBalance);
             }
-        }  catch(e) {
+        } catch (e) {
             alert('Something went wrong.')
         }
-    }, [bondTokenContract, bondTicketsContract, connectedWalletAddress, connectedNetwork])
+    }, [mainAssetTokenContract, ticketsContract, connectedWalletAddress, connectedNetwork])
 
     useEffect(async () => {
         if (prizeStrategyContract) {
             try {
-                // await prizeStrategyContract.startAward()
+                console.log('prize str', prizeStrategyContract)
                 setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
                 setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
                 setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
-            } catch(e) {
+            } catch (e) {
                 alert('Something went wrong.')
             }
 
@@ -79,33 +82,33 @@ const Main = (
     }, [prizeStrategyContract])
 
     useEffect(async () => {
-        if (barnPrizePoolContract) {
+        if (prizePoolContract) {
             try {
-                updatePrizePoolDependantState(barnPrizePoolContract);
-                subscribeToPrizePoolEvents(barnPrizePoolContract);
-            } catch(e) {
+                updatePrizePoolDependantState(prizePoolContract);
+                subscribeToPrizePoolEvents(prizePoolContract);
+            } catch (e) {
                 alert("Something went wrong.")
             }
 
         }
-    }, [barnPrizePoolContract, connectedWalletAddress]);
+    }, [prizePoolContract, connectedWalletAddress]);
 
 
     const allowBondHandler = useCallback(async () => {
 
         try {
-            const approveTx = await bondTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
+            const approveTx = await mainAssetTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
             await approveTx.wait();
             setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
-       
-        } catch(e) {
+
+        } catch (e) {
             alert('Something went wrong.')
         }
-       
+
 
     })
 
@@ -124,41 +127,42 @@ const Main = (
         }
     }, [])
 
-    const subscribeToPrizePoolEvents = useCallback(async (barnPrizePoolContract) => {
-        barnPrizePoolContract.on('Deposited', async () => {
-            updateDeposits(barnPrizePoolContract);
-            setTotalTicketAmount(await barnPrizePoolContract.accountedBalance())
+    const subscribeToPrizePoolEvents = useCallback(async (prizePoolContract) => {
+        prizePoolContract.on('Deposited', async () => {
+            updateDeposits(prizePoolContract);
+            setTotalTicketAmount(await prizePoolContract.accountedBalance())
 
         });
-        barnPrizePoolContract.on('InstantWithdrawal', async () => {
-            updateWithdraws(barnPrizePoolContract);
-            setTotalTicketAmount(await barnPrizePoolContract.accountedBalance())
+        prizePoolContract.on('InstantWithdrawal', async () => {
+            updateWithdraws(prizePoolContract);
+            setTotalTicketAmount(await prizePoolContract.accountedBalance())
 
         })
-        barnPrizePoolContract.on('Awarded', () => {
-            updateAwards(barnPrizePoolContract);
+        prizePoolContract.on('Awarded', () => {
+            updateAwards(prizePoolContract);
         })
     })
-    const updatePrizePoolDependantState = useCallback(async (barnPrizePoolContract) => {
-       
+    const updatePrizePoolDependantState = useCallback(async (prizePoolContract) => {
 
-        const totalTickets = await barnPrizePoolContract.accountedBalance();
-        const totalBalance = await barnContract.balanceOf(BARN_PRIZE_POOL_ADDRESS);
-        const owedAward = await barnPrizePoolContract.owedReward();
+
+        console.log('prize pool', prizePoolContract)
+        const totalTickets = await prizePoolContract.accountedBalance();
+        const totalBalance = await mainAssetContract.balanceOf(BARN_PRIZE_POOL_ADDRESS);
+        const owedAward = await prizePoolContract.owedReward();
 
         const currentWeekPrize = totalBalance.add(owedAward).sub(totalTickets);
-   
-        setTotalTicketAmount(totalTickets);
-            setCurrentWeekPrice(currentWeekPrize);
 
-        updateDeposits(barnPrizePoolContract);
-        updateWithdraws(barnPrizePoolContract);
-        updateAwards(barnPrizePoolContract);
+        setTotalTicketAmount(totalTickets);
+        setCurrentWeekPrice(currentWeekPrize);
+
+        updateDeposits(prizePoolContract);
+        updateWithdraws(prizePoolContract);
+        updateAwards(prizePoolContract);
 
 
     })
-    const updateDeposits = useCallback(async (barnPrizePoolContract) => {
-        const allDeposits = await barnPrizePoolContract.queryFilter('Deposited');
+    const updateDeposits = useCallback(async (prizePoolContract) => {
+        const allDeposits = await prizePoolContract.queryFilter('Deposited');
         const depositTimestamps = await getEventsTimestamps(allDeposits);
         const deposits = allDeposits.map((deposit, index) => ({
             amount: deposit.args.amount,
@@ -170,8 +174,8 @@ const Main = (
         setAllDeposits(deposits);
     });
 
-    const updateWithdraws = useCallback(async (barnPrizePoolContract) => {
-        const allWithdraws = await barnPrizePoolContract.queryFilter('InstantWithdrawal');
+    const updateWithdraws = useCallback(async (prizePoolContract) => {
+        const allWithdraws = await prizePoolContract.queryFilter('InstantWithdrawal');
         const withdrawTimestamps = await getEventsTimestamps(allWithdraws);
         const withdraws = allWithdraws.map((withdraw, index) => ({
             amount: withdraw.args.amount,
@@ -180,14 +184,14 @@ const Main = (
             hash: withdraw.transactionHash,
             type: 'Withdraw'
         }));
-         
+
         setAllWithdraws(withdraws)
 
     });
 
-    const updateAwards = useCallback(async (barnPrizePoolContract) => {
+    const updateAwards = useCallback(async (prizePoolContract) => {
 
-        const allAwardEvents = await barnPrizePoolContract.queryFilter('Awarded');
+        const allAwardEvents = await prizePoolContract.queryFilter('Awarded');
         const awardTimestamps = await getEventsTimestamps(allAwardEvents);
         const prizeDetails = allAwardEvents.map((award, index) => ({
             amount: award.args.amount,
@@ -200,30 +204,30 @@ const Main = (
         try {
             const depositAmount = maxAmountSelected ? bondBalance : ethers.utils.parseEther(ticketAmount);
             setModalType('CD')
-            const depositTx = await barnPrizePoolContract.depositTo(connectedWalletAddress, depositAmount, BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
+            const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
             setGetTicketsTxId(depositTx.hash)
             const deposit = await depositTx.wait();
             setTicketsBalance(ticketsBalance.add(depositAmount + ''))
             setBondBalance(bondBalance.sub(depositAmount + ''));
-    
+
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
             setModalType('DC');
-        }catch(e) {
+        } catch (e) {
             alert('Something went wrong.')
         }
-       
+
 
 
     })
 
     const ticketWithdrawHandler = useCallback(async (amount, maxAmountSelected) => {
-        try{
+        try {
             const withdrawAmount = maxAmountSelected ? ticketsBalance : ethers.utils.parseEther(amount);
 
             setModalType('CWD')
-            const withdrawTx = await barnPrizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, BOND_TICKETS_CONTRACT_ADDRESS, 0)
+            const withdrawTx = await prizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, BOND_TICKETS_CONTRACT_ADDRESS, 0)
             setWithdrawLoading(true);
             setWithdrawTxId(withdrawTx.hash);
 
@@ -234,7 +238,7 @@ const Main = (
             setWithdrawLoading(false);
             setWithdrawTxId('');
             setModalType('WDC');
-        }catch(e) {
+        } catch (e) {
             alert('Something went wrong.')
         }
     })
@@ -267,19 +271,33 @@ const Main = (
             }}
         >
             <CountdownPercantageUpdater />
-            <Router/>
+            <Router />
         </AppContext.Provider>
     );
 }
 
-const mapDispatchToProps = dispatch => ({
-    setGetTicketsLoading: value => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
-    setGetTicketsTxId: value => dispatch({type: ACTION_TYPE.GET_TICKETS_TX_ID, value}),
-    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
-    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
-    setPrizePeriodEnds: value => dispatch({type: ACTION_TYPE.PRIZE_PERIOD_ENDS, value}),
-    setPrizePeriodStartedAt: value => dispatch({type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value}),
-    setPrizePoolRemainingSeconds: value => dispatch({type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value}),
-    setCurrentWeekPrice: value => dispatch({type: ACTION_TYPE.CURRENT_WEEK_PRIZE, value}),
+const mapStateToProps = ({
+    prizePoolContract,
+    mainAssetTokenContract,
+    ticketsContract,
+    prizeStrategyContract,
+    mainAssetContract
+}) => ({
+    prizePoolContract,
+    mainAssetTokenContract,
+    ticketsContract,
+    prizeStrategyContract,
+    mainAssetContract
 })
-export default connect(null, mapDispatchToProps)(Main);
+
+const mapDispatchToProps = dispatch => ({
+    setGetTicketsLoading: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_LOADING, value }),
+    setGetTicketsTxId: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_TX_ID, value }),
+    setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value }),
+    setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value }),
+    setPrizePeriodEnds: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_ENDS, value }),
+    setPrizePeriodStartedAt: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value }),
+    setPrizePoolRemainingSeconds: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value }),
+    setCurrentWeekPrice: value => dispatch({ type: ACTION_TYPE.CURRENT_WEEK_PRIZE, value }),
+})
+export default connect(mapStateToProps, mapDispatchToProps)(Main);

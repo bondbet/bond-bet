@@ -13,8 +13,11 @@ import BarnPrizePool from './constants/abis/BarnPrizePool.json'
 import MultipleWinners from './constants/abis/MultipleWinners.json';
 import ControlledToken from './constants/abis/ControlledToken.json';
 import BarnFacetMock from './constants/abis/BarnFacetMock.json';
+import {connect} from 'react-redux';
+import { ACTION_TYPE } from './store/action-type';
 
-const App = () => {
+
+const App = ({setPrizePoolContract, setMainAssetTokenContract, setTicketsContract, setPrizeStrategyContract, setMainAssetContract}) => {
 	const [provider, setProvider] = useState(null);
 	const [connected, setConnected] = useState(false);
 	const [connectedNetwork, setConnectedNetwork] = useState('');
@@ -23,12 +26,7 @@ const App = () => {
 	const [chainId, setChainId] = useState(1);
 
 
-	const [barnPrizePoolContract, setBarnPrizePoolContract] = useState(null)
-	const [bondTokenContract, setBondTokenContract] = useState(null);
-	const [bondTicketsContract, setBondTicketsContrat] = useState(null);
-	const [prizeStrategyContract, setPrizeStrategyContract] = useState(null);
-	const [barnContract, setBarnContract] = useState(null);
-
+	
 	const getNetwork = () => getChainData(chainId).network;
 
 	const web3Modal = new Web3Modal({
@@ -78,11 +76,12 @@ const App = () => {
 			const newBarnContract = getContract(barnTokenAddress, BarnFacetMock.abi, library, address);
 
 
-			setBarnContract(newBarnContract);
+			
+			setMainAssetContract(newBarnContract);
 			setPrizeStrategyContract(newPrizeStrategyContract);
-			setBarnPrizePoolContract(newBarnPrizePoolContract);
-			setBondTokenContract(newBondTokenContract);
-			setBondTicketsContrat(newBondTicketsContract);
+			setPrizePoolContract(newBarnPrizePoolContract);
+			setMainAssetTokenContract(newBondTokenContract);
+			setTicketsContract(newBondTicketsContract);
 		}
 		
 
@@ -105,11 +104,11 @@ const App = () => {
 		localStorage.removeItem("walletconnect");
 
 
-		setBarnPrizePoolContract(null);
-		setBondTokenContract(null);
-		setBondTicketsContrat(null);
+		setPrizePoolContract(null);
+		setMainAssetTokenContract(null);
+		setTicketsContract(null);
 		setPrizeStrategyContract(null);
-		setBarnContract(null);
+		setMainAssetContract(null);
 		setConnectedWalletAddress("");
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
@@ -160,12 +159,6 @@ const App = () => {
 
 	return (
 		<Main 
-			bondTicketsContract={bondTicketsContract}
-			prizeStrategyContract={prizeStrategyContract}
-			barnPrizePoolContract={barnPrizePoolContract}
-			bondTokenContract={bondTokenContract}
-			barnContract={barnContract}
-			
 			provider={provider} 
 			connectedNetwork={connectedNetwork} 
 			connectedWalletAddress={connectedWalletAddress}
@@ -178,8 +171,14 @@ const App = () => {
 	)
 
 }
-
-export default App;
+const mapDispatchToProps = dispatch => ({
+	setPrizePoolContract: value => dispatch({type: ACTION_TYPE.PRIZE_POOL_CONTRACT, value}),
+	setMainAssetTokenContract: value => dispatch({type: ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT, value}),
+	setTicketsContract: value => dispatch({type: ACTION_TYPE.TICKETS_CONTRACT, value}),
+	setPrizeStrategyContract: value => dispatch({type: ACTION_TYPE.PRIZE_STRATEGY_CONTRACT, value}),
+	setMainAssetContract: value => dispatch({type: ACTION_TYPE.MAIN_ASSET_CONTRACT, value}),
+})
+export default connect(null, mapDispatchToProps)(App);
 
 
 
