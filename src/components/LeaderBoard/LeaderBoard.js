@@ -6,10 +6,11 @@ import AppContext from '../../ContextAPI'
 import { formatToHumatReadableDate } from '../../helpers/date'
 import { formatEtherWithDecimals, shortenEthereumAddress } from '../../helpers/format-utils'
 import {connect} from 'react-redux';
+import { ACTION_TYPE } from '../../store/action-type'
 
-const LeaderBoard = ({previousAwards}) => {
+const LeaderBoard = ({previousAwards, setSelectedMenuItem}) => {
     const history = useHistory();
-    const { setSelectedMenuItem } = useContext(AppContext);
+    const {  } = useContext(AppContext);
 
     const [awardData, setAwardData ] = useState([]);
     useEffect(() => {
@@ -64,6 +65,8 @@ const LeaderBoard = ({previousAwards}) => {
 }
 
 const mapStateToProps = ({previousAwards}) => ({previousAwards});
+const mapDispatchToProps = dispatch => ({
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
+})
 
-
-export default connect(mapStateToProps)(LeaderBoard);
+export default connect(mapStateToProps, mapDispatchToProps)(LeaderBoard);

@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import backIcon from '../../assets/images/arrowToLeft.svg';
 import closeIcon from '../../assets/images/close.svg';
-import AppContext from '../../ContextAPI';
 import ConfirmDeposit from './ConfirmDeposit';
 import ConfirmWithdraw from './ConfirmWithdraw';
 import ConnectWallet from './ConnectWallet';
@@ -14,8 +13,8 @@ import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
 
 
-const Modal = ({ modalType, setModalType, openModal, setOpenModal }) => {
-    const {connected } = useContext(AppContext);
+const Modal = ({ modalType, setModalType, openModal, setOpenModal, connected }) => {
+    
 
     const backTo = () => {
         switch (modalType) {
@@ -87,7 +86,7 @@ const Modal = ({ modalType, setModalType, openModal, setOpenModal }) => {
         </div>
     )
 }
-const mapStateToProps =  ({ modalType, openModal }) => ({ modalType, openModal }) ;
+const mapStateToProps =  ({ modalType, openModal, connected }) => ({ modalType, openModal, connected }) ;
 const mapDispatchToProps = dispatch => ({
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})

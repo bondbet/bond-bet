@@ -12,12 +12,9 @@ import {connect} from 'react-redux'
 
 
 
-const GetTickets = ({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticketsBalance}) => {
+const GetTickets = ({getTicketsLoading, mainTokenBalance, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketsBalance, connected}) => {
     const {
-        bondAllowance,
         allowBondHandler,
-        bondBalance,
-        connected,
         ticketDepositHandler,
     } = useContext(AppContext);
 
@@ -27,19 +24,19 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticke
     const [depositAmount, setDepositAmount] = useState('');
 
     useEffect(() => {
-        if(bondAllowance ){
-            setTokenIsEnabled(bondAllowance.gt(0) )
+        if(mainTokenAllowance ){
+            setTokenIsEnabled(mainTokenAllowance.gt(0) )
         }
-    },[bondAllowance])
+    },[mainTokenAllowance])
     const handleTicketInputChange = (value) => {
         
         if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
             setDepositAmount(value);
             const balanceInBigNumber = ethers.utils.parseEther(value || '0');
-            const hasEnoughBond = ethers.utils.parseEther(value || '0').lte(bondBalance);
+            const hasEnoughBond = ethers.utils.parseEther(value || '0').lte(mainTokenBalance);
             setInputValid(balanceInBigNumber.gt('0') && hasEnoughBond);
             if(hasEnoughBond) {
-                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(bondBalance)));
+                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(mainTokenBalance)));
             }
         }
     
@@ -92,7 +89,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticke
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {`${ethers.utils.formatEther(bondBalance)} BOND`}
+                                    <img src={walletIcon} alt='Wallet' /> {`${ethers.utils.formatEther(mainTokenBalance)} BOND`}
                                 </div>
                             }
                         </div>
@@ -110,10 +107,10 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticke
                                 }
                                 value={depositAmount}
                             />
-                            {connected && bondBalance.gt('0')?
+                            {connected && mainTokenBalance.gt('0')?
                                 (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { 
                                    
-                                        setDepositAmount(+ethers.utils.formatEther(bondBalance)); 
+                                        setDepositAmount(+ethers.utils.formatEther(mainTokenBalance)); 
                                         setInputValid(true); 
                                         setMaxAmountSelected(true) 
                               
@@ -141,7 +138,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticke
     )
 }
 const mapStateToProps = 
-({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticketsBalance}) => 
-({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticketsBalance})
+({getTicketsLoading, connected, getTicketsTxId, totalTicketAmount, ticketsBalance, mainTokenBalance, mainTokenAllowance}) => 
+({getTicketsLoading, connected, getTicketsTxId, totalTicketAmount, ticketsBalance, mainTokenBalance, mainTokenAllowance})
 
 export default connect(mapStateToProps)(GetTickets)

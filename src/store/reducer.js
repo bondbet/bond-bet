@@ -2,6 +2,13 @@ import { BigNumber } from "ethers";
 import { ACTION_TYPE } from "./action-type";
 
 const initialState = {
+    connectedWalletAddress: '',
+    connected: false,
+    connectedWalletName: '',
+    provider: null,
+    connectedNetwork: '',
+    chainId: 1,
+
     toggleSidebar: false,
     percentageTimePassed: 0,
     getTicketsLoading: false,
@@ -25,10 +32,83 @@ const initialState = {
     previousAwards:[],
     allDeposits:[],
     allWithdraws:[],
+
+    mainTokenAllowance: 0,
+    mainTokenBalance: 0,
+    withdrawTxId: '',
+    withdrawLoading: false,           
+    selectedMenuItem: 0,
+
 }
 
 const reducer = (state = initialState, action) => {
   
+    if(action.type === ACTION_TYPE.CONNECTED_WALLET_ADDRESS) {
+        return {
+            ...state,
+            connectedWalletAddress: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.CONNECTED) {
+        return {
+            ...state,
+            connected: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.CONNECTED_WALLET_NAME) {
+        return {
+            ...state,
+            connectedWalletName: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PROVIDER) {
+        return {
+            ...state,
+            PROVIDER: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.CONNECTED_NETWORK) {
+        return {
+            ...state,
+            connectedNetwork: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.CHAIN_ID) {
+        return {
+            ...state,
+            chainId: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.MAIN_TOKEN_ALLOWANCE) {
+        return {
+            ...state,
+            mainTokenAllowance: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.MAIN_TOKEN_BALANCE) {
+        return {
+            ...state,
+            mainTokenBalance: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.WITHDRAW_TX_ID) {
+        return {
+            ...state,
+            withdrawTxId: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.WITHDRAW_LOADING) {
+        return {
+            ...state,
+            withdrawLoading: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.SELECTED_MENU_ITEM) {
+        return {
+            ...state,
+            selectedMenuItem: action.value
+        }
+    }
     if(action.type === ACTION_TYPE.TICKETS_BALANCE) {
         return {
             ...state,

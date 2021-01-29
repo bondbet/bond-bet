@@ -1,17 +1,18 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import onlyLogo from '../../../assets/images/onlyLogo.svg'
 import arrowToRight from '../../../assets/images/arrowToRight.svg'
 import presentImg from '../../../assets/images/present.svg'
 import { Link } from 'react-router-dom'
-import AppContext from '../../../ContextAPI'
+
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import PoolBoxStats from '../Components/PoolBoxStats';
 import Table from '../../Table/Table'
+import { connect } from 'react-redux'
+import { ACTION_TYPE } from '../../../store/action-type'
 
-const RewardPoolPrizeDetails = () => {
+const RewardPoolPrizeDetails = ({setSelectedMenuItem}) => {
     const { id } = useParams();
-    const { setSelectedMenuItem } = useContext(AppContext);
     const history = useHistory();
 
     const PLACEHOLDER_WINNERS_COLUMNS = React.useMemo(() => [
@@ -166,4 +167,7 @@ const RewardPoolPrizeDetails = () => {
     )
 }
 
-export default RewardPoolPrizeDetails
+const mapDispatchToProps = (dispatch) => ({
+    setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })
+})
+export default connect(null, mapDispatchToProps)(RewardPoolPrizeDetails)

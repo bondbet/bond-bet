@@ -23,16 +23,13 @@ const MyAccount = (
         previousAwards,
         allDeposits,
         allWithdraws,
+        mainTokenBalance,
+        connectedWalletAddress,
+        setSelectedMenuItem
     }) => {
     const history = useHistory();
 
-    const {
-        setSelectedMenuItem,
 
-        bondBalance,
-        connectedWalletAddress
-
-    } = useContext(AppContext);
 
     const [odds, setOdds] = useState(1);
 
@@ -146,7 +143,7 @@ const MyAccount = (
                         </div>
                     </div>
                     <div className='my-account-stats'>
-                        <div><b>{formatEtherWithDecimals(ticketsBalance, 2)} Tickets /  {formatEtherWithDecimals(bondBalance, 2)} BOND</b></div>
+                        <div><b>{formatEtherWithDecimals(ticketsBalance, 2)} Tickets /  {formatEtherWithDecimals(mainTokenBalance, 2)} BOND</b></div>
                         <div>Current week prize <b>{`${currentWeekPrice ? formatEtherWithDecimals(currentWeekPrice, 2) : 0} BOND`}</b></div>
                         <div>Odds <b>1</b> in <b>{odds}</b></div>
                         <div><b>1</b> winner</div>
@@ -188,13 +185,13 @@ const MyAccount = (
         </div>
     )
 }
-const mapStateToProps = ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount,ticketsBalance, previousAwards, allDeposits, allWithdraws }) =>
-                        ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount, ticketsBalance, previousAwards, allDeposits, allWithdraws  })
+const mapStateToProps = ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount,ticketsBalance, previousAwards, allDeposits, allWithdraws, mainTokenBalance, connectedWalletAddress }) =>
+                        ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount, ticketsBalance, previousAwards, allDeposits, allWithdraws, mainTokenBalance, connectedWalletAddress  })
 
 const mapDispatchToProps = dispatch => ({
     setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value }),
     setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value }),
-
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
 
 

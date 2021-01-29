@@ -6,9 +6,8 @@ import validator from 'validator';
 import * as ethers from 'ethers';
 import {connect}  from 'react-redux';
 
-const Withdraw = ({ticketsBalance}) => {
+const Withdraw = ({ticketsBalance, connected}) => {
     const {
-        connected,
         ticketWithdrawHandler,
     } = useContext(AppContext);
 
@@ -73,6 +72,6 @@ const Withdraw = ({ticketsBalance}) => {
         </div>
     )
 }
-const mapStateToProps = ({ticketsBalance}) => ({ticketsBalance})
+const mapStateToProps = ({ticketsBalance, connected}) => ({ticketsBalance, connected})
 
 export default connect(mapStateToProps)(Withdraw)

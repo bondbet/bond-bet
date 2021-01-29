@@ -8,8 +8,8 @@ import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPool = ({setOpenModal, setModalType, totalTicketAmount}) => {
-    const { connected, connectWalletHandler} = useContext(AppContext);
+const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected}) => {
+    const { connectWalletHandler} = useContext(AppContext);
     const history = useHistory();
 
     return (

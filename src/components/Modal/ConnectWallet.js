@@ -10,8 +10,7 @@ import AppContext from '../../ContextAPI';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
 
-const ConnectWallet = ({setOpenModal}) => {
-    const { setConnected } = useContext(AppContext);
+const ConnectWallet = ({setOpenModal, setConnected}) => {
 
     return (
         <div className='pools-box'>
@@ -34,6 +33,7 @@ const ConnectWallet = ({setOpenModal}) => {
     )
 }
 const mapDispatchToProps = dispatch => ({
-    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
+    setConnected: value => dispatch({type: ACTION_TYPE.CONNECTED, value})
 })
 export default connect(null, mapDispatchToProps)(ConnectWallet)

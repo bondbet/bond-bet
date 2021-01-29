@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import arrowToRight from '../../../assets/images/arrowToRight.svg';
@@ -7,7 +7,6 @@ import ProgressBar from '../Components/ProgressBar';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import AboutPool from '../Components/AboutPool';
 import PoolBoxStats from '../Components/PoolBoxStats';
-import AppContext from '../../../ContextAPI';
 import presentImg from '../../../assets/images/present.svg';
 import timeImg from '../../../assets/images/time.svg';
 import bigWalletImg from '../../../assets/images/wallet-lg.svg';
@@ -18,8 +17,8 @@ import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPoolDetails = ({percentageTimePassed, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws }) => {
-    const { setSelectedMenuItem } = useContext(AppContext);
+const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws }) => {
+
     const history = useHistory();
 
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
@@ -197,6 +196,7 @@ const RewardPoolDetails = ({percentageTimePassed, totalTicketAmount, playerData,
 const mapStateToProps = ({percentageTimePassed, playerData, currentWeekPrice, totalTicketAmount, previousAwards, allDeposits, allWithdraws }) => 
                         ({percentageTimePassed, playerData, currentWeekPrice, totalTicketAmount, previousAwards, allDeposits, allWithdraws })
 const mapDispatchToProps = (dispatch) => ({
-    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, value})
+    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, value}),
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
 export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolDetails)

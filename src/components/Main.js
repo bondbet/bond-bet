@@ -12,11 +12,6 @@ import { connect } from 'react-redux';
 const Main = (
     {
         connectedWalletAddress,
-        connected,
-        disconnectWalletHandler,
-        connectedWalletName,
-        provider,
-        connectWalletHandler,
         connectedNetwork,
 
         setGetTicketsLoading,
@@ -38,25 +33,29 @@ const Main = (
         setTotalTicketAmount,
         setPreviousAwards,
         setAllDeposits,
-        setAllWithdraws
+        setAllWithdraws,
+        mainTokenBalance,
+
+        setMainTokenAllowance,
+        setMainTokenBalance,
+        setWithdrawTxId,
+        setWithdrawLoading,
+        setSelectedMenuItem,
+
+        disconnectWalletHandler,
+        connectWalletHandler
 
     }) => {
-
-    const [selectedMenuItem, setSelectedMenuItem] = useState(0);
-    const [bondBalance, setBondBalance] = useState(0);
-    const [bondAllowance, setBondAllowance] = useState(0);
-    const [withdrawLoading, setWithdrawLoading] = useState(false);
-    const [withdrawTxId, setWithdrawTxId] = useState(false);
 
     useEffect(async () => {
         try {
             if (mainAssetTokenContract && connectedWalletAddress) {
                 console.log('main ass', mainAssetContract)
                 const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
-                setBondBalance(bondTokenBalance);
+                setMainTokenBalance(bondTokenBalance);
 
                 const allowance = await mainAssetTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
-                setBondAllowance(allowance);
+                setMainTokenAllowance(allowance);
             }
             if (ticketsContract && connectedWalletAddress) {
                 const bondTicketsBalance = await ticketsContract.balanceOf(connectedWalletAddress);
@@ -101,7 +100,7 @@ const Main = (
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
             await approveTx.wait();
-            setBondAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
+            setMainTokenAllowance(BigNumber.from(Number.MAX_SAFE_INTEGER + ''));
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
 
@@ -202,14 +201,14 @@ const Main = (
     })
     const ticketDepositHandler = useCallback(async (ticketAmount, maxAmountSelected) => {
         try {
-            const depositAmount = maxAmountSelected ? bondBalance : ethers.utils.parseEther(ticketAmount);
+            const depositAmount = maxAmountSelected ? mainTokenBalance : ethers.utils.parseEther(ticketAmount);
             setModalType('CD')
             const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
             setGetTicketsTxId(depositTx.hash)
             const deposit = await depositTx.wait();
             setTicketsBalance(ticketsBalance.add(depositAmount + ''))
-            setBondBalance(bondBalance.sub(depositAmount + ''));
+            setMainTokenBalance(mainTokenBalance.sub(depositAmount + ''));
 
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
@@ -233,7 +232,7 @@ const Main = (
 
             const withdraw = await withdrawTx.wait();
             setTicketsBalance(ticketsBalance.sub(withdrawAmount));
-            setBondBalance(bondBalance.add(withdrawAmount));
+            setMainTokenBalance(mainTokenBalance.add(withdrawAmount));
 
             setWithdrawLoading(false);
             setWithdrawTxId('');
@@ -245,26 +244,13 @@ const Main = (
     return (
         <AppContext.Provider
             value={{
-                provider,
-                connectedNetwork,
-                connectedWalletAddress,
-                connectWalletHandler,
-                connectedWalletName,
+                
                 disconnectWalletHandler,
-                connected,
-
-
-
-                withdrawTxId,
-                withdrawLoading,          
+                connectWalletHandler,
                 ticketWithdrawHandler,
-
                 ticketDepositHandler,
-                bondAllowance,
                 allowBondHandler,
-                bondBalance,
-                selectedMenuItem,
-                setSelectedMenuItem
+
             }}
         >
             <CountdownPercantageUpdater />
@@ -279,7 +265,10 @@ const mapStateToProps = ({
     ticketsContract,
     prizeStrategyContract,
     mainAssetContract,
-    ticketsBalance
+    ticketsBalance,
+    mainTokenBalance,
+    connectedWalletAddress,
+    connectedNetwork
     
 }) => ({
     prizePoolContract,
@@ -287,7 +276,10 @@ const mapStateToProps = ({
     ticketsContract,
     prizeStrategyContract,
     mainAssetContract,
-    ticketsBalance
+    ticketsBalance,
+    mainTokenBalance,
+    connectedWalletAddress,
+    connectedNetwork
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -304,7 +296,12 @@ const mapDispatchToProps = dispatch => ({
     setTotalTicketAmount: value => dispatch({type: ACTION_TYPE.TOTAL_TICKET_AMOUNT, value}),
     setPreviousAwards: value => dispatch({type: ACTION_TYPE.PREVIOUS_AWARDS, value}),
     setAllDeposits: value => dispatch({type: ACTION_TYPE.ALL_DEPOSITS, value}),
-    setAllWithdraws: value => dispatch({type: ACTION_TYPE.ALL_WITHDRAWS, value})
+    setAllWithdraws: value => dispatch({type: ACTION_TYPE.ALL_WITHDRAWS, value}),
 
+    setMainTokenAllowance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_ALLOWANCE, value}),
+    setMainTokenBalance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_BALANCE, value}),
+    setWithdrawTxId: value => dispatch({type: ACTION_TYPE.WITHDRAW_TX_ID, value}),
+    setWithdrawLoading: value => dispatch({type: ACTION_TYPE.WITHDRAW_LOADING, value}),
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
