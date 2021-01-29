@@ -6,10 +6,10 @@ import * as ethers from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type'
 
-const WithdrawComplete = ({ setOpenModal}) => {
+const WithdrawComplete = ({ setOpenModal,         ticketsBalance,}) => {
     const {
         setSelectedMenuItem,
-        ticketsBalance,
+
     } = useContext(AppContext);
     const history = useHistory();
     return (
@@ -27,7 +27,9 @@ const WithdrawComplete = ({ setOpenModal}) => {
         </div>
     )
 }
+const mapStateToProps = ({ticketsBalance}) =>  ({ticketsBalance});
+
 const mapDispatchToProps = dispatch => ({
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
 })
-export default connect(null, mapDispatchToProps)(WithdrawComplete)
+export default connect(mapStateToProps, mapDispatchToProps)(WithdrawComplete)

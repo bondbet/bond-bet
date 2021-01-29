@@ -18,8 +18,8 @@ import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, currentWeekPrice}) => {
-    const { setSelectedMenuItem, totalTicketAmount, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
+const RewardPoolDetails = ({percentageTimePassed, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws }) => {
+    const { setSelectedMenuItem } = useContext(AppContext);
     const history = useHistory();
 
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
@@ -194,8 +194,8 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
         </div>
     )
 }
-const mapStateToProps = ({percentageTimePassed, playerData, currentWeekPrice}) => 
-                        ({percentageTimePassed, playerData, currentWeekPrice})
+const mapStateToProps = ({percentageTimePassed, playerData, currentWeekPrice, totalTicketAmount, previousAwards, allDeposits, allWithdraws }) => 
+                        ({percentageTimePassed, playerData, currentWeekPrice, totalTicketAmount, previousAwards, allDeposits, allWithdraws })
 const mapDispatchToProps = (dispatch) => ({
     setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, value})
 })

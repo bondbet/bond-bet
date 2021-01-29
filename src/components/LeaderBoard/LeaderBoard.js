@@ -5,10 +5,11 @@ import { useHistory } from 'react-router-dom'
 import AppContext from '../../ContextAPI'
 import { formatToHumatReadableDate } from '../../helpers/date'
 import { formatEtherWithDecimals, shortenEthereumAddress } from '../../helpers/format-utils'
+import {connect} from 'react-redux';
 
-const LeaderBoard = () => {
+const LeaderBoard = ({previousAwards}) => {
     const history = useHistory();
-    const { setSelectedMenuItem, previousAwards } = useContext(AppContext);
+    const { setSelectedMenuItem } = useContext(AppContext);
 
     const [awardData, setAwardData ] = useState([]);
     useEffect(() => {
@@ -62,4 +63,7 @@ const LeaderBoard = () => {
     )
 }
 
-export default LeaderBoard;
+const mapStateToProps = ({previousAwards}) => ({previousAwards});
+
+
+export default connect(mapStateToProps)(LeaderBoard);

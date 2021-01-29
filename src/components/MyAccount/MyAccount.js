@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import * as ethers from 'ethers';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import logo from '../../assets/images/onlyLogo.svg';
@@ -9,21 +9,28 @@ import AppContext from '../../ContextAPI';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
 import { setNewTime } from '../../helpers/countdown-setter';
 import { formatTimestampToTimeAgo } from '../../helpers/date';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
 
-const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPrice}) => {
+const MyAccount = (
+    {
+        setOpenModal,
+        setModalType,
+        prizePeriodEnds,
+        currentWeekPrice,
+        totalTicketAmount,
+        ticketsBalance,
+        previousAwards,
+        allDeposits,
+        allWithdraws,
+    }) => {
     const history = useHistory();
 
     const {
         setSelectedMenuItem,
-        totalTicketAmount,
-        ticketsBalance,
+
         bondBalance,
-        allDeposits,
-        allWithdraws,
-        connectedWalletAddress,
-        previousAwards
+        connectedWalletAddress
 
     } = useContext(AppContext);
 
@@ -32,7 +39,7 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
-        minutes:0 ,
+        minutes: 0,
         seconds: 0,
     });
 
@@ -41,8 +48,8 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
     const [totalAwards, setTotalAwards] = useState(0);
     const [numberOfAwards, setNumberOfAwards] = useState(0);
 
-    useEffect(()=> {
-        if(previousAwards && connectedWalletAddress) {
+    useEffect(() => {
+        if (previousAwards && connectedWalletAddress) {
             const userAwards = previousAwards.filter(x => x.awardedTo.toUpperCase() === connectedWalletAddress.toUpperCase());
             setNumberOfAwards(userAwards.length)
             setTotalAwards(
@@ -52,18 +59,18 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
     }, [previousAwards, connectedWalletAddress])
     useEffect(() => {
 
-        if(allDeposits && allWithdraws) {
+        if (allDeposits && allWithdraws) {
             const allUserTxs = [
                 ...allDeposits.filter(x => x.address.toLowerCase() === connectedWalletAddress.toLowerCase()),
                 ...allWithdraws.filter(x => x.address.toLowerCase() === connectedWalletAddress.toLowerCase())
-            ].sort((a,b) => b.timestamp - a.timestamp)
-        
+            ].sort((a, b) => b.timestamp - a.timestamp)
+
             setUserTxData(
                 allUserTxs.map(x => ({
                     col1: formatEtherWithDecimals(x.amount, 2),
                     col2: x.hash,
                     col3: formatTimestampToTimeAgo(x.timestamp),
-                    col4: x.type 
+                    col4: x.type
                 }))
             )
         }
@@ -77,24 +84,24 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
         };
     }, [prizePeriodEnds])
 
-    useEffect(()=> {
-        if(totalTicketAmount && ticketsBalance) {
+    useEffect(() => {
+        if (totalTicketAmount && ticketsBalance) {
             const odds = +ethers.utils.formatEther(totalTicketAmount) / +ethers.utils.formatEther(ticketsBalance);
             setOdds(odds.toFixed(2))
         }
-       
+
     }, [totalTicketAmount, ticketsBalance])
     const withdraw = () => {
 
-            if (ticketsBalance > 0) {
-                setOpenModal(true);
-                setModalType('WD');
-            } else {
-                alert('Sorry. Not enough tickets!')
-            }
-       
+        if (ticketsBalance > 0) {
+            setOpenModal(true);
+            setModalType('WD');
+        } else {
+            alert('Sorry. Not enough tickets!')
+        }
+
     }
-    
+
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Tickets / BOND',
@@ -103,7 +110,7 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
         {
             Header: 'TX Hash',
             accessor: 'col2',
-            Cell: ({ row }) => (row.values.col2.substring(0,6) + '..' + row.values.col2.substring(row.values.col2.length - 4))
+            Cell: ({ row }) => (row.values.col2.substring(0, 6) + '..' + row.values.col2.substring(row.values.col2.length - 4))
         },
         {
             Header: 'Time',
@@ -181,13 +188,14 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
         </div>
     )
 }
-const mapStateToProps = ({prizePeriodEnds, currentWeekPrice}) => ({prizePeriodEnds, currentWeekPrice})
+const mapStateToProps = ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount,ticketsBalance, previousAwards, allDeposits, allWithdraws }) =>
+                        ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount, ticketsBalance, previousAwards, allDeposits, allWithdraws  })
 
 const mapDispatchToProps = dispatch => ({
-    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
-   setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
+    setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value }),
+    setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value }),
 
 })
 
 
-export default connect(mapStateToProps,mapDispatchToProps)(MyAccount);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAccount);

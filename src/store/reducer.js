@@ -13,16 +13,53 @@ const initialState = {
     prizePoolRemainingSeconds:0,
     playerData: [],
     currentWeekPrize: BigNumber.from('0'),
-    
+
     prizePoolContract:null,
 	mainAssetTokenContract:null,
 	ticketsContract:null,
 	prizeStrategyContract:null,
-	mainAssetContract:null
+    mainAssetContract:null,
+
+    ticketsBalance:0,
+    totalTicketAmount:0,
+    previousAwards:[],
+    allDeposits:[],
+    allWithdraws:[],
 }
 
 const reducer = (state = initialState, action) => {
   
+    if(action.type === ACTION_TYPE.TICKETS_BALANCE) {
+        return {
+            ...state,
+            ticketsBalance: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.TOTAL_TICKET_AMOUNT) {
+        return {
+            ...state,
+            totalTicketAmount: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.PREVIOUS_AWARDS) {
+        return {
+            ...state,
+            previousAwards: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.ALL_DEPOSITS) {
+        return {
+            ...state,
+            allDeposits: action.value
+        }
+    }
+    if(action.type === ACTION_TYPE.ALL_WITHDRAWS) {
+        return {
+            ...state,
+            allWithdraws: action.value
+        }
+    }
+
     if(action.type === ACTION_TYPE.PRIZE_POOL_CONTRACT) {
         return {
             ...state,

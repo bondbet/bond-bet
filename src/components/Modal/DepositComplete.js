@@ -4,9 +4,9 @@ import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import { ethers } from 'ethers';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
+import {connect}  from 'react-redux';
 
-const DepositComplete = () => {
-    const { ticketsBalance } = useContext(AppContext);
+const DepositComplete = ({ticketsBalance}) => {
 
 
     return (
@@ -25,5 +25,6 @@ const DepositComplete = () => {
 
     )
 }
+const mapStateToProps = ({ticketsBalance}) => ({ticketsBalance})
 
-export default DepositComplete
+export default connect(mapStateToProps)(DepositComplete)

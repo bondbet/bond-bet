@@ -12,15 +12,13 @@ import {connect} from 'react-redux'
 
 
 
-const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
+const GetTickets = ({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticketsBalance}) => {
     const {
         bondAllowance,
         allowBondHandler,
         bondBalance,
         connected,
         ticketDepositHandler,
-        totalTicketAmount,
-        ticketsBalance
     } = useContext(AppContext);
 
 	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
@@ -142,6 +140,8 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
         </div>
     )
 }
-const mapStateToProps = ({getTicketsLoading, getTicketsTxId}) => ({getTicketsLoading, getTicketsTxId})
+const mapStateToProps = 
+({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticketsBalance}) => 
+({getTicketsLoading, getTicketsTxId, totalTicketAmount, ticketsBalance})
 
 export default connect(mapStateToProps)(GetTickets)

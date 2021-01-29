@@ -31,7 +31,15 @@ const Main = (
         mainAssetTokenContract,
         ticketsContract,
         prizeStrategyContract,
-        mainAssetContract
+        mainAssetContract,
+
+        ticketsBalance,
+        setTicketsBalance,
+        setTotalTicketAmount,
+        setPreviousAwards,
+        setAllDeposits,
+        setAllWithdraws
+
     }) => {
 
     const [selectedMenuItem, setSelectedMenuItem] = useState(0);
@@ -39,14 +47,6 @@ const Main = (
     const [bondAllowance, setBondAllowance] = useState(0);
     const [withdrawLoading, setWithdrawLoading] = useState(false);
     const [withdrawTxId, setWithdrawTxId] = useState(false);
-    const [ticketsBalance, setTicketsBalance] = useState(0);
-    const [totalTicketAmount, setTotalTicketAmount] = useState(0);
-    const [previousAwards, setPreviousAwards] = useState([]);
-    const [allDeposits, setAllDeposits] = useState([]);
-    const [allWithdraws, setAllWithdraws] = useState([]);
-
-
-
 
     useEffect(async () => {
         try {
@@ -254,14 +254,11 @@ const Main = (
                 connected,
 
 
-                allDeposits,
-                allWithdraws,
-                previousAwards,
+
                 withdrawTxId,
-                withdrawLoading,
+                withdrawLoading,          
                 ticketWithdrawHandler,
-                totalTicketAmount,
-                ticketsBalance,
+
                 ticketDepositHandler,
                 bondAllowance,
                 allowBondHandler,
@@ -281,13 +278,16 @@ const mapStateToProps = ({
     mainAssetTokenContract,
     ticketsContract,
     prizeStrategyContract,
-    mainAssetContract
+    mainAssetContract,
+    ticketsBalance
+    
 }) => ({
     prizePoolContract,
     mainAssetTokenContract,
     ticketsContract,
     prizeStrategyContract,
-    mainAssetContract
+    mainAssetContract,
+    ticketsBalance
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -299,5 +299,12 @@ const mapDispatchToProps = dispatch => ({
     setPrizePeriodStartedAt: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value }),
     setPrizePoolRemainingSeconds: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value }),
     setCurrentWeekPrice: value => dispatch({ type: ACTION_TYPE.CURRENT_WEEK_PRIZE, value }),
+
+    setTicketsBalance: value => dispatch({type: ACTION_TYPE.TICKETS_BALANCE, value}),
+    setTotalTicketAmount: value => dispatch({type: ACTION_TYPE.TOTAL_TICKET_AMOUNT, value}),
+    setPreviousAwards: value => dispatch({type: ACTION_TYPE.PREVIOUS_AWARDS, value}),
+    setAllDeposits: value => dispatch({type: ACTION_TYPE.ALL_DEPOSITS, value}),
+    setAllWithdraws: value => dispatch({type: ACTION_TYPE.ALL_WITHDRAWS, value})
+
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Main);
