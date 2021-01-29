@@ -26,7 +26,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
 	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
     const [inputValid, setInputValid] = useState(false);
-    const [depositAmount, setDepositAmount] = useState(0);
+    const [depositAmount, setDepositAmount] = useState('');
 
     useEffect(() => {
         if(bondAllowance ){
@@ -101,7 +101,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
                         <div className='ticket-amount-input'>
                             <input
                                 type='text'
-                                disabled={!(connected  && tokenIsEnabled ) }
+                                disabled={!(connected  && tokenIsEnabled) }
                                 onChange={ (event) => {
                                     if(event && event.target) {
                                             handleTicketInputChange(event.target.value)                        
@@ -112,8 +112,14 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
                                 }
                                 value={depositAmount}
                             />
-                            {connected ?
-                                (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { setDepositAmount(+ethers.utils.formatEther(bondBalance)); setInputValid(true); setMaxAmountSelected(true) }}>MAX</button> : null
+                            {connected && bondBalance.gt('0')?
+                                (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { 
+                                   
+                                        setDepositAmount(+ethers.utils.formatEther(bondBalance)); 
+                                        setInputValid(true); 
+                                        setMaxAmountSelected(true) 
+                              
+                                 }}>MAX</button> : null
                             }
                         </div>
                     </div>
@@ -131,7 +137,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
             </div>
 
             <div className='continue-btn'>
-                {<button onClick={() => ticketDepositHandler(depositAmount)} disabled={!inputValid}>Deposit</button>}
+                {<button onClick={() => ticketDepositHandler(depositAmount, maxAmountSelected)} disabled={!inputValid}>Deposit</button>}
             </div>
         </div>
     )

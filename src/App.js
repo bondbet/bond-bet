@@ -21,6 +21,8 @@ const App = () => {
 	const [connectedWalletAddress, setConnectedWalletAddress] = useState('');
 	const [connectedWalletName, setConnectedWalletName] = useState('');
 	const [chainId, setChainId] = useState(1);
+
+
 	const [barnPrizePoolContract, setBarnPrizePoolContract] = useState(null)
 	const [bondTokenContract, setBondTokenContract] = useState(null);
 	const [bondTicketsContract, setBondTicketsContrat] = useState(null);
@@ -45,7 +47,7 @@ const App = () => {
 
 	let firstInit = true;
 	const connectWalletHandler = useCallback(async () => {
-		// try {
+		try {
 
 	
 		if(!firstInit) {
@@ -90,9 +92,9 @@ const App = () => {
 		setConnected(true);
 		setProvider(newProvider)
 		await subscribeToProviderEvents(newProvider);
-	// }	catch(e) {
-	// 	alert('Something went wrong when connecting the contracts. Please check your connected network.')
-	// }
+	}	catch(e) {
+		alert('Something went wrong when connecting the contracts. Please check your connected network.')
+	}
 	});
 
 	const disconnectWalletHandler = useCallback(async (provider) => {
@@ -162,6 +164,8 @@ const App = () => {
 			prizeStrategyContract={prizeStrategyContract}
 			barnPrizePoolContract={barnPrizePoolContract}
 			bondTokenContract={bondTokenContract}
+			barnContract={barnContract}
+			
 			provider={provider} 
 			connectedNetwork={connectedNetwork} 
 			connectedWalletAddress={connectedWalletAddress}
@@ -169,7 +173,7 @@ const App = () => {
 			connected={connected}
 			disconnectWalletHandler={disconnectWalletHandler}
 			connectWalletHandler={connectWalletHandler}
-			barnContract={barnContract}
+	
 		></Main>
 	)
 

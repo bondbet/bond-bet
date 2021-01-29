@@ -68,7 +68,7 @@ const Withdraw = () => {
         
             </div> 
             <div className='continue-btn'>
-                {<button onClick={() => ticketWithdrawHandler(withdrawAmount)} disabled={!inputValid}>Withdraw</button>}
+                {<button onClick={() => ticketWithdrawHandler(withdrawAmount, maxAmountSelected)} disabled={!inputValid}>Withdraw</button>}
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ const LeaderBoard = () => {
                 }
                 return 1;
             })
-                                      .slice(0, 4)
+                                      .slice(0, 5)
                                       .map((award, index) => 
                                       ({ col1: index + 1, col2: formatEtherWithDecimals(award.amount, 2), col3: formatToHumatReadableDate(award.timestamp), col4: award.awardedTo })
                                       ))
@@ -55,7 +55,7 @@ const LeaderBoard = () => {
                 <h3 className='leaderboard-desc'>
                     <img src={logo} alt='Community Reward Pool' /> Community Reward Pool
                 </h3>
-                <Table title='Community Reward Pool Winners' data={awardData} columns={rp_columns} pageSize={6} isLeaderboardTable={true} isHashtag={true} />
+                <Table title='Community Reward Pool Winners' data={awardData} columns={rp_columns} pageSize={10} isLeaderboardTable={true} isHashtag={true} />
             </div>
 
         </div>

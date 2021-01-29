@@ -54,7 +54,6 @@ const Main = (
 
                 const allowance = await bondTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
                 setBondAllowance(allowance);
-                console.log(bondTokenBalance)
             }
             if (bondTicketsContract && connectedWalletAddress) {
                 const bondTicketsBalance = await bondTicketsContract.balanceOf(connectedWalletAddress);
@@ -197,15 +196,16 @@ const Main = (
         }));
         setPreviousAwards(prizeDetails);
     })
-    const ticketDepositHandler = useCallback(async (ticketAmount) => {
+    const ticketDepositHandler = useCallback(async (ticketAmount, maxAmountSelected) => {
         try {
+            const depositAmount = maxAmountSelected ? bondBalance : ethers.utils.parseEther(ticketAmount);
             setModalType('CD')
-            const depositTx = await barnPrizePoolContract.depositTo(connectedWalletAddress, ethers.utils.parseEther(ticketAmount), BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
+            const depositTx = await barnPrizePoolContract.depositTo(connectedWalletAddress, depositAmount, BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
             setGetTicketsTxId(depositTx.hash)
             const deposit = await depositTx.wait();
-            setTicketsBalance(ticketsBalance.add(ethers.utils.parseEther(ticketAmount + '')))
-            setBondBalance(bondBalance.sub(ethers.utils.parseEther(ticketAmount + '')));
+            setTicketsBalance(ticketsBalance.add(depositAmount + ''))
+            setBondBalance(bondBalance.sub(depositAmount + ''));
     
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
@@ -218,16 +218,18 @@ const Main = (
 
     })
 
-    const ticketWithdrawHandler = useCallback(async (amount) => {
+    const ticketWithdrawHandler = useCallback(async (amount, maxAmountSelected) => {
         try{
+            const withdrawAmount = maxAmountSelected ? ticketsBalance : ethers.utils.parseEther(amount);
+
             setModalType('CWD')
-            const withdrawTx = await barnPrizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, ethers.utils.parseEther(amount), BOND_TICKETS_CONTRACT_ADDRESS, 0)
+            const withdrawTx = await barnPrizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, BOND_TICKETS_CONTRACT_ADDRESS, 0)
             setWithdrawLoading(true);
             setWithdrawTxId(withdrawTx.hash);
 
             const withdraw = await withdrawTx.wait();
-            setTicketsBalance(ticketsBalance.sub(ethers.utils.parseEther(amount + '')));
-            setBondBalance(bondBalance.add(ethers.utils.parseEther(amount + '')));
+            setTicketsBalance(ticketsBalance.sub(withdrawAmount));
+            setBondBalance(bondBalance.add(withdrawAmount));
 
             setWithdrawLoading(false);
             setWithdrawTxId('');
@@ -271,7 +273,7 @@ const Main = (
 }
 
 const mapDispatchToProps = dispatch => ({
-    setGetTicketsLoading: (value) => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
+    setGetTicketsLoading: value => dispatch({type: ACTION_TYPE.GET_TICKETS_LOADING, value}),
     setGetTicketsTxId: value => dispatch({type: ACTION_TYPE.GET_TICKETS_TX_ID, value}),
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
