@@ -10,7 +10,6 @@ import { ACTION_TYPE } from '../../store/action-type'
 
 const LeaderBoard = ({previousAwards, setSelectedMenuItem}) => {
     const history = useHistory();
-    const {  } = useContext(AppContext);
 
     const [awardData, setAwardData ] = useState([]);
     useEffect(() => {

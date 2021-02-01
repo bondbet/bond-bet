@@ -10,7 +10,7 @@ import { ACTION_TYPE } from '../../../store/action-type';
 const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected, poolType}) => {
     const { connectWalletHandler} = useContext(AppContext);
     const history = useHistory();
-
+console.log('reward pool of type', poolType, totalTicketAmount)
     return (
         
             <div className='pools-box'>

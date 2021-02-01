@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import './assets/css/App.css';
 import './assets/css/Responsive.css';
 import { Web3Provider } from '@ethersproject/providers';
@@ -6,31 +6,22 @@ import Web3Modal from 'web3modal';
 import { getChainData } from './helpers/chain-utils';
 import { getProviderOptions } from './constants/provider-options';
 import Main from './components/Main';
-import BarnBridgeToken from './constants/abis/BarnBridgeToken.json'
-import { getContract } from './helpers/ethers'
-import { BARN_PRIZE_POOL_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from './constants/contracts'
-import BarnPrizePool from './constants/abis/BarnPrizePool.json'
-import MultipleWinners from './constants/abis/MultipleWinners.json';
-import ControlledToken from './constants/abis/ControlledToken.json';
-import BarnFacetMock from './constants/abis/BarnFacetMock.json';
 import { connect } from 'react-redux';
 import { ACTION_TYPE } from './store/action-type';
 import { POOL_TYPE } from './store/pool-type';
+import PoolContractsResolver from './components/PoolContractsResolver';
+import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS } from './constants/contracts';
+import Router from './Router';
 
-
+import AppContext from './ContextAPI'
 const App = (
 	{
-		setPrizePoolContract,
-		setMainAssetTokenContract,
-		setTicketsContract,
-		setPrizeStrategyContract,
-		setMainAssetContract,
-
 		setProvider,
 		setConnected,
 		setConnectedNetwork,
 		setConnectedWalletAddress,
 		setConnectedWalletName,
+		setLibrary,
 		setChainId,
 		connectedWalletAddress,
 		connected,
@@ -62,7 +53,6 @@ const App = (
 	const connectWalletHandler = useCallback(async () => {
 		try {
 
-
 			if (!firstInit) {
 				web3Modal.clearCachedProvider();
 
@@ -76,35 +66,13 @@ const App = (
 
 			const address = newProvider.selectedAddress ? newProvider.selectedAddress : newProvider?.accounts[0];
 
-			const barnPrizePoolContractCode = await library.getCode(BARN_PRIZE_POOL_ADDRESS);
-			if (barnPrizePoolContractCode.length > 2) {
-				const newBarnPrizePoolContract = getContract(BARN_PRIZE_POOL_ADDRESS, BarnPrizePool.abi, library, address);
-
-
-				const bondTokenAddress = await newBarnPrizePoolContract.token();
-
-				const newBondTokenContract = getContract(bondTokenAddress, BarnBridgeToken.abi, library, address);
-				const newPrizeStrategyContract = getContract(PRIZE_STRATEGY_CONTRACT_ADDRESS, MultipleWinners.abi, library, address);
-				const newBondTicketsContract = getContract(BOND_TICKETS_CONTRACT_ADDRESS, ControlledToken.abi, library, address);
-				const barnTokenAddress = await newBarnPrizePoolContract.barn();
-
-				const newBarnContract = getContract(barnTokenAddress, BarnFacetMock.abi, library, address);
-
-
-
-				setMainAssetContract(newBarnContract);
-				setPrizeStrategyContract(newPrizeStrategyContract);
-				setPrizePoolContract(newBarnPrizePoolContract);
-				setMainAssetTokenContract(newBondTokenContract);
-				setTicketsContract(newBondTicketsContract);
-			}
-
 
 			setConnectedWalletAddress(address);
 			setConnectedNetwork(network.name);
 			setConnectedWalletName(library.connection.url === 'metamask' ? 'MetaMask' : 'WalletConnect')
 			setConnected(true);
-			setProvider(newProvider)
+			setProvider(newProvider);
+			setLibrary(library);
 			await subscribeToProviderEvents(newProvider);
 		} catch (e) {
 			alert('Something went wrong when connecting the contracts. Please check your connected network.')
@@ -118,18 +86,12 @@ const App = (
 		localStorage.removeItem("WEB3_CONNECT_CACHED_PROVIDER");
 		localStorage.removeItem("walletconnect");
 
-
-		setPrizePoolContract(null);
-		setMainAssetTokenContract(null);
-		setTicketsContract(null);
-		setPrizeStrategyContract(null);
-		setMainAssetContract(null);
 		setConnectedWalletAddress("");
 		setConnectedNetwork(null);
 		setConnectedWalletName("");
 		setConnected(false);
 		setProvider(null)
-
+		setLibrary(null);
 	});
 
 	const changedAccount = (accounts) => {
@@ -148,6 +110,7 @@ const App = (
 
 
 			setChainId(chainId);
+			setLibrary(library);
 			setConnectedNetwork(network.name);
 		} catch (e) {
 			alert('Smething went wrong when chaning network, please refresh')
@@ -172,7 +135,10 @@ const App = (
 	}
 
 
-	return (
+	return ( <div>
+	
+
+		
 		<Main
 			provider={provider}
 			connectedNetwork={connectedNetwork}
@@ -182,8 +148,34 @@ const App = (
 			disconnectWalletHandler={disconnectWalletHandler}
 			connectWalletHandler={connectWalletHandler}
 
+			
+
 			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
 		></Main>
+		<PoolContractsResolver 
+			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
+			prizePoolAddress={BARN_PRIZE_POOL_ADDRESS}
+			
+			prizeStrategyAddress={PRIZE_STRATEGY_CONTRACT_ADDRESS}
+			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver>
+				<PoolContractsResolver 
+			poolType={POOL_TYPE.NEW_POOL	}
+			prizePoolAddress={BARN_PRIZE_POOL_ADDRESS}
+			
+			prizeStrategyAddress={PRIZE_STRATEGY_CONTRACT_ADDRESS}
+			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver>
+			{/* <Main
+				provider={provider}
+				connectedNetwork={connectedNetwork}
+				connectedWalletAddress={connectedWalletAddress}
+				connectedWalletName={connectedWalletName}
+				connected={connected}
+				disconnectWalletHandler={disconnectWalletHandler}
+				connectWalletHandler={connectWalletHandler}
+
+			poolType={POOL_TYPE.NEW_POOL}
+		></Main> */}
+		</div>
 	)
 
 }
@@ -221,7 +213,8 @@ const mapDispatchToProps = (dispatch) => {
 		setConnectedNetwork: value => dispatch({ type: ACTION_TYPE.CONNECTED_NETWORK, value }),
 		setConnectedWalletAddress: value => dispatch({ type: ACTION_TYPE.CONNECTED_WALLET_ADDRESS, value }),
 		setConnectedWalletName: value => dispatch({ type: ACTION_TYPE.CONNECTED_WALLET_NAME, value }),
-		setChainId: value => dispatch({ type: ACTION_TYPE.CHAIN_ID, value })
+		setChainId: value => dispatch({ type: ACTION_TYPE.CHAIN_ID, value }),
+		setLibrary: value => dispatch({type: ACTION_TYPE.LIBRARY, value})
 	}
 	
 }

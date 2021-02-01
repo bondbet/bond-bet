@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import AppContext from '../ContextAPI';
-import Router from '../Router';
 import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts';
 import { BigNumber } from 'ethers';
 import * as ethers from 'ethers';
@@ -8,7 +7,7 @@ import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
 import { ACTION_TYPE } from '../store/action-type';
 import { connect } from 'react-redux';
-
+import Router from '../Router'
 const Main = (
     {
         connectedWalletAddress,
@@ -52,10 +51,7 @@ const Main = (
         try {
           
             if (mainAssetTokenContract && connectedWalletAddress) {
-                console.log(89789789798)
-
                 const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
-                console.log('about to set', bondTokenBalance)
                 setMainTokenBalance(bondTokenBalance);
 
                 const allowance = await mainAssetTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
@@ -151,7 +147,6 @@ const Main = (
         const owedAward = await prizePoolContract.owedReward();
 
         const currentWeekPrize = totalBalance.add(owedAward).sub(totalTickets);
-
         setTotalTicketAmount(totalTickets);
         setCurrentWeekPrice(currentWeekPrize);
 
@@ -256,7 +251,7 @@ const Main = (
             }}
         >
             <CountdownPercantageUpdater poolType={poolType}/>
-            <Router />
+		<Router />
         </AppContext.Provider>
     );
 }

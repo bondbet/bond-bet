@@ -13,8 +13,38 @@ const initialState = {
     toggleSidebar: false,
     openModal: false,
     modalType: {modalType: '', poolType: ''},
+    library: null,
+
 
     [POOL_TYPE.COMMUNITY_REWARD_POOL]: {
+        percentageTimePassed: 0,
+        getTicketsLoading: false,
+        getTicketsTxId: '',
+
+        prizePeriodEnds: 0,
+        prizePeriodStartedAt:0,
+        prizePoolRemainingSeconds:0,
+        playerData: [],
+        currentWeekPrize: BigNumber.from('0'),
+    
+        prizePoolContract:null,
+        mainAssetTokenContract:null,
+        ticketsContract:null,
+        prizeStrategyContract:null,
+        mainAssetContract:null,
+    
+        ticketsBalance:0,
+        totalTicketAmount:0,
+        previousAwards:[],
+        allDeposits:[],
+        allWithdraws:[],
+    
+        mainTokenAllowance: 0,
+        mainTokenBalance: 0,
+        withdrawTxId: '',
+        withdrawLoading: false,           
+    },
+    [POOL_TYPE.NEW_POOL]: {
         percentageTimePassed: 0,
         getTicketsLoading: false,
         getTicketsTxId: '',
@@ -54,6 +84,12 @@ const reducer = (state = initialState, action) => {
             connectedWalletAddress: action.value
         }
     }
+    if(action.type === ACTION_TYPE.LIBRARY) {
+        return {
+            ...state,
+            library: action.value
+        }
+    }
     if(action.type === ACTION_TYPE.CONNECTED) {
         return {
             ...state,
@@ -76,7 +112,7 @@ const reducer = (state = initialState, action) => {
     if(action.type === ACTION_TYPE.PROVIDER) {
         return {
             ...state,
-            PROVIDER: action.value
+            provider: action.value
         }
     }
     if(action.type === ACTION_TYPE.CONNECTED_NETWORK) {

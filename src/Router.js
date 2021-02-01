@@ -28,6 +28,11 @@ function Router({openModal}) {
 						<Route exact path="/community-reward-pool/details" component={() => <div>{document.title = 'Community Reward Pool'}<RewardPoolDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
 						<Route exact path="/community-reward-pool/prize/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPrizeDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
 						<Route exact path="/community-reward-pool/player/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPlayerDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
+{/* 						
+						<Route exact path="/new-pool/details" component={() => <div>{document.title = 'New Pool'}<RewardPoolDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
+						<Route exact path="/new-reward-pool/prize/:id" component={() =>  <div>{document.title = 'New Pool'}<RewardPoolPrizeDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
+						<Route exact path="/new-reward-pool/player/:id" component={() =>  <div>{document.title = 'New Pool'}<RewardPoolPlayerDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
+						 */}
 						<Route path="*" component={() => <Redirect to='/' />} />
 					</Switch>
 				</div>
