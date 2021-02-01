@@ -158,12 +158,12 @@ const App = (
 			
 			prizeStrategyAddress={PRIZE_STRATEGY_CONTRACT_ADDRESS}
 			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver>
-				<PoolContractsResolver 
+				{/* <PoolContractsResolver 
 			poolType={POOL_TYPE.NEW_POOL	}
 			prizePoolAddress={BARN_PRIZE_POOL_ADDRESS}
 			
 			prizeStrategyAddress={PRIZE_STRATEGY_CONTRACT_ADDRESS}
-			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver>
+			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver> */}
 			{/* <Main
 				provider={provider}
 				connectedNetwork={connectedNetwork}

@@ -17,6 +17,10 @@ const initialState = {
 
 
     [POOL_TYPE.COMMUNITY_REWARD_POOL]: {
+        POOL_TITLE: 'Community Reward Pool',
+        POOL_URL: '',
+
+
         percentageTimePassed: 0,
         getTicketsLoading: false,
         getTicketsTxId: '',
