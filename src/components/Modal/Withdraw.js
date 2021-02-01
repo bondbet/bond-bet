@@ -1,15 +1,11 @@
-import React, {useContext, useState} from 'react'
-import AppContext from '../../ContextAPI';
+import React, {useState} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import walletIcon from '../../assets/images/wallet-sm.svg';
 import validator from 'validator';
 import * as ethers from 'ethers';
 import {connect}  from 'react-redux';
 
-const Withdraw = ({ticketsBalance, connected}) => {
-    const {
-        ticketWithdrawHandler,
-    } = useContext(AppContext);
+const Withdraw = ({ticketsBalance, connected, ticketWithdrawHandler}) => {
 
     const [inputValid, setInputValid] = useState(false);
     const [withdrawAmount, setWithdrawAmount] = useState('');
@@ -72,6 +68,6 @@ const Withdraw = ({ticketsBalance, connected}) => {
         </div>
     )
 }
-const mapStateToProps = (state, {poolType}) => ({ticketsBalance: state[poolType].ticketsBalance, connected: state.connected})
+const mapStateToProps = (state, {poolType}) => ({ticketsBalance: state[poolType].ticketsBalance, ticketWithdrawHandler:state[poolType].ticketWithdrawHandler, connected: state.connected})
 
 export default connect(mapStateToProps)(Withdraw)

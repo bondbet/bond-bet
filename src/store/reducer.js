@@ -12,7 +12,7 @@ const initialState = {
     selectedMenuItem: 0,
     toggleSidebar: false,
     openModal: false,
-    modalType: {modalType: '', poolType: ''},
+    modalType: { modalType: '', poolType: '' },
     library: null,
 
 
@@ -22,27 +22,31 @@ const initialState = {
         getTicketsTxId: '',
 
         prizePeriodEnds: 0,
-        prizePeriodStartedAt:0,
-        prizePoolRemainingSeconds:0,
+        prizePeriodStartedAt: 0,
+        prizePoolRemainingSeconds: 0,
         playerData: [],
         currentWeekPrize: BigNumber.from('0'),
-    
-        prizePoolContract:null,
-        mainAssetTokenContract:null,
-        ticketsContract:null,
-        prizeStrategyContract:null,
-        mainAssetContract:null,
-    
-        ticketsBalance:0,
-        totalTicketAmount:0,
-        previousAwards:[],
-        allDeposits:[],
-        allWithdraws:[],
-    
+
+        prizePoolContract: null,
+        mainAssetTokenContract: null,
+        ticketsContract: null,
+        prizeStrategyContract: null,
+        mainAssetContract: null,
+
+        ticketsBalance: 0,
+        totalTicketAmount: 0,
+        previousAwards: [],
+        allDeposits: [],
+        allWithdraws: [],
+
         mainTokenAllowance: 0,
         mainTokenBalance: 0,
         withdrawTxId: '',
-        withdrawLoading: false,           
+        withdrawLoading: false,
+
+        ticketDepositHandler: null,
+        ticketWithdrawHandler: null,
+        allowTicketHandler: null
     },
     [POOL_TYPE.NEW_POOL]: {
         percentageTimePassed: 0,
@@ -50,105 +54,109 @@ const initialState = {
         getTicketsTxId: '',
 
         prizePeriodEnds: 0,
-        prizePeriodStartedAt:0,
-        prizePoolRemainingSeconds:0,
+        prizePeriodStartedAt: 0,
+        prizePoolRemainingSeconds: 0,
         playerData: [],
         currentWeekPrize: BigNumber.from('0'),
-    
-        prizePoolContract:null,
-        mainAssetTokenContract:null,
-        ticketsContract:null,
-        prizeStrategyContract:null,
-        mainAssetContract:null,
-    
-        ticketsBalance:0,
-        totalTicketAmount:0,
-        previousAwards:[],
-        allDeposits:[],
-        allWithdraws:[],
-    
+
+        prizePoolContract: null,
+        mainAssetTokenContract: null,
+        ticketsContract: null,
+        prizeStrategyContract: null,
+        mainAssetContract: null,
+
+        ticketsBalance: 0,
+        totalTicketAmount: 0,
+        previousAwards: [],
+        allDeposits: [],
+        allWithdraws: [],
+
         mainTokenAllowance: 0,
         mainTokenBalance: 0,
         withdrawTxId: '',
-        withdrawLoading: false,           
+        withdrawLoading: false,
+
+        ticketDepositHandler: null,
+        ticketWithdrawHandler: null,
+        allowTicketHandler: null
     },
-    
+
 }
 
 const reducer = (state = initialState, action) => {
     console.log(action)
-  const poolAccessor = action.poolType;
-    if(action.type === ACTION_TYPE.CONNECTED_WALLET_ADDRESS) {
+    const poolAccessor = action.poolType;
+    if (action.type === ACTION_TYPE.CONNECTED_WALLET_ADDRESS) {
         return {
             ...state,
             connectedWalletAddress: action.value
         }
     }
-    if(action.type === ACTION_TYPE.LIBRARY) {
+    if (action.type === ACTION_TYPE.LIBRARY) {
         return {
             ...state,
             library: action.value
         }
     }
-    if(action.type === ACTION_TYPE.CONNECTED) {
+    if (action.type === ACTION_TYPE.CONNECTED) {
         return {
             ...state,
             connected: action.value
         }
     }
-    if(action.type === ACTION_TYPE.TOGGLE_SIDEBAR) {
+    if (action.type === ACTION_TYPE.TOGGLE_SIDEBAR) {
         return {
-          ...state,
-          toggleSidebar: action.value
-          }
-      
-  }
-    if(action.type === ACTION_TYPE.CONNECTED_WALLET_NAME) {
+            ...state,
+            toggleSidebar: action.value
+        }
+
+    }
+    if (action.type === ACTION_TYPE.CONNECTED_WALLET_NAME) {
         return {
             ...state,
             connectedWalletName: action.value
         }
     }
-    if(action.type === ACTION_TYPE.PROVIDER) {
+    if (action.type === ACTION_TYPE.PROVIDER) {
         return {
             ...state,
             provider: action.value
         }
     }
-    if(action.type === ACTION_TYPE.CONNECTED_NETWORK) {
+    if (action.type === ACTION_TYPE.CONNECTED_NETWORK) {
         return {
             ...state,
             connectedNetwork: action.value
         }
     }
-    if(action.type === ACTION_TYPE.CHAIN_ID) {
+    if (action.type === ACTION_TYPE.CHAIN_ID) {
         return {
             ...state,
             chainId: action.value
         }
     }
-    if(action.type === ACTION_TYPE.MODAL_OPEN) {
+    if (action.type === ACTION_TYPE.MODAL_OPEN) {
 
-        return {
-          ...state,
-          openModal: action.value
-      }
-  }
-  if(action.type === ACTION_TYPE.MODAL_TYPE) {
-        return {
-          ...state,
-           modalType: action.value
-
-      }
-  }
-    if(action.type === ACTION_TYPE.SELECTED_MENU_ITEM) {
         return {
             ...state,
-             selectedMenuItem: action.value
+            openModal: action.value
+        }
+    }
+    if (action.type === ACTION_TYPE.MODAL_TYPE) {
+        return {
+            ...state,
+            modalType: action.value
+
+        }
+    }
+    if (action.type === ACTION_TYPE.SELECTED_MENU_ITEM) {
+        return {
+            ...state,
+            selectedMenuItem: action.value
         }
     }
 
-    if(action.type === ACTION_TYPE.MAIN_TOKEN_ALLOWANCE) {
+    if (action.type === ACTION_TYPE.MAIN_TOKEN_ALLOWANCE) {
         return {
             ...state,
             [poolAccessor]: {
@@ -157,7 +165,7 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.MAIN_TOKEN_BALANCE) {
+    if (action.type === ACTION_TYPE.MAIN_TOKEN_BALANCE) {
         return {
             ...state,
             [poolAccessor]: {
@@ -166,7 +174,7 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.WITHDRAW_TX_ID) {
+    if (action.type === ACTION_TYPE.WITHDRAW_TX_ID) {
         return {
             ...state,
             [poolAccessor]: {
@@ -175,7 +183,7 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.WITHDRAW_LOADING) {
+    if (action.type === ACTION_TYPE.WITHDRAW_LOADING) {
         console.log('withdrawloading value', action.value)
         return {
             ...state,
@@ -186,8 +194,8 @@ const reducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === ACTION_TYPE.TICKETS_BALANCE) {
-          return {
+    if (action.type === ACTION_TYPE.TICKETS_BALANCE) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -195,8 +203,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.TOTAL_TICKET_AMOUNT) {
-          return {
+    if (action.type === ACTION_TYPE.TOTAL_TICKET_AMOUNT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -204,8 +212,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.PREVIOUS_AWARDS) {
-          return {
+    if (action.type === ACTION_TYPE.PREVIOUS_AWARDS) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -213,8 +221,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.ALL_DEPOSITS) {
-          return {
+    if (action.type === ACTION_TYPE.ALL_DEPOSITS) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -222,8 +230,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.ALL_WITHDRAWS) {
-          return {
+    if (action.type === ACTION_TYPE.ALL_WITHDRAWS) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -232,8 +240,8 @@ const reducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === ACTION_TYPE.PRIZE_POOL_CONTRACT) {
-          return {
+    if (action.type === ACTION_TYPE.PRIZE_POOL_CONTRACT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -241,8 +249,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT) {
-          return {
+    if (action.type === ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -250,8 +258,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.TICKETS_CONTRACT) {
-          return {
+    if (action.type === ACTION_TYPE.TICKETS_CONTRACT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -259,8 +267,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.PRIZE_STRATEGY_CONTRACT) {
-          return {
+    if (action.type === ACTION_TYPE.PRIZE_STRATEGY_CONTRACT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -268,8 +276,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.MAIN_ASSET_CONTRACT) {
-          return {
+    if (action.type === ACTION_TYPE.MAIN_ASSET_CONTRACT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -278,8 +286,8 @@ const reducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === ACTION_TYPE.PERCANTAGE_TIME_PASSED) {
-          return {
+    if (action.type === ACTION_TYPE.PERCANTAGE_TIME_PASSED) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -287,9 +295,9 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.CURRENT_WEEK_PRIZE) {
+    if (action.type === ACTION_TYPE.CURRENT_WEEK_PRIZE) {
 
-          return {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -297,9 +305,9 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.GET_TICKETS_LOADING) {
+    if (action.type === ACTION_TYPE.GET_TICKETS_LOADING) {
 
-          return {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -307,9 +315,9 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.GET_TICKETS_TX_ID) {
+    if (action.type === ACTION_TYPE.GET_TICKETS_TX_ID) {
 
-          return {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -318,8 +326,8 @@ const reducer = (state = initialState, action) => {
         }
     }
 
-    if(action.type === ACTION_TYPE.PRIZE_PERIOD_ENDS) {
-          return {
+    if (action.type === ACTION_TYPE.PRIZE_PERIOD_ENDS) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -327,8 +335,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.PRIZE_PERIOD_STARTED_AT) {
-          return {
+    if (action.type === ACTION_TYPE.PRIZE_PERIOD_STARTED_AT) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -336,8 +344,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.PLAYER_DATA) {
-          return {
+    if (action.type === ACTION_TYPE.PLAYER_DATA) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -345,8 +353,8 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS) {
-          return {
+    if (action.type === ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS) {
+        return {
             ...state,
             [poolAccessor]: {
                 ...state[poolAccessor],
@@ -354,6 +362,34 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
+    if (action.type === ACTION_TYPE.TICKET_DEPOSIT_HANDLER) {
+        return {
+            ...state,
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                ticketDepositHandler: action.value
+            }
+        }
+    }
+    if (action.type === ACTION_TYPE.TICKET_WITHDRAW_HANDLER) {
+        return {
+            ...state,
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                ticketWithdrawHandler: action.value
+            }
+        }
+    }
+    if (action.type === ACTION_TYPE.ALLOW_TICKET_HANDLER) {
+        return {
+            ...state,
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                allowTicketHandler: action.value
+            }
+        }
+    }
+
     return state;
 }
 

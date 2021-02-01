@@ -12,12 +12,8 @@ import {connect} from 'react-redux'
 
 
 
-const GetTickets = ({getTicketsLoading, mainTokenBalance, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketsBalance, connected}) => {
+const GetTickets = ({getTicketsLoading, mainTokenBalance, allowBondHandler, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketDepositHandler, ticketsBalance, connected}) => {
     console.log(getTicketsLoading)
-    const {
-        allowBondHandler,
-        ticketDepositHandler,
-    } = useContext(AppContext);
 
 	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
@@ -143,12 +139,14 @@ const mapStateToProps =
 (
     {
         connected: state.connected, 
+        allowBondHandler: state[poolType].allowBondHandler,
         getTicketsLoading: state[poolType].getTicketsLoading, 
         getTicketsTxId: state[poolType].getTicketsTxId, 
         totalTicketAmount: state[poolType].totalTicketAmount, 
         ticketsBalance: state[poolType].ticketsBalance, 
         mainTokenBalance: state[poolType].mainTokenBalance, 
-        mainTokenAllowance: state[poolType].mainTokenAllowance
+        mainTokenAllowance: state[poolType].mainTokenAllowance,
+        ticketDepositHandler: state[poolType].ticketDepositHandler
     })
 
 export default connect(mapStateToProps)(GetTickets)

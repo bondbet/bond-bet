@@ -11,7 +11,7 @@ const Pools = () => {
                 <h1 className='title'>Lottery Pools</h1>
                 <div className='lottery-pools-section'>
                     <RewardPool poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/>
-                    <RewardPool poolType={POOL_TYPE.NEW_POOL}/>
+                    {/* <RewardPool poolType={POOL_TYPE.NEW_POOL}/> */}
                 </div>
             </div>    )   
 }

@@ -43,7 +43,11 @@ const Main = (
 
         disconnectWalletHandler,
         connectWalletHandler,
-        poolType
+        poolType,
+
+        setTicketDepositHandler,
+        setAllowTicketHandler,
+        setTicketWithdrawHandler
 
     }) => {
 
@@ -238,15 +242,20 @@ const Main = (
             alert('Something went wrong.')
         }
     })
+
+    useEffect(() => {
+        setTicketDepositHandler(ticketDepositHandler);
+        setAllowTicketHandler(allowBondHandler);
+        setTicketWithdrawHandler(ticketWithdrawHandler);
+    })
+
+
     return (
         <AppContext.Provider
             value={{
                 
                 disconnectWalletHandler,
                 connectWalletHandler,
-                ticketWithdrawHandler,
-                ticketDepositHandler,
-                allowBondHandler,
 
             }}
         >
@@ -275,6 +284,11 @@ const mapDispatchToProps = (dispatch, {poolType}) => {
     }
 
     return {
+        setTicketDepositHandler: value => dispatch({type: ACTION_TYPE.TICKET_DEPOSIT_HANDLER, value, poolType}),
+        setAllowTicketHandler: value => dispatch({type: ACTION_TYPE.ALLOW_TICKET_HANDLER, value, poolType}),
+
+        setTicketWithdrawHandler: value => dispatch({type: ACTION_TYPE.TICKET_WITHDRAW_HANDLER, value, poolType}),
+
         setGetTicketsLoading: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_LOADING, value,poolType }),
         setGetTicketsTxId: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_TX_ID, value,poolType }),
         setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType}}),
