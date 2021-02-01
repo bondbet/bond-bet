@@ -11,6 +11,7 @@ import PoolBoxHeader from '../Components/PoolBoxHeader';
 import { connect } from 'react-redux';
 import { setNewTime } from '../../../helpers/countdown-setter';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
+import {ACTION_TYPE} from './../../../store/action-type';
 
 const RewardPoolPlayerDetails = ({ playerData, prizePeriodEnds, currentWeekPrice, setSelectedMenuItem }) => {
     const { id } = useParams();
@@ -88,8 +89,13 @@ const RewardPoolPlayerDetails = ({ playerData, prizePeriodEnds, currentWeekPrice
     )
 }
 
-const mapStateToProps = ({ playerData, prizePeriodEnds, currentWeekPrice }) =>
-    ({ playerData, prizePeriodEnds, currentWeekPrice })
+const mapStateToProps = (state, {poolType}) =>
+    (
+        { 
+            playerData: state[poolType].playerData, 
+            prizePeriodEnds: state[poolType].prizePeriodEnds, 
+            currentWeekPrice: state[poolType].currentWeekPrice
+         })
 const mapDispatchToProps = (dispatch) => ({
     setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })
 })

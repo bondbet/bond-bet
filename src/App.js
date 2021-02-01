@@ -15,6 +15,7 @@ import ControlledToken from './constants/abis/ControlledToken.json';
 import BarnFacetMock from './constants/abis/BarnFacetMock.json';
 import { connect } from 'react-redux';
 import { ACTION_TYPE } from './store/action-type';
+import { POOL_TYPE } from './store/pool-type';
 
 
 const App = (
@@ -181,6 +182,7 @@ const App = (
 			disconnectWalletHandler={disconnectWalletHandler}
 			connectWalletHandler={connectWalletHandler}
 
+			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
 		></Main>
 	)
 
@@ -204,19 +206,25 @@ const mapStateToProps = (
 		chainId,
 	}
 )
-const mapDispatchToProps = dispatch => ({
-	setPrizePoolContract: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_CONTRACT, value }),
-	setMainAssetTokenContract: value => dispatch({ type: ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT, value }),
-	setTicketsContract: value => dispatch({ type: ACTION_TYPE.TICKETS_CONTRACT, value }),
-	setPrizeStrategyContract: value => dispatch({ type: ACTION_TYPE.PRIZE_STRATEGY_CONTRACT, value }),
-	setMainAssetContract: value => dispatch({ type: ACTION_TYPE.MAIN_ASSET_CONTRACT, value }),
-	setProvider: value => dispatch({ type: ACTION_TYPE.PROVIDER, value }),
-	setConnected: value => dispatch({ type: ACTION_TYPE.CONNECTED, value }),
-	setConnectedNetwork: value => dispatch({ type: ACTION_TYPE.CONNECTED_NETWORK, value }),
-	setConnectedWalletAddress: value => dispatch({ type: ACTION_TYPE.CONNECTED_WALLET_ADDRESS, value }),
-	setConnectedWalletName: value => dispatch({ type: ACTION_TYPE.CONNECTED_WALLET_NAME, value }),
-	setChainId: value => dispatch({ type: ACTION_TYPE.CHAIN_ID, value })
-})
+const mapDispatchToProps = (dispatch) => {
+
+
+	const poolType = POOL_TYPE.COMMUNITY_REWARD_POOL;
+	return {
+		setPrizePoolContract: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_CONTRACT, value,poolType }),
+		setMainAssetTokenContract: value => dispatch({ type: ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT, value,poolType }),
+		setTicketsContract: value => dispatch({ type: ACTION_TYPE.TICKETS_CONTRACT, value,poolType }),
+		setPrizeStrategyContract: value => dispatch({ type: ACTION_TYPE.PRIZE_STRATEGY_CONTRACT, value,poolType }),
+		setMainAssetContract: value => dispatch({ type: ACTION_TYPE.MAIN_ASSET_CONTRACT, value,poolType }),
+		setProvider: value => dispatch({ type: ACTION_TYPE.PROVIDER, value }),
+		setConnected: value => dispatch({ type: ACTION_TYPE.CONNECTED, value }),
+		setConnectedNetwork: value => dispatch({ type: ACTION_TYPE.CONNECTED_NETWORK, value }),
+		setConnectedWalletAddress: value => dispatch({ type: ACTION_TYPE.CONNECTED_WALLET_ADDRESS, value }),
+		setConnectedWalletName: value => dispatch({ type: ACTION_TYPE.CONNECTED_WALLET_NAME, value }),
+		setChainId: value => dispatch({ type: ACTION_TYPE.CHAIN_ID, value })
+	}
+	
+}
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 
 

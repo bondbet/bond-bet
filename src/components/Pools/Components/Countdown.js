@@ -63,7 +63,7 @@ const Countdown = ({prizePeriodEnds})  => {
         </div>
     )
 }
-const mapStateToProps = ({prizePeriodEnds}) => ({prizePeriodEnds})
+const mapStateToProps = (state, {poolType}) => ({prizePeriodEnds: state[poolType].prizePeriodEnds})
 
 
 export default connect(mapStateToProps)(Countdown);

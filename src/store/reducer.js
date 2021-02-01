@@ -1,5 +1,6 @@
 import { BigNumber } from "ethers";
 import { ACTION_TYPE } from "./action-type";
+import { POOL_TYPE } from "./pool-type";
 
 const initialState = {
     connectedWalletAddress: '',
@@ -8,41 +9,44 @@ const initialState = {
     provider: null,
     connectedNetwork: '',
     chainId: 1,
-
-    toggleSidebar: false,
-    percentageTimePassed: 0,
-    getTicketsLoading: false,
-    getTicketsTxId: '',
-    openModal: false,
-    modalType: '',
-    prizePeriodEnds: 0,
-    prizePeriodStartedAt:0,
-    prizePoolRemainingSeconds:0,
-    playerData: [],
-    currentWeekPrize: BigNumber.from('0'),
-
-    prizePoolContract:null,
-	mainAssetTokenContract:null,
-	ticketsContract:null,
-	prizeStrategyContract:null,
-    mainAssetContract:null,
-
-    ticketsBalance:0,
-    totalTicketAmount:0,
-    previousAwards:[],
-    allDeposits:[],
-    allWithdraws:[],
-
-    mainTokenAllowance: 0,
-    mainTokenBalance: 0,
-    withdrawTxId: '',
-    withdrawLoading: false,           
     selectedMenuItem: 0,
+    toggleSidebar: false,
 
+    [POOL_TYPE.COMMUNITY_REWARD_POOL]: {
+        percentageTimePassed: 0,
+        getTicketsLoading: false,
+        getTicketsTxId: '',
+        openModal: false,
+        modalType: '',
+        prizePeriodEnds: 0,
+        prizePeriodStartedAt:0,
+        prizePoolRemainingSeconds:0,
+        playerData: [],
+        currentWeekPrize: BigNumber.from('0'),
+    
+        prizePoolContract:null,
+        mainAssetTokenContract:null,
+        ticketsContract:null,
+        prizeStrategyContract:null,
+        mainAssetContract:null,
+    
+        ticketsBalance:0,
+        totalTicketAmount:0,
+        previousAwards:[],
+        allDeposits:[],
+        allWithdraws:[],
+    
+        mainTokenAllowance: 0,
+        mainTokenBalance: 0,
+        withdrawTxId: '',
+        withdrawLoading: false,           
+    },
+    
 }
 
 const reducer = (state = initialState, action) => {
-  
+    console.log(action)
+  const poolAccessor = action.poolType;
     if(action.type === ACTION_TYPE.CONNECTED_WALLET_ADDRESS) {
         return {
             ...state,
@@ -55,6 +59,13 @@ const reducer = (state = initialState, action) => {
             connected: action.value
         }
     }
+    if(action.type === ACTION_TYPE.TOGGLE_SIDEBAR) {
+        return {
+          ...state,
+          toggleSidebar: action.value
+          }
+      
+  }
     if(action.type === ACTION_TYPE.CONNECTED_WALLET_NAME) {
         return {
             ...state,
@@ -79,161 +90,234 @@ const reducer = (state = initialState, action) => {
             chainId: action.value
         }
     }
+    if(action.type === ACTION_TYPE.SELECTED_MENU_ITEM) {
+        return {
+            ...state,
+             selectedMenuItem: action.value
+        }
+    }
+
     if(action.type === ACTION_TYPE.MAIN_TOKEN_ALLOWANCE) {
         return {
             ...state,
-            mainTokenAllowance: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                mainTokenAllowance: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.MAIN_TOKEN_BALANCE) {
         return {
             ...state,
-            mainTokenBalance: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                mainTokenBalance: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.WITHDRAW_TX_ID) {
         return {
             ...state,
-            withdrawTxId: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                withdrawTxId: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.WITHDRAW_LOADING) {
         return {
             ...state,
-            withdrawLoading: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                withdrawLoading: action.value
+            }
         }
     }
-    if(action.type === ACTION_TYPE.SELECTED_MENU_ITEM) {
-        return {
-            ...state,
-            selectedMenuItem: action.value
-        }
-    }
+
     if(action.type === ACTION_TYPE.TICKETS_BALANCE) {
-        return {
+          return {
             ...state,
-            ticketsBalance: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                ticketsBalance: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.TOTAL_TICKET_AMOUNT) {
-        return {
+          return {
             ...state,
-            totalTicketAmount: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                totalTicketAmount: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.PREVIOUS_AWARDS) {
-        return {
+          return {
             ...state,
-            previousAwards: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                previousAwards: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.ALL_DEPOSITS) {
-        return {
+          return {
             ...state,
-            allDeposits: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                allDeposits: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.ALL_WITHDRAWS) {
-        return {
+          return {
             ...state,
-            allWithdraws: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                allWithdraws: action.value
+            }
         }
     }
 
     if(action.type === ACTION_TYPE.PRIZE_POOL_CONTRACT) {
-        return {
+          return {
             ...state,
-            prizePoolContract: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                prizePoolContract: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.MAIN_ASSET_TOKEN_CONTRACT) {
-        return {
+          return {
             ...state,
-            mainAssetTokenContract: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                mainAssetTokenContract: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.TICKETS_CONTRACT) {
-        return {
+          return {
             ...state,
-            ticketsContract: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                ticketsContract: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.PRIZE_STRATEGY_CONTRACT) {
-        return {
+          return {
             ...state,
-            prizeStrategyContract: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                prizeStrategyContract: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.MAIN_ASSET_CONTRACT) {
-        return {
+          return {
             ...state,
-            mainAssetContract: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                mainAssetContract: action.value
+            }
         }
     }
-    if(action.type === ACTION_TYPE.TOGGLE_SIDEBAR) {
-        return {
-            ...state,
-            toggleSidebar: action.value
-        }
-    }
+
     if(action.type === ACTION_TYPE.PERCANTAGE_TIME_PASSED) {
-        return {
+          return {
             ...state,
-            percentageTimePassed: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                percentageTimePassed: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.CURRENT_WEEK_PRIZE) {
-        return {
+
+          return {
             ...state,
-            currentWeekPrice: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                currentWeekPrice: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.GET_TICKETS_LOADING) {
-        return {
+
+          return {
             ...state,
-            getTicketsLoading: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                getTicketsLoading: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.GET_TICKETS_TX_ID) {
-        return {
+
+          return {
             ...state,
-            getTicketsTxId: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                getTicketsTxId: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.MODAL_OPEN) {
-        return {
+
+          return {
             ...state,
-            openModal: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                openModal: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.MODAL_TYPE) {
-        return {
+          return {
             ...state,
-            modalType: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                modalType: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.PRIZE_PERIOD_ENDS) {
-        return {
+          return {
             ...state,
-            prizePeriodEnds: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                prizePeriodEnds: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.PRIZE_PERIOD_STARTED_AT) {
-        return {
+          return {
             ...state,
-            prizePeriodStartedAt: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                prizePeriodStartedAt: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.PLAYER_DATA) {
-        return {
+          return {
             ...state,
-            playerData: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                playerData: action.value
+            }
         }
     }
     if(action.type === ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS) {
-        return {
+          return {
             ...state,
-            prizePoolRemainingSeconds: action.value
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                prizePoolRemainingSeconds: action.value
+            }
         }
     }
     return state;

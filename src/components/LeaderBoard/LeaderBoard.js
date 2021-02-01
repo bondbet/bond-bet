@@ -4,7 +4,7 @@ import logo from '../../assets/images/onlyLogo.svg'
 import { useHistory } from 'react-router-dom'
 import AppContext from '../../ContextAPI'
 import { formatToHumatReadableDate } from '../../helpers/date'
-import { formatEtherWithDecimals, shortenEthereumAddress } from '../../helpers/format-utils'
+import { formatEtherWithDecimals } from '../../helpers/format-utils'
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type'
 
@@ -64,7 +64,7 @@ const LeaderBoard = ({previousAwards, setSelectedMenuItem}) => {
     )
 }
 
-const mapStateToProps = ({previousAwards}) => ({previousAwards});
+const mapStateToProps = (state, {poolType}) => ({previousAwards: state[poolType].previousAwards});
 const mapDispatchToProps = dispatch => ({
     setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })

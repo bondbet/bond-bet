@@ -17,7 +17,7 @@ import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws }) => {
+const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws, poolType }) => {
 
     const history = useHistory();
 
@@ -74,6 +74,7 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
         }) ;
 
         const playersWithMoreThanZeroTickets = [...playerToCurrentTicketBalanceMap.keys()].filter(x => playerToCurrentTicketBalanceMap.get(x).gt('0'))
+
         setPlayerData(playersWithMoreThanZeroTickets.map(x => ({
             address: x, 
             ticketsBalance: formatEtherWithDecimals(playerToCurrentTicketBalanceMap.get(x),2), 
@@ -122,8 +123,8 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
                             <h1 className='pools-box-inner-title required-changes'>
                                 <img src={timeImg} alt='Time Left' /> Time Left
                             </h1>
-                            <ProgressBar percentageTimePassed={percentageTimePassed} />
-                            <Countdown />
+                            <ProgressBar percentageTimePassed={percentageTimePassed}  poolType={poolType} />
+                            <Countdown poolType={poolType} />
                         </div>
                     </div>
                 </div>
@@ -193,10 +194,18 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
         </div>
     )
 }
-const mapStateToProps = ({percentageTimePassed, playerData, currentWeekPrice, totalTicketAmount, previousAwards, allDeposits, allWithdraws }) => 
-                        ({percentageTimePassed, playerData, currentWeekPrice, totalTicketAmount, previousAwards, allDeposits, allWithdraws })
-const mapDispatchToProps = (dispatch) => ({
-    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, value}),
+const mapStateToProps = (state, {poolType}) => 
+                        (
+                            {
+                                percentageTimePassed:state[poolType].percentageTimePassed, 
+                                playerData:state[poolType].playerData, 
+                                currentWeekPrice:state[poolType].currentWeekPrice, 
+                                totalTicketAmount:state[poolType].totalTicketAmount, 
+                                previousAwards:state[poolType].previousAwards, 
+                                allDeposits:state[poolType].allDeposits, 
+                                allWithdraws:state[poolType].allWithdraws })
+const mapDispatchToProps = (dispatch, {poolType}) => ({
+    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, poolType, value}),
     setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
 export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolDetails)

@@ -28,6 +28,7 @@ const Table = ({title, data, columns, pageSize, isLeaderboardTable = false, isHa
         return buttons;
     }
 
+
     return (
         <>
             <div className='pools-box change-shadow required-changes'>

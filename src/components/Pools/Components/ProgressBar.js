@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 
 
 const ProgressBar = ({percentageTimePassed}) => {
-
     return (
         <div className='pools-box-progress required-changes'>
             <p className='in-road'>In road: {percentageTimePassed}%</p>
@@ -15,8 +14,8 @@ const ProgressBar = ({percentageTimePassed}) => {
         </div>
     )
 }
-const mapStateToProps = ({percentageTimePassed}) => ({
-    percentageTimePassed
+const mapStateToProps = (state, {poolType}) => ({
+    percentageTimePassed: state[poolType].percentageTimePassed
 })
 
 export default connect(mapStateToProps)(ProgressBar)

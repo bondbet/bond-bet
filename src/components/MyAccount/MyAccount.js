@@ -185,8 +185,20 @@ const MyAccount = (
         </div>
     )
 }
-const mapStateToProps = ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount,ticketsBalance, previousAwards, allDeposits, allWithdraws, mainTokenBalance, connectedWalletAddress }) =>
-                        ({ prizePeriodEnds, currentWeekPrice, totalTicketAmount, ticketsBalance, previousAwards, allDeposits, allWithdraws, mainTokenBalance, connectedWalletAddress  })
+const mapStateToProps = (state, {poolType}) =>
+                        (
+                            { 
+                                prizePeriodEnds: state[poolType].prizePeriodEnds, 
+                                currentWeekPrice: state[poolType].currentWeekPrice, 
+                                totalTicketAmount: state[poolType].totalTicketAmount, 
+                                ticketsBalance: state[poolType].ticketsBalance, 
+                                previousAwards: state[poolType].previousAwards, 
+                                
+                                allDeposits: state[poolType].allDeposits, 
+                                allWithdraws: state[poolType].allWithdraws, 
+                                mainTokenBalance: state[poolType].mainTokenBalance, 
+                                connectedWalletAddress: state.connectedWalletAddress
+                            })
 
 const mapDispatchToProps = dispatch => ({
     setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value }),

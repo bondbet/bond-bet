@@ -23,10 +23,16 @@ const CountdownPercantageUpdater = ({setPercentageTimePassed,  prizePeriodEnds, 
 
     return (null)
 };
-const mapStateToProps = ({prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds}) => ({prizePeriodEnds, prizePeriodStartedAt, prizePoolRemainingSeconds});
+const mapStateToProps = (state, {poolType}) => {
+   return  {
+        prizePeriodEnds: state[poolType].prizePeriodEnds, 
+        prizePeriodStartedAt: state[poolType].prizePeriodStartedAt, 
+        prizePoolRemainingSeconds: state[poolType].prizePoolRemainingSeconds
+    }
+};
 
-const mapDispatchToProps = (dispatch) => ({
-    setPercentageTimePassed: (value) => dispatch({type: ACTION_TYPE.PERCANTAGE_TIME_PASSED, value})
+const mapDispatchToProps = (dispatch, {poolType}) => ({
+    setPercentageTimePassed: (value) => dispatch({type: ACTION_TYPE.PERCANTAGE_TIME_PASSED, value,poolType})
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(CountdownPercantageUpdater);

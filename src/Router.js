@@ -10,6 +10,7 @@ import RewardPoolPrizeDetails from './components/Pools/RewardPool/RewardPoolPriz
 import RewardPoolPlayerDetails from './components/Pools/RewardPool/RewardPoolPlayerDetails'
 import RewardPoolDetails from './components/Pools/RewardPool/RewardPoolDetails'
 import {connect} from 'react-redux';
+import { POOL_TYPE } from './store/pool-type';
 
 function Router({openModal}) {
     return (
@@ -21,11 +22,11 @@ function Router({openModal}) {
 				<div className='app-content'>
 					<Switch>
 						<Route exact path="/" component={() => <div>{document.title = 'Pools'}<Pools /></div>} />
-						<Route exact path="/my-account" component={() => <div>{document.title = 'My Account'}<MyAccount /></div>} />
-						<Route exact path="/leaderboard" component={() => <div>{document.title = 'Leaderboard'}<LeaderBoard /></div>} />
-						<Route exact path="/community-reward-pool/details" component={() => <div>{document.title = 'Community Reward Pool'}<RewardPoolDetails /></div>} />
-						<Route exact path="/community-reward-pool/prize/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPrizeDetails /></div>} />
-						<Route exact path="/community-reward-pool/player/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPlayerDetails /></div>} />
+						<Route exact path="/my-account" component={() => <div>{document.title = 'My Account'}<MyAccount poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
+						<Route exact path="/leaderboard" component={() => <div>{document.title = 'Leaderboard'}<LeaderBoard poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
+						<Route exact path="/community-reward-pool/details" component={() => <div>{document.title = 'Community Reward Pool'}<RewardPoolDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
+						<Route exact path="/community-reward-pool/prize/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPrizeDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
+						<Route exact path="/community-reward-pool/player/:id" component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPlayerDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
 						<Route path="*" component={() => <Redirect to='/' />} />
 					</Switch>
 				</div>

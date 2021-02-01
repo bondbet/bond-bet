@@ -43,15 +43,19 @@ const Main = (
         setSelectedMenuItem,
 
         disconnectWalletHandler,
-        connectWalletHandler
+        connectWalletHandler,
+        poolType
 
     }) => {
 
     useEffect(async () => {
         try {
+          
             if (mainAssetTokenContract && connectedWalletAddress) {
-                console.log('main ass', mainAssetContract)
+                console.log(89789789798)
+
                 const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
+                console.log('about to set', bondTokenBalance)
                 setMainTokenBalance(bondTokenBalance);
 
                 const allowance = await mainAssetTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
@@ -69,7 +73,6 @@ const Main = (
     useEffect(async () => {
         if (prizeStrategyContract) {
             try {
-                console.log('prize str', prizeStrategyContract)
                 setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
                 setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
                 setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
@@ -143,8 +146,6 @@ const Main = (
     })
     const updatePrizePoolDependantState = useCallback(async (prizePoolContract) => {
 
-
-        console.log('prize pool', prizePoolContract)
         const totalTickets = await prizePoolContract.accountedBalance();
         const totalBalance = await mainAssetContract.balanceOf(BARN_PRIZE_POOL_ADDRESS);
         const owedAward = await prizePoolContract.owedReward();
@@ -253,55 +254,52 @@ const Main = (
 
             }}
         >
-            <CountdownPercantageUpdater />
+            <CountdownPercantageUpdater poolType={poolType}/>
             <Router />
         </AppContext.Provider>
     );
 }
 
-const mapStateToProps = ({
-    prizePoolContract,
-    mainAssetTokenContract,
-    ticketsContract,
-    prizeStrategyContract,
-    mainAssetContract,
-    ticketsBalance,
-    mainTokenBalance,
-    connectedWalletAddress,
-    connectedNetwork
+const mapStateToProps = (state, {poolType}) => ({
+    prizePoolContract: state[poolType].prizePoolContract,
+    mainAssetTokenContract: state[poolType].mainAssetTokenContract,
+    ticketsContract: state[poolType].ticketsContract,
+    prizeStrategyContract: state[poolType].prizeStrategyContract,
+    mainAssetContract: state[poolType].mainAssetContract,
+    ticketsBalance: state[poolType].ticketsBalance,
+    mainTokenBalance: state[poolType].mainTokenBalance,
+    connectedWalletAddress: state.connectedWalletAddress,
+    connectedNetwork: state.connectedNetwork
+})
+
+const mapDispatchToProps = (dispatch, {poolType}) => {
+
+    if(!poolType) {
+        throw new Error('Should provide pool type as prop');
+    }
+
+    return {
+        setGetTicketsLoading: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_LOADING, value,poolType }),
+        setGetTicketsTxId: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_TX_ID, value,poolType }),
+        setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value,poolType }),
+        setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value,poolType }),
+        setPrizePeriodEnds: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_ENDS, value,poolType }),
+        setPrizePeriodStartedAt: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value,poolType }),
+        setPrizePoolRemainingSeconds: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value,poolType }),
+        setCurrentWeekPrice: value => dispatch({ type: ACTION_TYPE.CURRENT_WEEK_PRIZE, value,poolType }),
     
-}) => ({
-    prizePoolContract,
-    mainAssetTokenContract,
-    ticketsContract,
-    prizeStrategyContract,
-    mainAssetContract,
-    ticketsBalance,
-    mainTokenBalance,
-    connectedWalletAddress,
-    connectedNetwork
-})
+        setTicketsBalance: value => dispatch({type: ACTION_TYPE.TICKETS_BALANCE, value,poolType}),
+        setTotalTicketAmount: value => dispatch({type: ACTION_TYPE.TOTAL_TICKET_AMOUNT, value,poolType}),
+        setPreviousAwards: value => dispatch({type: ACTION_TYPE.PREVIOUS_AWARDS, value,poolType}),
+        setAllDeposits: value => dispatch({type: ACTION_TYPE.ALL_DEPOSITS, value,poolType}),
+        setAllWithdraws: value => dispatch({type: ACTION_TYPE.ALL_WITHDRAWS, value,poolType}),
+    
+        setMainTokenAllowance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_ALLOWANCE, value,poolType}),
+        setMainTokenBalance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_BALANCE, value,poolType}),
+        setWithdrawTxId: value => dispatch({type: ACTION_TYPE.WITHDRAW_TX_ID, value,poolType}),
+        setWithdrawLoading: value => dispatch({type: ACTION_TYPE.WITHDRAW_LOADING, value,poolType}),
+        setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value,poolType})
+    }
 
-const mapDispatchToProps = dispatch => ({
-    setGetTicketsLoading: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_LOADING, value }),
-    setGetTicketsTxId: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_TX_ID, value }),
-    setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value }),
-    setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value }),
-    setPrizePeriodEnds: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_ENDS, value }),
-    setPrizePeriodStartedAt: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value }),
-    setPrizePoolRemainingSeconds: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value }),
-    setCurrentWeekPrice: value => dispatch({ type: ACTION_TYPE.CURRENT_WEEK_PRIZE, value }),
-
-    setTicketsBalance: value => dispatch({type: ACTION_TYPE.TICKETS_BALANCE, value}),
-    setTotalTicketAmount: value => dispatch({type: ACTION_TYPE.TOTAL_TICKET_AMOUNT, value}),
-    setPreviousAwards: value => dispatch({type: ACTION_TYPE.PREVIOUS_AWARDS, value}),
-    setAllDeposits: value => dispatch({type: ACTION_TYPE.ALL_DEPOSITS, value}),
-    setAllWithdraws: value => dispatch({type: ACTION_TYPE.ALL_WITHDRAWS, value}),
-
-    setMainTokenAllowance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_ALLOWANCE, value}),
-    setMainTokenBalance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_BALANCE, value}),
-    setWithdrawTxId: value => dispatch({type: ACTION_TYPE.WITHDRAW_TX_ID, value}),
-    setWithdrawLoading: value => dispatch({type: ACTION_TYPE.WITHDRAW_LOADING, value}),
-    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
-})
+}
 export default connect(mapStateToProps, mapDispatchToProps)(Main);

@@ -3,21 +3,21 @@ import { useHistory } from 'react-router-dom';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import PoolBoxContent from '../Components/PoolBoxContent';
 import AppContext from '../../../ContextAPI';
-import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected}) => {
+const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected, poolType}) => {
     const { connectWalletHandler} = useContext(AppContext);
     const history = useHistory();
 
     return (
         
             <div className='pools-box'>
-                <PoolBoxHeader title='Community Reward Pool' />
+                <PoolBoxHeader title='Community Reward Pool' poolType={poolType}/>
                 <div className='pools-box-content'>
                     <PoolBoxContent
+                        poolType={poolType}
                         title='Community Reward Pool'
                         bonds={`${formatEtherWithDecimals(totalTicketAmount, 2)} bond`}
                     />
@@ -39,7 +39,7 @@ const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected}) 
     
     )
 }
-const mapStateToProps = ({totalTicketAmount}) => ({totalTicketAmount});
+const mapStateToProps = (state, {poolType}) => ({totalTicketAmount: state[poolType].totalTicketAmount, connected: state.connected});
 
 const mapDispatchToProps = dispatch => ({
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
