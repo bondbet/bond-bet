@@ -57,7 +57,7 @@ body {
         linear-gradient(to right, #5B5DB8 0.5px, transparent 1px),
         linear-gradient(to bottom, #5B5DB8 0.5px, transparent 1px);
     background-color: #6567CC;
-    overflow: hidden;
+    overflow-x: hidden;
 }
 
 #root {

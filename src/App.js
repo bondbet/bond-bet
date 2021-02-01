@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { ACTION_TYPE } from './store/action-type';
 import { POOL_TYPE } from './store/pool-type';
 import PoolContractsResolver from './components/PoolContractsResolver';
-import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS } from './constants/contracts';
+import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS, PRIZE_POOL_MAIN_NET_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS, PRIZE_STRATEGY_MAIN_NET_ADDRESS, TICKETS_MAIN_NET_ADDRESS } from './constants/contracts';
 import Router from './Router';
 
 import AppContext from './ContextAPI'
@@ -75,6 +75,7 @@ const App = (
 			setLibrary(library);
 			await subscribeToProviderEvents(newProvider);
 		} catch (e) {
+			console.log(e)
 			alert('Something went wrong when connecting the contracts. Please check your connected network.')
 		}
 	});
@@ -137,7 +138,14 @@ const App = (
 
 	return ( <div>
 	
+	<AppContext.Provider
+            value={{
+                
+                disconnectWalletHandler,
+                connectWalletHandler,
 
+            }}
+        >
 		
 		<Main
 			provider={provider}
@@ -145,12 +153,19 @@ const App = (
 			connectedWalletAddress={connectedWalletAddress}
 			connectedWalletName={connectedWalletName}
 			connected={connected}
-			disconnectWalletHandler={disconnectWalletHandler}
-			connectWalletHandler={connectWalletHandler}
 
 			
 
 			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
+		></Main>
+		<Main
+				provider={provider}
+				connectedNetwork={connectedNetwork}
+				connectedWalletAddress={connectedWalletAddress}
+				connectedWalletName={connectedWalletName}
+				connected={connected}
+ 
+			poolType={POOL_TYPE.NEW_POOL}
 		></Main>
 		<PoolContractsResolver 
 			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
@@ -159,22 +174,14 @@ const App = (
 			prizeStrategyAddress={PRIZE_STRATEGY_CONTRACT_ADDRESS}
 			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver>
 				{/* <PoolContractsResolver 
-			poolType={POOL_TYPE.NEW_POOL	}
-			prizePoolAddress={BARN_PRIZE_POOL_ADDRESS}
-			
-			prizeStrategyAddress={PRIZE_STRATEGY_CONTRACT_ADDRESS}
-			ticketsAddress={BOND_TICKETS_CONTRACT_ADDRESS}></PoolContractsResolver> */}
-			{/* <Main
-				provider={provider}
-				connectedNetwork={connectedNetwork}
-				connectedWalletAddress={connectedWalletAddress}
-				connectedWalletName={connectedWalletName}
-				connected={connected}
-				disconnectWalletHandler={disconnectWalletHandler}
-				connectWalletHandler={connectWalletHandler}
-
 			poolType={POOL_TYPE.NEW_POOL}
-		></Main> */}
+			prizePoolAddress={PRIZE_POOL_MAIN_NET_ADDRESS}
+			
+			prizeStrategyAddress={PRIZE_STRATEGY_MAIN_NET_ADDRESS}
+			ticketsAddress={TICKETS_MAIN_NET_ADDRESS}></PoolContractsResolver> */}
+					<Router />
+			    </AppContext.Provider>
+		
 		</div>
 	)
 

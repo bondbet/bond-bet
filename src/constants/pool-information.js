@@ -3,5 +3,10 @@ export const POOL_INFORMATION = {
         TITLE: "Community Reward Pool",
         URL: "community-reward-pool",
         YIELD_SOURCE: "BarnBridge DAO Staking",
+    },
+    NEW_POOL: {
+        TITLE: "New Pool",
+        URL: "new-pool",
+        YIELD_SOURCE: "BarnBridge DAO Staking",
     }
 }

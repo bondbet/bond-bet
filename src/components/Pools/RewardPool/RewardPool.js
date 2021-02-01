@@ -7,18 +7,17 @@ import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected, poolType}) => {
+const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected, poolType, POOL_URL, POOL_TITLE}) => {
     const { connectWalletHandler} = useContext(AppContext);
     const history = useHistory();
-console.log('reward pool of type', poolType, totalTicketAmount)
     return (
         
             <div className='pools-box'>
-                <PoolBoxHeader title='Community Reward Pool' poolType={poolType}/>
+                <PoolBoxHeader title={POOL_TITLE} poolType={poolType}/>
                 <div className='pools-box-content'>
                     <PoolBoxContent
                         poolType={poolType}
-                        title='Community Reward Pool'
+                        title={POOL_TITLE}
                         bonds={`${formatEtherWithDecimals(totalTicketAmount, 2)} bond`}
                     />
 
@@ -32,14 +31,14 @@ console.log('reward pool of type', poolType, totalTicketAmount)
                             setModalType('GT'); 
                             }
                             }>Get Tickets</button>
-                        <button onClick={() => history.push('/community-reward-pool/details')}>Pool Details</button>
+                        <button onClick={() => history.push(`/${POOL_URL}/details`)}>Pool Details</button>
                     </div>
                 </div>
             </div>
     
     )
 }
-const mapStateToProps = (state, {poolType}) => ({totalTicketAmount: state[poolType].totalTicketAmount, connected: state.connected});
+const mapStateToProps = (state, {poolType}) => ({totalTicketAmount: state[poolType].totalTicketAmount, connected: state.connected, POOL_URL: state[poolType].URL, POOL_TITLE: state[poolType].TITLE});
 
 const mapDispatchToProps = (dispatch, {poolType}) => ({
     setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType}}),

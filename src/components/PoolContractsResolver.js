@@ -46,6 +46,7 @@ const PoolContractsResolver = (
 				console.log('connecting')
 
 				const prizePoolContractCode = await library.getCode(prizePoolAddress);
+				console.log('main asset', prizePoolContractCode)
 				if (prizePoolContractCode.length > 2) {
 					const newBarnPrizePoolContract = getContract(BARN_PRIZE_POOL_ADDRESS, BarnPrizePool.abi, library, connectedWalletAddress);
 	
@@ -59,7 +60,7 @@ const PoolContractsResolver = (
 	
 					const newMainAssetContract = getContract(mainAssetTokenAddress, BarnFacetMock.abi, library, connectedWalletAddress);
 	
-	
+					
 	
 					setMainAssetContract(newMainAssetContract);
 					setPrizeStrategyContract(newPrizeStrategyContract);
@@ -68,6 +69,8 @@ const PoolContractsResolver = (
 					setTicketsContract(newTicketsContract);
 				}
 			} catch (e) {
+				console.log(e)
+
 				alert('Something went wrong when connecting the contracts. Please check your connected network.')
 			}
 		}

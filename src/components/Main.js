@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import AppContext from '../ContextAPI';
+import React, { useEffect, useCallback } from 'react';
 import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts';
 import { BigNumber } from 'ethers';
 import * as ethers from 'ethers';
@@ -7,7 +6,7 @@ import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
 import { ACTION_TYPE } from '../store/action-type';
 import { connect } from 'react-redux';
-import Router from '../Router'
+
 const Main = (
     {
         connectedWalletAddress,
@@ -41,8 +40,6 @@ const Main = (
         setWithdrawLoading,
         setSelectedMenuItem,
 
-        disconnectWalletHandler,
-        connectWalletHandler,
         poolType,
 
         setTicketDepositHandler,
@@ -53,7 +50,7 @@ const Main = (
 
     useEffect(async () => {
         try {
-          
+          console.log('set balance', mainAssetContract, connectedWalletAddress)
             if (mainAssetTokenContract && connectedWalletAddress) {
                 const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
                 setMainTokenBalance(bondTokenBalance);
@@ -251,17 +248,10 @@ const Main = (
 
 
     return (
-        <AppContext.Provider
-            value={{
-                
-                disconnectWalletHandler,
-                connectWalletHandler,
-
-            }}
-        >
+       
             <CountdownPercantageUpdater poolType={poolType}/>
-		<Router />
-        </AppContext.Provider>
+	
+    
     );
 }
 

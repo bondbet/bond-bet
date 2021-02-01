@@ -17,7 +17,7 @@ import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws, poolType }) => {
+const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws, poolType, POOL_TITLE, POOL_YIELD_SOURCE }) => {
 
     const history = useHistory();
 
@@ -90,12 +90,12 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
-                <img src={onlyLogo} alt='Community Reward Pool' /> Community Reward Pool
+                <img src={onlyLogo} alt={POOL_TITLE} /> {POOL_TITLE}
             </h1>
             <div className='breadcrumbs'>
                 <Link to='/'>Lottery Pools</Link>
                 <img src={arrowToRight} alt='Right Arrow' />
-                <label>Community Reward Pool</label>
+                <label>{POOL_TITLE}</label>
             </div>
 
             <div className='pools-box-container'>
@@ -149,7 +149,7 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
                             </h1>
                             <div className='pools-box-screen required-changes'>
                                 <h1 className='yield-source-title'>
-                                    <img src={onlyLogo} alt='BarnBridge DAO Staking' /> {PLACEHOLDER_YIELD_SOURCE}
+                                    <img src={onlyLogo} alt={POOL_YIELD_SOURCE} /> {POOL_YIELD_SOURCE}
                                 </h1>
                             </div>
                         </div>
@@ -203,7 +203,10 @@ const mapStateToProps = (state, {poolType}) =>
                                 totalTicketAmount:state[poolType].totalTicketAmount, 
                                 previousAwards:state[poolType].previousAwards, 
                                 allDeposits:state[poolType].allDeposits, 
-                                allWithdraws:state[poolType].allWithdraws })
+                                allWithdraws:state[poolType].allWithdraws,
+                                POOL_TITLE: state[poolType].TITLE,
+                                POOL_YIELD_SOURCE: state[poolType].YIELD_SOURCE
+                             })
 const mapDispatchToProps = (dispatch, {poolType}) => ({
     setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, poolType, value}),
     setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})

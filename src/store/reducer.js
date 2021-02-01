@@ -1,4 +1,5 @@
 import { BigNumber } from "ethers";
+import { POOL_INFORMATION } from "../constants/pool-information";
 import { ACTION_TYPE } from "./action-type";
 import { POOL_TYPE } from "./pool-type";
 
@@ -17,9 +18,9 @@ const initialState = {
 
 
     [POOL_TYPE.COMMUNITY_REWARD_POOL]: {
-        POOL_TITLE: 'Community Reward Pool',
-        POOL_URL: '',
-
+        TITLE: POOL_INFORMATION.COMMUNITY_REWARD_POOL.TITLE,
+        URL: POOL_INFORMATION.COMMUNITY_REWARD_POOL.URL,
+        YIELD_SOURCE: POOL_INFORMATION.COMMUNITY_REWARD_POOL.YIELD_SOURCE,
 
         percentageTimePassed: 0,
         getTicketsLoading: false,
@@ -53,6 +54,11 @@ const initialState = {
         allowTicketHandler: null
     },
     [POOL_TYPE.NEW_POOL]: {
+        TITLE: POOL_INFORMATION.NEW_POOL.TITLE,
+        URL: POOL_INFORMATION.NEW_POOL.URL,
+        YIELD_SOURCE: POOL_INFORMATION.NEW_POOL.YIELD_SOURCE,
+
+
         percentageTimePassed: 0,
         getTicketsLoading: false,
         getTicketsTxId: '',
