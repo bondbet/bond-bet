@@ -23,7 +23,7 @@ const WithdrawComplete = ({ setOpenModal,ticketsBalance,setSelectedMenuItem}) =>
         </div>
     )
 }
-const mapStateToProps = ({ticketsBalance}) =>  ({ticketsBalance});
+const mapStateToProps = (state, {poolType}) =>  ({ticketsBalance: state[poolType].ticketsBalance});
 
 const mapDispatchToProps = dispatch => ({
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),

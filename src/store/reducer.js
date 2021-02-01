@@ -11,13 +11,14 @@ const initialState = {
     chainId: 1,
     selectedMenuItem: 0,
     toggleSidebar: false,
+    openModal: false,
+    modalType: {modalType: '', poolType: ''},
 
     [POOL_TYPE.COMMUNITY_REWARD_POOL]: {
         percentageTimePassed: 0,
         getTicketsLoading: false,
         getTicketsTxId: '',
-        openModal: false,
-        modalType: '',
+
         prizePeriodEnds: 0,
         prizePeriodStartedAt:0,
         prizePoolRemainingSeconds:0,
@@ -90,6 +91,20 @@ const reducer = (state = initialState, action) => {
             chainId: action.value
         }
     }
+    if(action.type === ACTION_TYPE.MODAL_OPEN) {
+
+        return {
+          ...state,
+          openModal: action.value
+      }
+  }
+  if(action.type === ACTION_TYPE.MODAL_TYPE) {
+        return {
+          ...state,
+           modalType: action.value
+
+      }
+  }
     if(action.type === ACTION_TYPE.SELECTED_MENU_ITEM) {
         return {
             ...state,
@@ -125,6 +140,7 @@ const reducer = (state = initialState, action) => {
         }
     }
     if(action.type === ACTION_TYPE.WITHDRAW_LOADING) {
+        console.log('withdrawloading value', action.value)
         return {
             ...state,
             [poolAccessor]: {
@@ -265,25 +281,7 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if(action.type === ACTION_TYPE.MODAL_OPEN) {
 
-          return {
-            ...state,
-            [poolAccessor]: {
-                ...state[poolAccessor],
-                openModal: action.value
-            }
-        }
-    }
-    if(action.type === ACTION_TYPE.MODAL_TYPE) {
-          return {
-            ...state,
-            [poolAccessor]: {
-                ...state[poolAccessor],
-                modalType: action.value
-            }
-        }
-    }
     if(action.type === ACTION_TYPE.PRIZE_PERIOD_ENDS) {
           return {
             ...state,

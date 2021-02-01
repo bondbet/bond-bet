@@ -227,6 +227,7 @@ const Main = (
             const withdrawAmount = maxAmountSelected ? ticketsBalance : ethers.utils.parseEther(amount);
 
             setModalType('CWD')
+            setWithdrawLoading(false);
             const withdrawTx = await prizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, BOND_TICKETS_CONTRACT_ADDRESS, 0)
             setWithdrawLoading(true);
             setWithdrawTxId(withdrawTx.hash);
@@ -281,8 +282,8 @@ const mapDispatchToProps = (dispatch, {poolType}) => {
     return {
         setGetTicketsLoading: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_LOADING, value,poolType }),
         setGetTicketsTxId: value => dispatch({ type: ACTION_TYPE.GET_TICKETS_TX_ID, value,poolType }),
-        setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value,poolType }),
-        setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value,poolType }),
+        setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType}}),
+        setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value }),
         setPrizePeriodEnds: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_ENDS, value,poolType }),
         setPrizePeriodStartedAt: value => dispatch({ type: ACTION_TYPE.PRIZE_PERIOD_STARTED_AT, value,poolType }),
         setPrizePoolRemainingSeconds: value => dispatch({ type: ACTION_TYPE.PRIZE_POOL_REMAINING_SECONDS, value,poolType }),

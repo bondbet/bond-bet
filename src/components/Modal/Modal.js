@@ -14,21 +14,23 @@ import { ACTION_TYPE } from '../../store/action-type';
 
 
 const Modal = ({ modalType, setModalType, openModal, setOpenModal, connected }) => {
-    
-
+    console.log(modalType)
+    const modalTypeName = modalType.modalType;
+    const poolType = modalType.poolType; 
+    console.log('modal type name', modalTypeName)
     const backTo = () => {
-        switch (modalType) {
+        switch (modalTypeName) {
             case 'GT':
                 setOpenModal(false);
                 break;
             case 'CW':
-                setModalType('GT');
+                setModalType('GT', poolType);
                 break;
             case 'CD':
-                connected ? setModalType('GT') : setModalType('CW');
+                connected ? setModalType('GT', poolType) : setModalType('CW', poolType);
                 break;
             case 'DC':
-                setModalType('GT');
+                setModalType('GT', poolType);
                 break;
             case 'PA':
                 setOpenModal(false);
@@ -37,10 +39,10 @@ const Modal = ({ modalType, setModalType, openModal, setOpenModal, connected }) 
                 setOpenModal(false);
                 break;
             case 'CWD':
-                setModalType('WD');
+                setModalType('WD', poolType);
                 break;
             case 'WDC':
-                setModalType('CWD');
+                setModalType('CWD', poolType);
                 break;
             default:
                 setOpenModal(false);
@@ -58,29 +60,29 @@ const Modal = ({ modalType, setModalType, openModal, setOpenModal, connected }) 
                 </button>
             </div>
             <div className='modal-content'>
-                {modalType === 'CW' &&
-                    <ConnectWallet />
+                {modalTypeName === 'CW' &&
+                    <ConnectWallet poolType={poolType}/>
                 }
-                {modalType === 'GT' &&
-                    <GetTickets />
+                {modalTypeName === 'GT' &&
+                    <GetTickets poolType={poolType}/>
                 }
-                {modalType === 'CD' &&
-                    <ConfirmDeposit />
+                {modalTypeName === 'CD' &&
+                    <ConfirmDeposit poolType={poolType}/>
                 }
-                {modalType === 'DC' &&
-                    <DepositComplete />
+                {modalTypeName === 'DC' &&
+                    <DepositComplete poolType={poolType}/>
                 }
-                {modalType === 'PA' &&
-                    <PrizeAwarded />
+                {modalTypeName === 'PA' &&
+                    <PrizeAwarded poolType={poolType}/>
                 }
-                {modalType === 'WD' &&
-                    <Withdraw />
+                {modalTypeName === 'WD' &&
+                    <Withdraw poolType={poolType}/>
                 }
-                {modalType === 'CWD' &&
-                    <ConfirmWithdraw />
+                {modalTypeName === 'CWD' &&
+                    <ConfirmWithdraw poolType={poolType}/>
                 }
-                {modalType === 'WDC' &&
-                    <WithdrawComplete />
+                {modalTypeName === 'WDC' &&
+                    <WithdrawComplete poolType={poolType}/>
                 }
             </div>
         </div>
@@ -88,7 +90,7 @@ const Modal = ({ modalType, setModalType, openModal, setOpenModal, connected }) 
 }
 const mapStateToProps =  ({ modalType, openModal, connected }) => ({ modalType, openModal, connected }) ;
 const mapDispatchToProps = dispatch => ({
-    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+    setModalType: (value, poolType) => dispatch({type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType}}),
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Modal)

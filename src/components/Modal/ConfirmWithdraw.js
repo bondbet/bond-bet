@@ -3,8 +3,8 @@ import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import EtherscanLink from '../Shared/EtherscanLink';
 import {connect} from 'react-redux';
 
-const ConfirmWithdraw = ( withdrawLoading, withdrawTxId) => {
-
+const ConfirmWithdraw = ( {withdrawLoading, withdrawTxId}) => {
+console.log('withdrawLoading', withdrawLoading)
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Confirm' />
@@ -28,5 +28,5 @@ const ConfirmWithdraw = ( withdrawLoading, withdrawTxId) => {
         </div>
     )
 }
-const mapStateToProps = ({ withdrawLoading, withdrawTxId}) => ({ withdrawLoading, withdrawTxId})
+const mapStateToProps = (state, {poolType}) => ({ withdrawLoading: state[poolType].withdrawLoading, withdrawTxId: state[poolType].withdrawTxId})
 export default connect(mapStateToProps)(ConfirmWithdraw)

@@ -41,8 +41,8 @@ const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected, p
 }
 const mapStateToProps = (state, {poolType}) => ({totalTicketAmount: state[poolType].totalTicketAmount, connected: state.connected});
 
-const mapDispatchToProps = dispatch => ({
-    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+const mapDispatchToProps = (dispatch, {poolType}) => ({
+    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType}}),
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
 })
 

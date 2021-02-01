@@ -13,6 +13,7 @@ import {connect} from 'react-redux'
 
 
 const GetTickets = ({getTicketsLoading, mainTokenBalance, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketsBalance, connected}) => {
+    console.log(getTicketsLoading)
     const {
         allowBondHandler,
         ticketDepositHandler,
@@ -138,7 +139,16 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, getTicketsTxId, mainTo
     )
 }
 const mapStateToProps = 
-({getTicketsLoading, connected, getTicketsTxId, totalTicketAmount, ticketsBalance, mainTokenBalance, mainTokenAllowance}) => 
-({getTicketsLoading, connected, getTicketsTxId, totalTicketAmount, ticketsBalance, mainTokenBalance, mainTokenAllowance})
+(state, {poolType}) => 
+(
+    {
+        connected: state.connected, 
+        getTicketsLoading: state[poolType].getTicketsLoading, 
+        getTicketsTxId: state[poolType].getTicketsTxId, 
+        totalTicketAmount: state[poolType].totalTicketAmount, 
+        ticketsBalance: state[poolType].ticketsBalance, 
+        mainTokenBalance: state[poolType].mainTokenBalance, 
+        mainTokenAllowance: state[poolType].mainTokenAllowance
+    })
 
 export default connect(mapStateToProps)(GetTickets)

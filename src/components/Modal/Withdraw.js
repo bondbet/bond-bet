@@ -72,6 +72,6 @@ const Withdraw = ({ticketsBalance, connected}) => {
         </div>
     )
 }
-const mapStateToProps = ({ticketsBalance, connected}) => ({ticketsBalance, connected})
+const mapStateToProps = (state, {poolType}) => ({ticketsBalance: state[poolType].ticketsBalance, connected: state.connected})
 
 export default connect(mapStateToProps)(Withdraw)

@@ -13,6 +13,7 @@ import {connect} from 'react-redux';
 import { POOL_TYPE } from './store/pool-type';
 
 function Router({openModal}) {
+	console.log('router open modal', openModal)
     return (
 
         <Routes>

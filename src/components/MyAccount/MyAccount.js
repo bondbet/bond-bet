@@ -200,8 +200,8 @@ const mapStateToProps = (state, {poolType}) =>
                                 connectedWalletAddress: state.connectedWalletAddress
                             })
 
-const mapDispatchToProps = dispatch => ({
-    setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value }),
+const mapDispatchToProps = (dispatch, {poolType}) => ({
+    setModalType: value => dispatch({ type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType} }),
     setOpenModal: value => dispatch({ type: ACTION_TYPE.MODAL_OPEN, value }),
     setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
