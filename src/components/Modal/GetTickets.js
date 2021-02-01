@@ -60,17 +60,19 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
                 <div className='box-inner'>
                     <h1 className='modal-title'>Get Tickets</h1>
                     <h4 className='modal-description'>1 BOND = 1 ticket</h4>
+                    <br/>
+                    {getTicketsLoading ? <EtherscanLink txId={getTicketsTxId}> </EtherscanLink> : null }
                     {connected &&
                         <div className='token'>
                             <h1>
                                 <img src={logo} alt='App Logo' /> Bond
                             </h1>
-                            {getTicketsLoading ? <EtherscanLink txId={getTicketsTxId}> </EtherscanLink> : null }
+                        
                             <h2>{ tokenIsEnabled ? 'Token enabled' : 'Enable token'}
                                 <input
                                     checked={tokenIsEnabled}
                                     onChange={allowBondHandler}
-                                    disabled={tokenIsEnabled}
+                                    disabled={tokenIsEnabled || getTicketsLoading}
                                     className='switch-checkbox'
                                     id={'switch-new'+'RP'}
                                     type='checkbox'

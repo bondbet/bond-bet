@@ -211,7 +211,11 @@ const Main = (
             setGetTicketsTxId('');
             setModalType('DC');
         }catch(e) {
-            alert('Something went wrong.')
+           
+            let errorMessage = `Something went wrong. Please try again.`;
+            setModalType('GT');
+            alert(errorMessage)
+
         }
        
 
@@ -235,7 +239,9 @@ const Main = (
             setWithdrawTxId('');
             setModalType('WDC');
         }catch(e) {
-            alert('Something went wrong.')
+            let errorMessage = `Something went wrong. Please try again.`;
+            setModalType('WD')
+            alert(errorMessage)
         }
     })
     return (
