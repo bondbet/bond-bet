@@ -1,8 +1,6 @@
 import React, {  useEffect } from 'react';
 import BarnBridgeToken from '../constants/abis/BarnBridgeToken.json'
 import { getContract } from '../helpers/ethers'
-import { BARN_PRIZE_POOL_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts'
-import BarnPrizePool from '../constants/abis/BarnPrizePool.json'
 import MultipleWinners from '../constants/abis/MultipleWinners.json';
 import ControlledToken from '../constants/abis/ControlledToken.json';
 import BarnFacetMock from '../constants/abis/BarnFacetMock.json';
@@ -25,43 +23,39 @@ const PoolContractsResolver = (
 		provider,
 		connectedNetwork,
 		library,
+		
 		prizePoolAddress,
+		prizePoolAbi,
 		prizeStrategyAddress,
-		ticketsAddress
+		ticketsAddress,
+		underlyingTokenAddress,
+		poolType
 	}) => {
 
 
 	useEffect(async () => {
-		console.log(connected)
-		console.log(provider)
-
-		console.log(library)
-
-		console.log(connectedWalletAddress)
-
-		console.log(connectedNetwork)
 
 		if(connected && provider && library && connectedWalletAddress && connectedNetwork) {
 			try {	
-				console.log('connecting')
 
 				const prizePoolContractCode = await library.getCode(prizePoolAddress);
-				console.log('main asset', prizePoolContractCode)
 				if (prizePoolContractCode.length > 2) {
-					const newBarnPrizePoolContract = getContract(BARN_PRIZE_POOL_ADDRESS, BarnPrizePool.abi, library, connectedWalletAddress);
+					const newBarnPrizePoolContract = getContract(prizePoolAddress, prizePoolAbi, library, connectedWalletAddress);
 	
 	
-					const tokenAddress = await newBarnPrizePoolContract.token();
-	
-					const newTokenContract = getContract(tokenAddress, BarnBridgeToken.abi, library, connectedWalletAddress);
+					const newTokenContract = getContract(underlyingTokenAddress, BarnBridgeToken.abi, library, connectedWalletAddress);
 					const newPrizeStrategyContract = getContract(prizeStrategyAddress, MultipleWinners.abi, library, connectedWalletAddress);
 					const newTicketsContract = getContract(ticketsAddress, ControlledToken.abi, library, connectedWalletAddress);
-					const mainAssetTokenAddress = await newBarnPrizePoolContract.barn();
+					
+					
+					let mainAssetTokenAddress;
 	
+					mainAssetTokenAddress = poolType === POOL_TYPE.COMMUNITY_REWARD_POOL ? await newBarnPrizePoolContract.barn() : underlyingTokenAddress;
 					const newMainAssetContract = getContract(mainAssetTokenAddress, BarnFacetMock.abi, library, connectedWalletAddress);
 	
-					
-	
+					console.log(mainAssetTokenAddress, underlyingTokenAddress)
+					// const mainAssetTokenAddress = await newBarnPrizePoolContract.barn();
+
 					setMainAssetContract(newMainAssetContract);
 					setPrizeStrategyContract(newPrizeStrategyContract);
 					setPrizePoolContract(newBarnPrizePoolContract);

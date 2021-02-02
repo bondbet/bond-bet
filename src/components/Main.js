@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from 'react';
-import { BARN_PRIZE_POOL_ADDRESS, BOND_TICKETS_CONTRACT_ADDRESS } from '../constants/contracts';
 import { BigNumber } from 'ethers';
 import * as ethers from 'ethers';
 import CountdownPercantageUpdater from './Shared/PercentageUpdater';
@@ -55,14 +54,14 @@ const Main = (
                 const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
                 setMainTokenBalance(bondTokenBalance);
 
-                const allowance = await mainAssetTokenContract.allowance(connectedWalletAddress, BARN_PRIZE_POOL_ADDRESS);
+                const allowance = await mainAssetTokenContract.allowance(connectedWalletAddress, prizePoolContract.address);
                 setMainTokenAllowance(allowance);
             }
             if (ticketsContract && connectedWalletAddress) {
                 const bondTicketsBalance = await ticketsContract.balanceOf(connectedWalletAddress);
                 setTicketsBalance(bondTicketsBalance);
             }
-        } catch (e) {
+        } catch (e) {console.log(e)
             alert('Something went wrong.')
         }
     }, [mainAssetTokenContract, ticketsContract, connectedWalletAddress, connectedNetwork])
@@ -73,7 +72,7 @@ const Main = (
                 setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
                 setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
                 setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
-            } catch (e) {
+            } catch (e) {console.log(e)
                 alert('Something went wrong.')
             }
 
@@ -85,7 +84,7 @@ const Main = (
             try {
                 updatePrizePoolDependantState(prizePoolContract);
                 subscribeToPrizePoolEvents(prizePoolContract);
-            } catch (e) {
+            } catch (e) {console.log(e)
                 alert("Something went wrong.")
             }
 
@@ -96,7 +95,8 @@ const Main = (
     const allowBondHandler = useCallback(async () => {
 
         try {
-            const approveTx = await mainAssetTokenContract.approve(BARN_PRIZE_POOL_ADDRESS, ethers.constants.MaxUint256)
+            console.log('in allow bond')
+            const approveTx = await mainAssetTokenContract.approve(prizePoolContract.address, ethers.constants.MaxUint256)
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
             await approveTx.wait();
@@ -104,7 +104,7 @@ const Main = (
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
 
-        } catch (e) {
+        } catch (e) {console.log(e)
             alert('Something went wrong.')
         }
 
@@ -144,10 +144,12 @@ const Main = (
     const updatePrizePoolDependantState = useCallback(async (prizePoolContract) => {
 
         const totalTickets = await prizePoolContract.accountedBalance();
-        const totalBalance = await mainAssetContract.balanceOf(BARN_PRIZE_POOL_ADDRESS);
-        const owedAward = await prizePoolContract.owedReward();
 
-        const currentWeekPrize = totalBalance.add(owedAward).sub(totalTickets);
+        const currentWeekPrize = await prizeStrategyContract.currentPrize();
+
+     
+
+        console.log(currentWeekPrize)
         setTotalTicketAmount(totalTickets);
         setCurrentWeekPrice(currentWeekPrize);
 
@@ -200,7 +202,7 @@ const Main = (
         try {
             const depositAmount = maxAmountSelected ? mainTokenBalance : ethers.utils.parseEther(ticketAmount);
             setModalType('CD')
-            const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, BOND_TICKETS_CONTRACT_ADDRESS, "0x0000000000000000000000000000000000000000");
+            const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, ticketsContract.address, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
             setGetTicketsTxId(depositTx.hash)
             const deposit = await depositTx.wait();
@@ -210,7 +212,7 @@ const Main = (
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
             setModalType('DC');
-        } catch (e) {
+        } catch (e) {console.log(e)
             alert('Something went wrong.')
         }
 
@@ -224,7 +226,7 @@ const Main = (
 
             setModalType('CWD')
             setWithdrawLoading(false);
-            const withdrawTx = await prizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, BOND_TICKETS_CONTRACT_ADDRESS, 0)
+            const withdrawTx = await prizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, ticketsContract.address, 0)
             setWithdrawLoading(true);
             setWithdrawTxId(withdrawTx.hash);
 
@@ -235,7 +237,7 @@ const Main = (
             setWithdrawLoading(false);
             setWithdrawTxId('');
             setModalType('WDC');
-        } catch (e) {
+        } catch (e) {console.log(e)
             alert('Something went wrong.')
         }
     })

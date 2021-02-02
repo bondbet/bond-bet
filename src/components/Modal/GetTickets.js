@@ -21,6 +21,7 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowBondHandler, getT
     const [depositAmount, setDepositAmount] = useState('');
 
     useEffect(() => {
+        console.log(mainTokenAllowance)
         if(mainTokenAllowance ){
             setTokenIsEnabled(mainTokenAllowance.gt(0) )
         }

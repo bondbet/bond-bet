@@ -94,7 +94,6 @@ const initialState = {
 }
 
 const reducer = (state = initialState, action) => {
-    console.log(action)
     const poolAccessor = action.poolType;
     if (action.type === ACTION_TYPE.CONNECTED_WALLET_ADDRESS) {
         return {
