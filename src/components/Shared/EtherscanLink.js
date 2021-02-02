@@ -7,8 +7,8 @@ const EtherscanLink = ({connectedNetwork, txId}) => {
     const link = `https://${connectedNetwork ? connectedNetwork + '.': ""}etherscan.io/tx/${txId}`
     return (
         <div className="etherscanContainer">
-                <img src={loading} alt='Loading...' className="etherscanImage"/><br></br><br></br>
-              <a href={link} className='etherscanLink' target="_blank">See on Etherscan</a>
+                <img src={loading} alt='Loading...' className="etherscanImage" /><br></br><br></br>
+              <a href={link} className='etherscanLink' target="_blank" rel="noopener noreferrer">See on Etherscan</a>
            
         </div>
     )

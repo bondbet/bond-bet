@@ -250,8 +250,8 @@
     height: 0;
     width: 0;
     visibility: hidden;
+    align-self: end;
 }
-
 .switch-label {
     display: flex;
     align-items: center;
