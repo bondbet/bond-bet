@@ -5,6 +5,7 @@ import CountdownPercantageUpdater from './Shared/PercentageUpdater';
 import { getEventsTimestamps } from '../helpers/ethers';
 import { ACTION_TYPE } from '../store/action-type';
 import { connect } from 'react-redux';
+import { POOL_TYPE } from '../store/pool-type';
 
 const Main = (
     {
@@ -31,6 +32,7 @@ const Main = (
         setPreviousAwards,
         setAllDeposits,
         setAllWithdraws,
+        setNumberOfWinners,
         mainTokenBalance,
 
         setMainTokenAllowance,
@@ -49,7 +51,7 @@ const Main = (
 
     useEffect(async () => {
         try {
-          console.log('set balance', mainAssetContract, connectedWalletAddress)
+       
             if (mainAssetTokenContract && connectedWalletAddress) {
                 const bondTokenBalance = await mainAssetTokenContract.balanceOf(connectedWalletAddress)
                 setMainTokenBalance(bondTokenBalance);
@@ -61,7 +63,7 @@ const Main = (
                 const bondTicketsBalance = await ticketsContract.balanceOf(connectedWalletAddress);
                 setTicketsBalance(bondTicketsBalance);
             }
-        } catch (e) {console.log(e)
+        } catch (e) {
             alert('Something went wrong.')
         }
     }, [mainAssetTokenContract, ticketsContract, connectedWalletAddress, connectedNetwork])
@@ -69,10 +71,12 @@ const Main = (
     useEffect(async () => {
         if (prizeStrategyContract) {
             try {
+                setNumberOfWinners(await prizeStrategyContract.numberOfWinners())
+
                 setPrizePeriodEnds(await prizeStrategyContract.prizePeriodEndAt());
                 setPrizePeriodStartedAt(await prizeStrategyContract.prizePeriodStartedAt())
                 setPrizePoolRemainingSeconds(await prizeStrategyContract.prizePeriodRemainingSeconds())
-            } catch (e) {console.log(e)
+            } catch (e) {
                 alert('Something went wrong.')
             }
 
@@ -80,22 +84,22 @@ const Main = (
     }, [prizeStrategyContract])
 
     useEffect(async () => {
-        if (prizePoolContract) {
+        if (prizePoolContract && mainAssetTokenContract) {
             try {
-                updatePrizePoolDependantState(prizePoolContract);
+                updatePrizePoolDependantState(prizePoolContract, mainAssetTokenContract);
                 subscribeToPrizePoolEvents(prizePoolContract);
-            } catch (e) {console.log(e)
+            } catch (e) {
                 alert("Something went wrong.")
             }
 
         }
-    }, [prizePoolContract, connectedWalletAddress]);
+    }, [prizePoolContract, connectedWalletAddress, mainAssetTokenContract]);
 
 
     const allowBondHandler = useCallback(async () => {
 
         try {
-            console.log('in allow bond')
+           
             const approveTx = await mainAssetTokenContract.approve(prizePoolContract.address, ethers.constants.MaxUint256)
             setGetTicketsLoading(true);
             setGetTicketsTxId(approveTx.hash);
@@ -104,7 +108,7 @@ const Main = (
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
 
-        } catch (e) {console.log(e)
+        } catch (e) {
             alert('Something went wrong.')
         }
 
@@ -141,15 +145,24 @@ const Main = (
             updateAwards(prizePoolContract);
         })
     })
-    const updatePrizePoolDependantState = useCallback(async (prizePoolContract) => {
+    const updatePrizePoolDependantState = useCallback(async (prizePoolContract, mainAssetTokenContract) => {
 
         const totalTickets = await prizePoolContract.accountedBalance();
 
-        const currentWeekPrize = await prizeStrategyContract.currentPrize();
+       
+       
 
-     
+        let currentWeekPrize;
 
-        console.log(currentWeekPrize)
+        if(poolType === POOL_TYPE.COMMUNITY_REWARD_POOL) {
+            const totalBalance = await mainAssetContract.balanceOf(prizePoolContract.address);
+            const owedAward = await prizePoolContract.owedReward();
+            currentWeekPrize = totalBalance.add(owedAward).sub(totalTickets);
+        } else {
+            currentWeekPrize = (await mainAssetTokenContract.balanceOf(prizePoolContract.address)).sub(totalTickets);
+        }
+        
+
         setTotalTicketAmount(totalTickets);
         setCurrentWeekPrice(currentWeekPrize);
 
@@ -212,7 +225,7 @@ const Main = (
             setGetTicketsLoading(false);
             setGetTicketsTxId('');
             setModalType('DC');
-        } catch (e) {console.log(e)
+        } catch (e) {
             alert('Something went wrong.')
         }
 
@@ -237,7 +250,7 @@ const Main = (
             setWithdrawLoading(false);
             setWithdrawTxId('');
             setModalType('WDC');
-        } catch (e) {console.log(e)
+        } catch (e) {
             alert('Something went wrong.')
         }
     })
@@ -295,6 +308,7 @@ const mapDispatchToProps = (dispatch, {poolType}) => {
         setPreviousAwards: value => dispatch({type: ACTION_TYPE.PREVIOUS_AWARDS, value,poolType}),
         setAllDeposits: value => dispatch({type: ACTION_TYPE.ALL_DEPOSITS, value,poolType}),
         setAllWithdraws: value => dispatch({type: ACTION_TYPE.ALL_WITHDRAWS, value,poolType}),
+        setNumberOfWinners: value => dispatch({type: ACTION_TYPE.NUMBER_OF_WINNERS, value, poolType}),
     
         setMainTokenAllowance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_ALLOWANCE, value,poolType}),
         setMainTokenBalance: value => dispatch({type: ACTION_TYPE.MAIN_TOKEN_BALANCE, value,poolType}),

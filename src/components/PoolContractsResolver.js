@@ -33,7 +33,7 @@ const PoolContractsResolver = (
 	}) => {
 
 
-	useEffect(async () => {
+	useEffect(async () => { 
 
 		if(connected && provider && library && connectedWalletAddress && connectedNetwork) {
 			try {	
@@ -53,7 +53,6 @@ const PoolContractsResolver = (
 					mainAssetTokenAddress = poolType === POOL_TYPE.COMMUNITY_REWARD_POOL ? await newBarnPrizePoolContract.barn() : underlyingTokenAddress;
 					const newMainAssetContract = getContract(mainAssetTokenAddress, BarnFacetMock.abi, library, connectedWalletAddress);
 	
-					console.log(mainAssetTokenAddress, underlyingTokenAddress)
 					// const mainAssetTokenAddress = await newBarnPrizePoolContract.barn();
 
 					setMainAssetContract(newMainAssetContract);
@@ -63,7 +62,6 @@ const PoolContractsResolver = (
 					setTicketsContract(newTicketsContract);
 				}
 			} catch (e) {
-				console.log(e)
 
 				alert('Something went wrong when connecting the contracts. Please check your connected network.')
 			}

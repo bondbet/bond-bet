@@ -21,6 +21,8 @@ const initialState = {
         TITLE: POOL_INFORMATION.COMMUNITY_REWARD_POOL.TITLE,
         URL: POOL_INFORMATION.COMMUNITY_REWARD_POOL.URL,
         YIELD_SOURCE: POOL_INFORMATION.COMMUNITY_REWARD_POOL.YIELD_SOURCE,
+        DESCRIPTION1: POOL_INFORMATION.COMMUNITY_REWARD_POOL.DESCRIPTION1,
+        DESCRIPTION2: POOL_INFORMATION.COMMUNITY_REWARD_POOL.DESCRIPTION2,
 
         percentageTimePassed: 0,
         getTicketsLoading: false,
@@ -37,6 +39,7 @@ const initialState = {
         ticketsContract: null,
         prizeStrategyContract: null,
         mainAssetContract: null,
+        numberOfWinners: BigNumber.from('0'),
 
         ticketsBalance: 0,
         totalTicketAmount: 0,
@@ -54,10 +57,11 @@ const initialState = {
         allowTicketHandler: null
     },
     [POOL_TYPE.NEW_POOL]: {
-        TITLE: POOL_INFORMATION.NEW_POOL.TITLE,
-        URL: POOL_INFORMATION.NEW_POOL.URL,
-        YIELD_SOURCE: POOL_INFORMATION.NEW_POOL.YIELD_SOURCE,
-
+        TITLE: POOL_INFORMATION.STAKE_POOL.TITLE,
+        URL: POOL_INFORMATION.STAKE_POOL.URL,
+        YIELD_SOURCE: POOL_INFORMATION.STAKE_POOL.YIELD_SOURCE,
+        DESCRIPTION1: POOL_INFORMATION.STAKE_POOL.DESCRIPTION1,
+        DESCRIPTION2: POOL_INFORMATION.STAKE_POOL.DESCRIPTION2,
 
         percentageTimePassed: 0,
         getTicketsLoading: false,
@@ -80,6 +84,7 @@ const initialState = {
         previousAwards: [],
         allDeposits: [],
         allWithdraws: [],
+        numberOfWinners: BigNumber.from('0'),
 
         mainTokenAllowance: 0,
         mainTokenBalance: 0,
@@ -183,6 +188,15 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
+    if (action.type === ACTION_TYPE.NUMBER_OF_WINNERS) {
+        return {
+            ...state,
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                numberOfWinners: action.value
+            }
+        }
+    }
     if (action.type === ACTION_TYPE.WITHDRAW_TX_ID) {
         return {
             ...state,
@@ -193,7 +207,6 @@ const reducer = (state = initialState, action) => {
         }
     }
     if (action.type === ACTION_TYPE.WITHDRAW_LOADING) {
-        console.log('withdrawloading value', action.value)
         return {
             ...state,
             [poolAccessor]: {

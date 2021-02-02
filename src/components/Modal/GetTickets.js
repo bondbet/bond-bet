@@ -12,8 +12,7 @@ import {connect} from 'react-redux'
 
 
 
-const GetTickets = ({getTicketsLoading, mainTokenBalance, allowBondHandler, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketDepositHandler, ticketsBalance, connected}) => {
-    console.log(getTicketsLoading)
+const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketDepositHandler, ticketsBalance, connected}) => {
 
 	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
@@ -21,7 +20,7 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowBondHandler, getT
     const [depositAmount, setDepositAmount] = useState('');
 
     useEffect(() => {
-        console.log(mainTokenAllowance)
+
         if(mainTokenAllowance ){
             setTokenIsEnabled(mainTokenAllowance.gt(0) )
         }
@@ -64,7 +63,7 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowBondHandler, getT
                             <h2>{ tokenIsEnabled ? 'Token enabled' : 'Enable token'}
                                 <input
                                     checked={tokenIsEnabled}
-                                    onChange={allowBondHandler}
+                                    onChange={allowTicketHandler}
                                     disabled={tokenIsEnabled || getTicketsLoading}
                                     className='switch-checkbox'
                                     id={'switch-new'+'RP'}
@@ -142,7 +141,7 @@ const mapStateToProps =
 (
     {
         connected: state.connected, 
-        allowBondHandler: state[poolType].allowBondHandler,
+        allowTicketHandler: state[poolType].allowTicketHandler,
         getTicketsLoading: state[poolType].getTicketsLoading, 
         getTicketsTxId: state[poolType].getTicketsTxId, 
         totalTicketAmount: state[poolType].totalTicketAmount, 

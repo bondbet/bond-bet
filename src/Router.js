@@ -14,7 +14,6 @@ import { POOL_TYPE } from './store/pool-type';
 import { POOL_INFORMATION } from './constants/pool-information';
 
 function Router({openModal}) {
-	console.log('router open modal', openModal)
     return (
 
         <Routes>
@@ -30,9 +29,9 @@ function Router({openModal}) {
 						<Route exact path={`/${POOL_INFORMATION.COMMUNITY_REWARD_POOL.URL}/prize/:id`} component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPrizeDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
 						<Route exact path={`/${POOL_INFORMATION.COMMUNITY_REWARD_POOL.URL}/player/:id`} component={() =>  <div>{document.title = 'Community Reward Pool'}<RewardPoolPlayerDetails poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}/></div>} />
 						
-						<Route exact path={`/${POOL_INFORMATION.NEW_POOL.URL}/details`} component={() => <div>{document.title = POOL_INFORMATION.NEW_POOL.TITLE}<RewardPoolDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
-						<Route exact path={`/${POOL_INFORMATION.NEW_POOL.URL}/prize/:id`} component={() =>  <div>{document.title =  POOL_INFORMATION.NEW_POOL.TITLE}<RewardPoolPrizeDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
-						<Route exact path={`/${POOL_INFORMATION.NEW_POOL.URL}/player/:id`} component={() =>  <div>{document.title =  POOL_INFORMATION.NEW_POOL.TITLE}<RewardPoolPlayerDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
+						<Route exact path={`/${POOL_INFORMATION.STAKE_POOL.URL}/details`} component={() => <div>{document.title = POOL_INFORMATION.STAKE_POOL.TITLE}<RewardPoolDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
+						<Route exact path={`/${POOL_INFORMATION.STAKE_POOL.URL}/prize/:id`} component={() =>  <div>{document.title =  POOL_INFORMATION.STAKE_POOL.TITLE}<RewardPoolPrizeDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
+						<Route exact path={`/${POOL_INFORMATION.STAKE_POOL.URL}/player/:id`} component={() =>  <div>{document.title =  POOL_INFORMATION.STAKE_POOL.TITLE}<RewardPoolPlayerDetails poolType={POOL_TYPE.NEW_POOL}/></div>} />
 						
 						<Route path="*" component={() => <Redirect to='/' />} />
 					</Switch>

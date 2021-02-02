@@ -77,7 +77,6 @@ const App = (
 			setLibrary(library);
 			await subscribeToProviderEvents(newProvider);
 		} catch (e) {
-			console.log(e)
 			alert('Something went wrong when connecting the contracts. Please check your connected network.')
 		}
 	});

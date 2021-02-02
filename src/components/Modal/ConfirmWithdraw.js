@@ -4,7 +4,6 @@ import EtherscanLink from '../Shared/EtherscanLink';
 import {connect} from 'react-redux';
 
 const ConfirmWithdraw = ( {withdrawLoading, withdrawTxId}) => {
-console.log('withdrawLoading', withdrawLoading)
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Confirm' />

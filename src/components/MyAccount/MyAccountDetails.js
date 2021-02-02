@@ -31,7 +31,6 @@ const MyAccountDetails = (
     }) => {
     const history = useHistory();
 
-console.log(POOL_URL)
 
     const [odds, setOdds] = useState(1);
 

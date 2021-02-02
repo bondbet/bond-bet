@@ -17,13 +17,26 @@ import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTicketAmount, playerData, setPlayerData, previousAwards, currentWeekPrice, allDeposits, allWithdraws, poolType, POOL_TITLE, POOL_YIELD_SOURCE }) => {
+const RewardPoolDetails = (
+    {
+        percentageTimePassed, 
+        numberOfWinners, 
+        setSelectedMenuItem, 
+        totalTicketAmount, 
+        playerData, 
+        setPlayerData, 
+        previousAwards, 
+        currentWeekPrice, 
+        allDeposits, 
+        allWithdraws, 
+        poolType, 
+        POOL_TITLE, 
+        POOL_YIELD_SOURCE,
+        DESCRIPTION1,
+        DESCRIPTION2
+    }) => {
 
     const history = useHistory();
-
-    const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
-    const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
-    const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
 
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
@@ -48,7 +61,9 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
 
 
     useEffect(() => {
+
         if(allWithdraws && allDeposits && previousAwards) {
+            console.log(previousAwards)
             const playerToCurrentTicketBalanceMap = new Map();
 
          allWithdraws.forEach((withdraw) => {
@@ -133,7 +148,7 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
             <div className='pools-box required-changes'>
                 <PoolBoxHeader title='Pool Information' />
                 <PoolBoxStats
-                    winners="1"
+                    winners={numberOfWinners.toString()}
                     players={playerData.length}
                     totalTickets={formatEtherWithDecimals(totalTicketAmount, 2)}
                 />
@@ -164,9 +179,9 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
                                 <img src={presentImg} alt='Past 5 prizes' /> Past 5 prizes
                             </h1>
                             <div className='pools-box-screen required-changes'>
-                                {previousAwards.slice().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map(item => {
+                                {previousAwards.slice().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map((item, index) => {
                                     return (
-                                        <div key={item.timestamp} className='past-prizes'>
+                                        <div key={index} className='past-prizes'>
                                             <div>{formatToHumatReadableDate(item.timestamp)}</div>
                                             <div></div>
                                             <div>{formatEtherWithDecimals(item.amount, 2)}</div>
@@ -187,8 +202,8 @@ const RewardPoolDetails = ({percentageTimePassed, setSelectedMenuItem, totalTick
                 <PoolBoxHeader title='About the Pool' />
                 <AboutPool
                     title='About the Pool'
-                    description={PLACEHOLDER_DESCRIPTION1}
-                    more={PLACEHOLDER_DESCRIPTION2}
+                    description={DESCRIPTION1}
+                    more={DESCRIPTION2}
                 />
             </div>
         </div>
@@ -204,8 +219,11 @@ const mapStateToProps = (state, {poolType}) =>
                                 previousAwards:state[poolType].previousAwards, 
                                 allDeposits:state[poolType].allDeposits, 
                                 allWithdraws:state[poolType].allWithdraws,
+                                numberOfWinners: state[poolType].numberOfWinners,
                                 POOL_TITLE: state[poolType].TITLE,
-                                POOL_YIELD_SOURCE: state[poolType].YIELD_SOURCE
+                                POOL_YIELD_SOURCE: state[poolType].YIELD_SOURCE,
+                                DESCRIPTION1: state[poolType].DESCRIPTION1,
+                                DESCRIPTION2: state[poolType].DESCRIPTION2
                              })
 const mapDispatchToProps = (dispatch, {poolType}) => ({
     setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, poolType, value}),

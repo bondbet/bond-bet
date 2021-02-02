@@ -14,10 +14,8 @@ import { ACTION_TYPE } from '../../store/action-type';
 
 
 const Modal = ({ modalType, setModalType, openModal, setOpenModal, connected }) => {
-    console.log(modalType)
     const modalTypeName = modalType.modalType;
     const poolType = modalType.poolType; 
-    console.log('modal type name', modalTypeName)
     const backTo = () => {
         switch (modalTypeName) {
             case 'GT':
