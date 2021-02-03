@@ -197,7 +197,7 @@ const mapStateToProps = (state, {poolType}) =>
                                 POOL_TITLE: state[poolType].TITLE,
                                 allDeposits: state[poolType].allDeposits, 
                                 allWithdraws: state[poolType].allWithdraws, 
-                                mainTokenBalance: state[poolType].mainTokenBalance, 
+                                mainTokenBalance: state.mainTokenBalance, 
                                 connectedWalletAddress: state.connectedWalletAddress
                             })
 

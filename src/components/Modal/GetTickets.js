@@ -27,8 +27,6 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, ge
         }
     },[mainTokenAllowance])
     const handleTicketInputChange = (value) => {
-        console.log(ticketsBalance.toString())
-        console.log(mainTokenBalance.toString())
         if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
             setDepositAmount(value);
             const balanceInBigNumber = ethers.utils.parseEther(value || '0');
@@ -148,7 +146,7 @@ const mapStateToProps =
         getTicketsTxId: state[poolType].getTicketsTxId, 
         totalTicketAmount: state[poolType].totalTicketAmount, 
         ticketsBalance: state[poolType].ticketsBalance, 
-        mainTokenBalance: state[poolType].mainTokenBalance, 
+        mainTokenBalance: state.mainTokenBalance, 
         mainTokenAllowance: state[poolType].mainTokenAllowance,
         ticketDepositHandler: state[poolType].ticketDepositHandler
     })

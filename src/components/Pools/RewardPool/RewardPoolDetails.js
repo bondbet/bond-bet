@@ -32,10 +32,10 @@ const RewardPoolDetails = (
         poolType, 
         POOL_TITLE, 
         POOL_YIELD_SOURCE,
+        POOL_URL,
         DESCRIPTION1,
         DESCRIPTION2
     }) => {
-
     const history = useHistory();
 
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
@@ -54,7 +54,7 @@ const RewardPoolDetails = (
             Cell: ({ row }) => 
             (<div className='view-details'>{row.values.odds} 
               <button 
-                    onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.address.toLowerCase()}`) }}>View player
+                    onClick={() => { setSelectedMenuItem(0); history.push(`/${POOL_URL}/player/${row.values.address.toLowerCase()}`) }}>View player
               </button></div> )
         },
     ], [history, setSelectedMenuItem])
@@ -63,7 +63,6 @@ const RewardPoolDetails = (
     useEffect(() => {
 
         if(allWithdraws && allDeposits && previousAwards) {
-            console.log(previousAwards)
             const playerToCurrentTicketBalanceMap = new Map();
 
          allWithdraws.forEach((withdraw) => {
@@ -222,6 +221,7 @@ const mapStateToProps = (state, {poolType}) =>
                                 numberOfWinners: state[poolType].numberOfWinners,
                                 POOL_TITLE: state[poolType].TITLE,
                                 POOL_YIELD_SOURCE: state[poolType].YIELD_SOURCE,
+                                POOL_URL: state[poolType].URL,
                                 DESCRIPTION1: state[poolType].DESCRIPTION1,
                                 DESCRIPTION2: state[poolType].DESCRIPTION2
                              })

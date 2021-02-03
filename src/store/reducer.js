@@ -15,6 +15,7 @@ const initialState = {
     openModal: false,
     modalType: { modalType: '', poolType: '' },
     library: null,
+    mainTokenBalance: 0,
 
 
     [POOL_TYPE.COMMUNITY_REWARD_POOL]: {
@@ -48,7 +49,6 @@ const initialState = {
         allWithdraws: [],
 
         mainTokenAllowance: 0,
-        mainTokenBalance: 0,
         withdrawTxId: '',
         withdrawLoading: false,
 
@@ -88,7 +88,7 @@ const initialState = {
         numberOfWinners: BigNumber.from('0'),
 
         mainTokenAllowance: 0,
-        mainTokenBalance: 0,
+
         withdrawTxId: '',
         withdrawLoading: false,
 
@@ -151,6 +151,12 @@ const reducer = (state = initialState, action) => {
             chainId: action.value
         }
     }
+    if (action.type === ACTION_TYPE.MAIN_TOKEN_BALANCE) {
+        return {
+            ...state,
+            mainTokenBalance: action.value
+        }
+    }   
     if (action.type === ACTION_TYPE.MODAL_OPEN) {
 
         return {
@@ -181,15 +187,7 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-    if (action.type === ACTION_TYPE.MAIN_TOKEN_BALANCE) {
-        return {
-            ...state,
-            [poolAccessor]: {
-                ...state[poolAccessor],
-                mainTokenBalance: action.value
-            }
-        }
-    }
+
     if (action.type === ACTION_TYPE.NUMBER_OF_WINNERS) {
         return {
             ...state,

@@ -11,15 +11,14 @@ import Table from '../../Table/Table'
 import { connect } from 'react-redux'
 import { ACTION_TYPE } from '../../../store/action-type'
 
-const RewardPoolPrizeDetails = ({setSelectedMenuItem}) => {
+const RewardPoolPrizeDetails = ({ setSelectedMenuItem, POOL_URL }) => {
     const { id } = useParams();
     const history = useHistory();
-
     const PLACEHOLDER_WINNERS_COLUMNS = React.useMemo(() => [
         {
             Header: 'Address',
             accessor: 'col1',
-            Cell: ({ row }) => (row.values.col1.substring(0,6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
+            Cell: ({ row }) => (row.values.col1.substring(0, 6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
         },
         {
             Header: 'Tickets',
@@ -28,7 +27,7 @@ const RewardPoolPrizeDetails = ({setSelectedMenuItem}) => {
         {
             Header: 'Odds',
             accessor: 'col3',
-            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
+            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/${POOL_URL}/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div>)
         },
     ], [history, setSelectedMenuItem])
 
@@ -54,7 +53,7 @@ const RewardPoolPrizeDetails = ({setSelectedMenuItem}) => {
         {
             Header: 'Address',
             accessor: 'col1',
-            Cell: ({ row }) => (row.values.col1.substring(0,6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
+            Cell: ({ row }) => (row.values.col1.substring(0, 6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
         },
         {
             Header: 'Tickets',
@@ -63,7 +62,7 @@ const RewardPoolPrizeDetails = ({setSelectedMenuItem}) => {
         {
             Header: 'Odds',
             accessor: 'col3',
-            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
+            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/${POOL_URL}/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div>)
         },
     ], [history, setSelectedMenuItem])
 
@@ -166,8 +165,8 @@ const RewardPoolPrizeDetails = ({setSelectedMenuItem}) => {
         </div>
     )
 }
-
+const mapStateToProps = (state, { poolType }) => ({ POOL_URL: state[poolType].URL })
 const mapDispatchToProps = (dispatch) => ({
     setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })
 })
-export default connect(null, mapDispatchToProps)(RewardPoolPrizeDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolPrizeDetails)

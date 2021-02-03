@@ -214,9 +214,7 @@ const Main = (
     })
     const ticketDepositHandler = useCallback(async (ticketAmount, maxAmountSelected) => {
         try {
-            console.log(ticketAmount)
             const depositAmount = maxAmountSelected ? mainTokenBalance : ethers.utils.parseEther(ticketAmount);
-            console.log(depositAmount.toString())
             setModalType('CD')
             const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, ticketsContract.address, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
@@ -296,7 +294,7 @@ const mapStateToProps = (state, {poolType}) => ({
     prizeStrategyContract: state[poolType].prizeStrategyContract,
     mainAssetContract: state[poolType].mainAssetContract,
     ticketsBalance: state[poolType].ticketsBalance,
-    mainTokenBalance: state[poolType].mainTokenBalance,
+    mainTokenBalance: state.mainTokenBalance,
     connectedWalletAddress: state.connectedWalletAddress,
     connectedNetwork: state.connectedNetwork
 })
