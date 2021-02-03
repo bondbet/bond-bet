@@ -9,6 +9,7 @@ import validator from 'validator';
 import * as ethers from 'ethers';
 import EtherscanLink from '../Shared/EtherscanLink';
 import {connect} from 'react-redux'
+import { toFixed } from '../../helpers/format-utils';
 
 
 
@@ -26,7 +27,8 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, ge
         }
     },[mainTokenAllowance])
     const handleTicketInputChange = (value) => {
-        
+        console.log(ticketsBalance.toString())
+        console.log(mainTokenBalance.toString())
         if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
             setDepositAmount(value);
             const balanceInBigNumber = ethers.utils.parseEther(value || '0');
@@ -88,7 +90,7 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, ge
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {`${ethers.utils.formatEther(mainTokenBalance)} BOND`}
+                                    <img src={walletIcon} alt='Wallet' /> {`${toFixed(ethers.utils.formatEther(mainTokenBalance), 4)} BOND`}
                                 </div>
                             }
                         </div>
@@ -109,7 +111,7 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, ge
                             {connected && mainTokenBalance.gt('0')?
                                 (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { 
                                    
-                                        setDepositAmount(+ethers.utils.formatEther(mainTokenBalance)); 
+                                        setDepositAmount(toFixed(+ethers.utils.formatEther(mainTokenBalance), 4)); 
                                         setInputValid(true); 
                                         setMaxAmountSelected(true) 
                               

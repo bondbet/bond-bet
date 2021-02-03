@@ -293,7 +293,11 @@
     justify-content: center;
     margin: 15px 0 25px;
 }
-
+.fee-info {
+    display: flex;
+    justify-content: center;
+    margin: 15px 0 25px;
+}
 .continue-btn button {
     background: #FFFFFF;
     border: 1px solid #000000;

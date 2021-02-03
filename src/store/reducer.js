@@ -54,7 +54,8 @@ const initialState = {
 
         ticketDepositHandler: null,
         ticketWithdrawHandler: null,
-        allowTicketHandler: null
+        allowTicketHandler: null,
+        calculateEarlyExitFee: null, 
     },
     [POOL_TYPE.NEW_POOL]: {
         TITLE: POOL_INFORMATION.STAKE_POOL.TITLE,
@@ -93,7 +94,8 @@ const initialState = {
 
         ticketDepositHandler: null,
         ticketWithdrawHandler: null,
-        allowTicketHandler: null
+        allowTicketHandler: null,
+        calculateEarlyExitFee: null, 
     },
 
 }
@@ -411,7 +413,15 @@ const reducer = (state = initialState, action) => {
             }
         }
     }
-
+    if (action.type === ACTION_TYPE.CALCULATE_EARLY_EXIT_FEE) {
+        return {
+            ...state,
+            [poolAccessor]: {
+                ...state[poolAccessor],
+                calculateEarlyExitFee: action.value
+            }
+        }
+    }
     return state;
 }
 

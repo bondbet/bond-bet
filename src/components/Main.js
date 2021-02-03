@@ -45,7 +45,8 @@ const Main = (
 
         setTicketDepositHandler,
         setAllowTicketHandler,
-        setTicketWithdrawHandler
+        setTicketWithdrawHandler,
+        setCalculateEarlyExitFee
 
     }) => {
 
@@ -213,7 +214,9 @@ const Main = (
     })
     const ticketDepositHandler = useCallback(async (ticketAmount, maxAmountSelected) => {
         try {
+            console.log(ticketAmount)
             const depositAmount = maxAmountSelected ? mainTokenBalance : ethers.utils.parseEther(ticketAmount);
+            console.log(depositAmount.toString())
             setModalType('CD')
             const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, ticketsContract.address, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
@@ -233,13 +236,15 @@ const Main = (
 
     })
 
-    const ticketWithdrawHandler = useCallback(async (amount, maxAmountSelected) => {
+    const ticketWithdrawHandler = useCallback(async (amount, maxAmountSelected, exitFee) => {
         try {
             const withdrawAmount = maxAmountSelected ? ticketsBalance : ethers.utils.parseEther(amount);
 
             setModalType('CWD')
             setWithdrawLoading(false);
-            const withdrawTx = await prizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, ticketsContract.address, 0)
+            
+            
+            const withdrawTx = await prizePoolContract.withdrawInstantlyFrom(connectedWalletAddress, withdrawAmount, ticketsContract.address, exitFee ? exitFee : BigNumber.from('0'))
             setWithdrawLoading(true);
             setWithdrawTxId(withdrawTx.hash);
 
@@ -255,10 +260,24 @@ const Main = (
         }
     })
 
+    const calculateEarlyExitFee = useCallback(async (desiredWithdrawAmount) => {
+        // try {
+
+            const exitFeeTx = await prizePoolContract.callStatic.calculateEarlyExitFee(connectedWalletAddress, ticketsContract.address, ethers.utils.parseEther(desiredWithdrawAmount + ''));
+            setWithdrawLoading(true);
+            setWithdrawTxId(exitFeeTx.hash);
+
+            return exitFeeTx.exitFee;
+        // }catch(e) {
+        //     alert('Something went wrong.')
+        // }
+    })
+
     useEffect(() => {
         setTicketDepositHandler(ticketDepositHandler);
         setAllowTicketHandler(allowBondHandler);
         setTicketWithdrawHandler(ticketWithdrawHandler);
+        setCalculateEarlyExitFee(calculateEarlyExitFee);
     })
 
 
@@ -291,6 +310,7 @@ const mapDispatchToProps = (dispatch, {poolType}) => {
     return {
         setTicketDepositHandler: value => dispatch({type: ACTION_TYPE.TICKET_DEPOSIT_HANDLER, value, poolType}),
         setAllowTicketHandler: value => dispatch({type: ACTION_TYPE.ALLOW_TICKET_HANDLER, value, poolType}),
+        setCalculateEarlyExitFee: value => dispatch({type: ACTION_TYPE.CALCULATE_EARLY_EXIT_FEE, value, poolType}),
 
         setTicketWithdrawHandler: value => dispatch({type: ACTION_TYPE.TICKET_WITHDRAW_HANDLER, value, poolType}),
 

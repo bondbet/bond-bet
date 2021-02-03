@@ -12,3 +12,8 @@ export const formatEtherWithDecimals = (ether, decimals) => {
 } 
 
 export const shortenEthereumAddress = (address) => address.substring(0,5) + "..." + address.substring(address.length - 6, address.length);
+
+export const toFixed = (num, fixed) => {
+  var re = new RegExp('^-?\\d+(?:\.\\d{0,' + (fixed || -1) + '})?');
+  return num.toString().match(re)[0];
+}
