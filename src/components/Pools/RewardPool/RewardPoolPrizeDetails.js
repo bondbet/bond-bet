@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React, {useContext, useEffect} from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import onlyLogo from '../../../assets/images/onlyLogo.svg'
 import arrowToRight from '../../../assets/images/arrowToRight.svg'
@@ -13,6 +13,10 @@ const RewardPoolPrizeDetails = () => {
     const { id } = useParams();
     const { setSelectedMenuItem } = useContext(AppContext);
     const history = useHistory();
+
+    useEffect(() => {
+        document.title = 'Community Reward Pool'
+    }, [])
 
     const PLACEHOLDER_WINNERS_COLUMNS = React.useMemo(() => [
         {

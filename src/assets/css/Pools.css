@@ -9,7 +9,6 @@
 .lottery-pools-section {
     display: grid;
     grid-template-columns: minmax(auto, 100%) auto;
-    grid-gap: 30px;
 }
 
 .pools-box {

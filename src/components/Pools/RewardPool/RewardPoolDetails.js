@@ -22,6 +22,8 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
     const { setSelectedMenuItem, totalTicketAmount, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
     const history = useHistory();
 
+    const PLACEHOLDER_EARLY_EXIT_FEE = 10;
+    const PLACEHOLDER_EXIT_FEE_DECAY_TIME = 7;
     const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
     const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
     const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
@@ -47,6 +49,9 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
         },
     ], [history, setSelectedMenuItem])
 
+    useEffect(() => {
+        document.title = 'Community Reward Pool'
+    }, [])
 
     useEffect(() => {
         if(allWithdraws && allDeposits && previousAwards) {
@@ -98,6 +103,16 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                 <label>Community Reward Pool</label>
             </div>
 
+            <div className='pools-box' style={{ marginBottom: '30px' }}>
+                <PoolBoxHeader title='WARNING' />
+                <div className='pools-box-content required-changes'>
+                    <div className='pools-box-inner required-changes'>
+                        <h1 className='pools-box-inner-title required-changes'>Early exit fee</h1>
+                        <p className='pools-box-inner-description'>When users deposit, they are instantly eligible to win. To maintain the fairness a time decay early is enforced. <br/><span style={{ color: '#FF636B' }}>Early exit fee is 10%. Exit fee decay time - 7 days.</span> To avoid paying fees, stay in the pool for at least 7 days.</p>
+                    </div>
+                </div>
+            </div>
+
             <div className='pools-box-container'>
                 <div className='pools-box'>
                     <PoolBoxHeader title='Current Week Prize' />
@@ -137,6 +152,36 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                     players={playerData.length}
                     totalTickets={formatEtherWithDecimals(totalTicketAmount, 2)}
                 />
+            </div>
+
+            <div className='pools-box-container'>
+                <div className='pools-box'>
+                    <PoolBoxHeader title='Early exit fee' />
+                    <div className='pools-box-content required-changes'>
+                        <div className='pools-box-inner required-changes'>
+                            <h1 className='pools-box-inner-title required-changes'>
+                                Early exit fee
+                            </h1>
+                            <div className='pools-box-screen required-changes'>
+                                <div className='pools-box-screen-inner'>{PLACEHOLDER_EARLY_EXIT_FEE + '%'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='pools-box'>
+                    <PoolBoxHeader title='Exit fee decay time' />
+                    <div className='pools-box-content required-changes'>
+                        <div className='pools-box-inner required-changes'>
+                            <h1 className='pools-box-inner-title required-changes'>
+                                Exit fee decay time
+                            </h1>
+                            <div className='pools-box-screen required-changes'>
+                                <div className='pools-box-screen-inner'>{PLACEHOLDER_EXIT_FEE_DECAY_TIME + ' DAYS'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div className='pools-box-container'>

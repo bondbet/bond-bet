@@ -10,7 +10,10 @@ const LeaderBoard = () => {
     const history = useHistory();
     const { setSelectedMenuItem, previousAwards } = useContext(AppContext);
 
-    const [awardData, setAwardData ] = useState([]);
+    const [awardData, setAwardData] = useState([]);
+    useEffect(() => {
+        document.title = 'Leaderboard'
+    }, [])
     useEffect(() => {
         if (previousAwards) {
             setAwardData(previousAwards.slice().sort((a, b) => {
@@ -20,10 +23,10 @@ const LeaderBoard = () => {
                 }
                 return 1;
             })
-                                      .slice(0, 5)
-                                      .map((award, index) => 
-                                      ({ col1: index + 1, col2: formatEtherWithDecimals(award.amount, 2), col3: formatToHumatReadableDate(award.timestamp), col4: award.awardedTo })
-                                      ))
+            .slice(0, 5)
+            .map((award, index) => 
+            ({ col1: index + 1, col2: formatEtherWithDecimals(award.amount, 2), col3: formatToHumatReadableDate(award.timestamp), col4: award.awardedTo })
+            ))
         }
     }, [previousAwards])
 

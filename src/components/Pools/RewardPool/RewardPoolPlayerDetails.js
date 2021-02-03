@@ -31,6 +31,10 @@ const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrice}
     });
 
     useEffect(() => {
+        document.title = 'Community Reward Pool'
+    }, [])
+
+    useEffect(() => {
         const interval = setInterval(() => {
             setNewTime(setCountdown, prizePeriodEnds);
         }, 1000);

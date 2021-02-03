@@ -41,6 +41,10 @@ const MyAccount = ({setOpenModal, setModalType, prizePeriodEnds, currentWeekPric
     const [totalAwards, setTotalAwards] = useState(0);
     const [numberOfAwards, setNumberOfAwards] = useState(0);
 
+    useEffect(() => {
+        document.title = 'My Account'
+    }, [])
+
     useEffect(()=> {
         if(previousAwards && connectedWalletAddress) {
             const userAwards = previousAwards.filter(x => x.awardedTo.toUpperCase() === connectedWalletAddress.toUpperCase());
