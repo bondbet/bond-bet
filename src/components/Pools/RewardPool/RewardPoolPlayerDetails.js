@@ -13,7 +13,7 @@ import { setNewTime } from '../../../helpers/countdown-setter';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import {ACTION_TYPE} from './../../../store/action-type';
 
-const RewardPoolPlayerDetails = ({ playerData, prizePeriodEnds, currentWeekPrice, setSelectedMenuItem }) => {
+const RewardPoolPlayerDetails = ({ playerData, prizePeriodEnds, currentWeekPrice, setSelectedMenuItem, POOL_TITLE }) => {
     const { id } = useParams();
 
     const [chosenPlayerData, setChosenPlayerData] = useState({
@@ -50,7 +50,7 @@ const RewardPoolPlayerDetails = ({ playerData, prizePeriodEnds, currentWeekPrice
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
-                <img src={onlyLogo} alt='Community Reward Pool' /> Community Reward Pool
+                <img src={onlyLogo} alt={POOL_TITLE} /> {POOL_TITLE}
             </h1>
             <div className='breadcrumbs'>
                 <Link to='/' onClick={() => setSelectedMenuItem(0)}>Pools</Link>
@@ -94,7 +94,8 @@ const mapStateToProps = (state, {poolType}) =>
         { 
             playerData: state[poolType].playerData, 
             prizePeriodEnds: state[poolType].prizePeriodEnds, 
-            currentWeekPrice: state[poolType].currentWeekPrice
+            currentWeekPrice: state[poolType].currentWeekPrice,
+            POOL_TITLE: state[poolType].TITLE
          })
 const mapDispatchToProps = (dispatch) => ({
     setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })

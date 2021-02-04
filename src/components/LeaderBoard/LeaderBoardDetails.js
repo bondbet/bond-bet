@@ -55,7 +55,7 @@ const LeaderBoardDetails = ({previousAwards, setSelectedMenuItem, POOL_TITLE}) =
                 <h3 className='leaderboard-desc'>
                     <img src={logo} alt={POOL_TITLE} /> {POOL_TITLE}
                 </h3>
-                <Table title={POOL_TITLE + ' Winners'}  data={awardData} columns={rp_columns} pageSize={10} isLeaderboardTable={true} isHashtag={true} />
+                <Table title={POOL_TITLE + '   Top 5 Winners'}  data={awardData} columns={rp_columns} pageSize={10} isLeaderboardTable={true} isHashtag={true} />
             </div>
 
         </div>

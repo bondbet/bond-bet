@@ -11,7 +11,7 @@ import Table from '../../Table/Table'
 import { connect } from 'react-redux'
 import { ACTION_TYPE } from '../../../store/action-type'
 
-const RewardPoolPrizeDetails = ({ setSelectedMenuItem, POOL_URL }) => {
+const RewardPoolPrizeDetails = ({ setSelectedMenuItem, POOL_URL, POOL_TITLE }) => {
     const { id } = useParams();
     const history = useHistory();
     const PLACEHOLDER_WINNERS_COLUMNS = React.useMemo(() => [
@@ -128,7 +128,7 @@ const RewardPoolPrizeDetails = ({ setSelectedMenuItem, POOL_URL }) => {
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
-                <img src={onlyLogo} alt='Community Reward Pool' /> Community Reward Pool
+                <img src={onlyLogo} alt={POOL_TITLE} /> {POOL_TITLE}
             </h1>
             <div className='breadcrumbs'>
                 <Link to='/leaderboard' onClick={() => setSelectedMenuItem(2)}>Leaderboard</Link>
@@ -165,7 +165,7 @@ const RewardPoolPrizeDetails = ({ setSelectedMenuItem, POOL_URL }) => {
         </div>
     )
 }
-const mapStateToProps = (state, { poolType }) => ({ POOL_URL: state[poolType].URL })
+const mapStateToProps = (state, { poolType }) => ({ POOL_URL: state[poolType].URL, POOL_TITLE: state[poolType].TITLE })
 const mapDispatchToProps = (dispatch) => ({
     setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })
 })
