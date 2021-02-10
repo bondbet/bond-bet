@@ -16,6 +16,7 @@ import { formatToHumatReadableDate } from '../../../helpers/date';
 import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
+import { POOL_TYPE } from '../../../store/pool-type';
 
 const RewardPoolDetails = (
     {
@@ -38,6 +39,8 @@ const RewardPoolDetails = (
     }) => {
     const history = useHistory();
 
+    const PLACEHOLDER_EARLY_EXIT_FEE = 10;
+    const PLACEHOLDER_EXIT_FEE_DECAY_TIME = 7;
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Address',
@@ -58,7 +61,6 @@ const RewardPoolDetails = (
               </button></div> )
         },
     ], [history, setSelectedMenuItem])
-
 
     useEffect(() => {
 
@@ -112,6 +114,20 @@ const RewardPoolDetails = (
                 <label>{POOL_TITLE}</label>
             </div>
 
+            {
+                poolType === POOL_TYPE.NEW_POOL ? 
+            <div className='pools-box' style={{ marginBottom: '30px' }}>
+                <PoolBoxHeader title='WARNING' />
+                <div className='pools-box-content required-changes'>
+                    <div className='pools-box-inner required-changes'>
+                        <h1 className='pools-box-inner-title required-changes'>Early exit fee</h1>
+                        <p className='pools-box-inner-description'>When users deposit, they are instantly eligible to win. To maintain the fairness a time decay early is enforced. <br/><span style={{ color: '#FF636B' }}>Early exit fee is 10%. Exit fee decay time - 7 days.</span> To avoid paying fees, stay in the pool for at least 7 days.</p>
+                    </div>
+                </div>
+            </div> : null
+            }
+            
+
             <div className='pools-box-container'>
                 <div className='pools-box'>
                     <PoolBoxHeader title='Current Week Prize' />
@@ -152,6 +168,43 @@ const RewardPoolDetails = (
                     totalTickets={formatEtherWithDecimals(totalTicketAmount, 2)}
                 />
             </div>
+
+{/* {
+    poolType === POOL_TYPE.NEW_POOL ? <div> */}
+        <div className='pools-box-container'>
+                <div className='pools-box'>
+                    <PoolBoxHeader title='Early exit fee' />
+                    <div className='pools-box-content required-changes'>
+                        <div className='pools-box-inner required-changes'>
+                            <h1 className='pools-box-inner-title required-changes'>
+                                Early exit fee
+                            </h1>
+                            <div className='pools-box-screen required-changes'>
+                                <div className='pools-box-screen-inner'>{PLACEHOLDER_EARLY_EXIT_FEE + '%'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div className='pools-box'>
+                    <PoolBoxHeader title='Exit fee decay time' />
+                    <div className='pools-box-content required-changes'>
+                        <div className='pools-box-inner required-changes'>
+                            <h1 className='pools-box-inner-title required-changes'>
+                                Exit fee decay time
+                            </h1>
+                            <div className='pools-box-screen required-changes'>
+                                <div className='pools-box-screen-inner'>{PLACEHOLDER_EXIT_FEE_DECAY_TIME + ' DAYS'}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {/* </div> 
+        : 
+        null
+} */}
+            
 
             <div className='pools-box-container'>
                 <div className='pools-box yield-source'>

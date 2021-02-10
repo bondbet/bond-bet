@@ -1,12 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react'
-import Table from '../Table/Table'
-import logo from '../../assets/images/onlyLogo.svg'
-import { useHistory } from 'react-router-dom'
-import AppContext from '../../ContextAPI'
-import { formatToHumatReadableDate } from '../../helpers/date'
-import { formatEtherWithDecimals } from '../../helpers/format-utils'
-import {connect} from 'react-redux';
-import { ACTION_TYPE } from '../../store/action-type'
+import React from 'react'
+
 import LeaderBoardDetails from './LeaderBoardDetails'
 import { POOL_TYPE } from '../../store/pool-type'
 
