@@ -169,8 +169,8 @@ const RewardPoolDetails = (
                 />
             </div>
 
-{/* {
-    poolType === POOL_TYPE.NEW_POOL ? <div> */}
+{
+    poolType === POOL_TYPE.NEW_POOL ? <div>
         <div className='pools-box-container'>
                 <div className='pools-box'>
                     <PoolBoxHeader title='Early exit fee' />
@@ -200,10 +200,10 @@ const RewardPoolDetails = (
                     </div>
                 </div>
             </div>
-        {/* </div> 
+        </div> 
         : 
         null
-} */}
+}
             
 
             <div className='pools-box-container'>
