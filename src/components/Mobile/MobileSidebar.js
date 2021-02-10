@@ -33,7 +33,10 @@ const MobileSidebar = ({ connected, provider, connectedWalletName, connectedNetw
     })
 
 
-
+    const handleBondBetClick =  (e) => {
+        e.preventDefault();
+        window.location.href='https://bond.bet'
+    }
 
     return (
         <div className='sidebar-overlay'>
@@ -88,9 +91,9 @@ const MobileSidebar = ({ connected, provider, connectedWalletName, connectedNetw
                             <MenuItems />
                         </ul>
                     </div>
-                    <div className='sidebar-copyright'>
+                    <div className='sidebar-copyright' onClick={handleBondBetClick}>
                         <img src={arrowToLeftImg} alt='Left arrow' />
-                        <p>bond.bet © {new Date().getFullYear()}</p>
+                        <p >bond.bet © {new Date().getFullYear()}</p>
                     </div>
                 </div>
             </div>

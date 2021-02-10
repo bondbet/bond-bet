@@ -1,5 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
-import AppContext from '../../ContextAPI';
+import React from 'react'
 import { POOL_TYPE } from '../../store/pool-type';
 import RewardPool from './RewardPool/RewardPool';
 

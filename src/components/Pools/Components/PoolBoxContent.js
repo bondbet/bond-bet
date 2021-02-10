@@ -1,6 +1,5 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
-import AppContext from '../../../ContextAPI';
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
 import {connect} from 'react-redux';

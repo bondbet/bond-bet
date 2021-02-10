@@ -259,16 +259,16 @@ const Main = (
     })
 
     const calculateEarlyExitFee = useCallback(async (desiredWithdrawAmount) => {
-        // try {
+        try {
 
             const exitFeeTx = await prizePoolContract.callStatic.calculateEarlyExitFee(connectedWalletAddress, ticketsContract.address, ethers.utils.parseEther(desiredWithdrawAmount + ''));
             setWithdrawLoading(true);
             setWithdrawTxId(exitFeeTx.hash);
 
             return exitFeeTx.exitFee;
-        // }catch(e) {
-        //     alert('Something went wrong.')
-        // }
+        }catch(e) {
+            alert('Something went wrong.')
+        }
     })
 
     useEffect(() => {
