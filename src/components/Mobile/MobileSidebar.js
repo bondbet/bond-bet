@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef} from 'react';
+import React, { useState, useContext, useEffect, useRef } from 'react';
 import MenuItems from './MenuItems';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.svg';
 import arrowToLeftImg from '../../assets/images/arrowToLeft.svg';
@@ -8,13 +8,13 @@ import statusImg from '../../assets/images/status.svg';
 import walletImg from '../../assets/images/wallet.svg';
 import networkImg from '../../assets/images/network.svg';
 import AppContext from '../../ContextAPI';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { capitalize, shortenEthereumAddress } from '../../helpers/format-utils';
 
 
-const MobileSidebar = (props) => {
+const MobileSidebar = ({ connected, provider, connectedWalletName, connectedNetwork, connectedWalletAddress, setToggleSidebar, toggleSidebar }) => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, provider, connectedWalletName, connectedNetwork, connectedWalletAddress, connectWalletHandler, disconnectWalletHandler} = useContext(AppContext)
+    const { connectWalletHandler, disconnectWalletHandler } = useContext(AppContext)
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -33,7 +33,10 @@ const MobileSidebar = (props) => {
     })
 
 
-
+    const handleBondBetClick =  (e) => {
+        e.preventDefault();
+        window.location.href='https://bond.bet'
+    }
 
     return (
         <div className='sidebar-overlay'>
@@ -43,7 +46,7 @@ const MobileSidebar = (props) => {
                         <img src={noLossLotteryImg} alt='No Loss Lottery' />
                         <h2>No Loss Lottery</h2>
                     </div>
-                    <button className='close-sidebar' onClick={() => props.setToggleSidebar(!props.toggleSidebar)}>
+                    <button className='close-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
                         <img src={closeIcon} alt='Close Sidebar Icon' />
                     </button>
                 </div>
@@ -56,7 +59,7 @@ const MobileSidebar = (props) => {
                                     <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                                         <img src={prizeImg} alt='Prize' /> {shortenEthereumAddress(connectedWalletAddress)}
                                     </button>
-                                    {openDropdown && 
+                                    {openDropdown &&
                                         <div ref={ref} className='dropdown'>
                                             <div className='dropdown-row'>
                                                 <div className='dropdown-text'>
@@ -88,19 +91,33 @@ const MobileSidebar = (props) => {
                             <MenuItems />
                         </ul>
                     </div>
-                    <div className='sidebar-copyright'>
+                    <div className='sidebar-copyright' onClick={handleBondBetClick}>
                         <img src={arrowToLeftImg} alt='Left arrow' />
-                        <p>bond.bet © {new Date().getFullYear()}</p>
+                        <p >bond.bet © {new Date().getFullYear()}</p>
                     </div>
                 </div>
             </div>
         </div>
     )
 }
-const mapStateToProps = ({toggleSidebar}) => ({
-    toggleSidebar
-})
+const mapStateToProps = (
+    {
+        toggleSidebar,
+        connected,
+        provider,
+        connectedWalletName,
+        connectedNetwork,
+        connectedWalletAddress
+    }) => (
+    {
+        toggleSidebar,
+        connected,
+        provider,
+        connectedWalletName,
+        connectedNetwork,
+        connectedWalletAddress,
+    })
 const mapDispatchToProps = dispatch => ({
-    setToggleSidebar: (x) => dispatch({type: 'TOGGLE_SIDEBAR', value: x})
+    setToggleSidebar: (x) => dispatch({ type: 'TOGGLE_SIDEBAR', value: x })
 })
 export default connect(mapStateToProps, mapDispatchToProps)(MobileSidebar)

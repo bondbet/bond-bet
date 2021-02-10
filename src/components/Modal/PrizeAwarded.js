@@ -1,14 +1,12 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import prizeAwardedImg from '../../assets/images/prize-awarded.svg'
 import youWonImg from '../../assets/images/you-won.svg'
 import { useHistory } from 'react-router-dom'
-import AppContext from '../../ContextAPI'
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type'
 
-const PrizeAwarded = ({setOpenModal}) => {
-    const { setSelectedMenuItem } = useContext(AppContext);
+const PrizeAwarded = ({setOpenModal, setSelectedMenuItem}) => {
     const history = useHistory();
 
     const PLACEHOLDER_WINNER = false;
@@ -62,6 +60,7 @@ const PrizeAwarded = ({setOpenModal}) => {
     )
 }
 const mapDispatchToProps = dispatch => ({
-    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
 export default connect(null, mapDispatchToProps)(PrizeAwarded)

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import arrowToRight from '../../../assets/images/arrowToRight.svg';
@@ -7,15 +7,14 @@ import presentImg from '../../../assets/images/present.svg';
 import cupImg from '../../../assets/images/cup.svg';
 import ticketImg from '../../../assets/images/ticket.svg';
 import { Link } from 'react-router-dom';
-import AppContext from '../../../ContextAPI';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 import { setNewTime } from '../../../helpers/countdown-setter';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
+import {ACTION_TYPE} from './../../../store/action-type';
 
-const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrice}) => {
+const RewardPoolPlayerDetails = ({ playerData, prizePeriodEnds, currentWeekPrice, setSelectedMenuItem, POOL_TITLE }) => {
     const { id } = useParams();
-    const { setSelectedMenuItem } = useContext(AppContext);
 
     const [chosenPlayerData, setChosenPlayerData] = useState({
         ticketsBalance: 0,
@@ -26,7 +25,7 @@ const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrice}
     const [countdown, setCountdown] = useState({
         days: 0,
         hours: 0,
-        minutes:0 ,
+        minutes: 0,
         seconds: 0,
     });
 
@@ -42,25 +41,25 @@ const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrice}
             clearInterval(interval);
         };
     }, [prizePeriodEnds])
-    
+
 
 
     useEffect(() => {
-        if(playerData) {
+        if (playerData) {
             setChosenPlayerData(playerData.filter(x => x.address.toUpperCase() === id.toUpperCase())[0])
-     }
-    },[playerData])
+        }
+    }, [playerData])
 
 
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
-                <img src={onlyLogo} alt='Community Reward Pool' /> Community Reward Pool
+                <img src={onlyLogo} alt={POOL_TITLE} /> {POOL_TITLE}
             </h1>
             <div className='breadcrumbs'>
                 <Link to='/' onClick={() => setSelectedMenuItem(0)}>Pools</Link>
                 <img src={arrowToRight} alt='Right Arrow' />
-                <label>Player {id.substring(0,6) + '..' + id.substring(id.length - 4)}</label>
+                <label>Player {id.substring(0, 6) + '..' + id.substring(id.length - 4)}</label>
             </div>
 
             <div className='pools-box required-changes'>
@@ -94,7 +93,15 @@ const RewardPoolPlayerDetails = ({playerData, prizePeriodEnds, currentWeekPrice}
     )
 }
 
-const mapStateToProps = ({playerData, prizePeriodEnds, currentWeekPrice}) => 
-                        ({playerData, prizePeriodEnds, currentWeekPrice})
-
-export default connect(mapStateToProps)(RewardPoolPlayerDetails)
+const mapStateToProps = (state, {poolType}) =>
+    (
+        { 
+            playerData: state[poolType].playerData, 
+            prizePeriodEnds: state[poolType].prizePeriodEnds, 
+            currentWeekPrice: state[poolType].currentWeekPrice,
+            POOL_TITLE: state[poolType].TITLE
+         })
+const mapDispatchToProps = (dispatch) => ({
+    setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })
+})
+export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolPlayerDetails)

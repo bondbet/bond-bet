@@ -3,22 +3,21 @@ import { useHistory } from 'react-router-dom';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import PoolBoxContent from '../Components/PoolBoxContent';
 import AppContext from '../../../ContextAPI';
-import * as ethers from 'ethers';
 import { formatEtherWithDecimals } from '../../../helpers/format-utils';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
 
-const RewardPool = ({setOpenModal, setModalType}) => {
-    const { connected, connectWalletHandler , totalTicketAmount} = useContext(AppContext);
+const RewardPool = ({setOpenModal, setModalType, totalTicketAmount, connected, poolType, POOL_URL, POOL_TITLE}) => {
+    const { connectWalletHandler} = useContext(AppContext);
     const history = useHistory();
-
     return (
         
             <div className='pools-box'>
-                <PoolBoxHeader title='Community Reward Pool' />
+                <PoolBoxHeader title={POOL_TITLE} poolType={poolType}/>
                 <div className='pools-box-content'>
                     <PoolBoxContent
-                        title='Community Reward Pool'
+                        poolType={poolType}
+                        title={POOL_TITLE}
                         bonds={`${formatEtherWithDecimals(totalTicketAmount, 2)} bond`}
                     />
 
@@ -32,17 +31,18 @@ const RewardPool = ({setOpenModal, setModalType}) => {
                             setModalType('GT'); 
                             }
                             }>Get Tickets</button>
-                        <button onClick={() => history.push('/community-reward-pool/details')}>Pool Details</button>
+                        <button onClick={() => history.push(`/${POOL_URL}/details`)}>Pool Details</button>
                     </div>
                 </div>
             </div>
     
     )
 }
+const mapStateToProps = (state, {poolType}) => ({totalTicketAmount: state[poolType].totalTicketAmount, connected: state.connected, POOL_URL: state[poolType].URL, POOL_TITLE: state[poolType].TITLE});
 
-const mapDispatchToProps = dispatch => ({
-    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value}),
+const mapDispatchToProps = (dispatch, {poolType}) => ({
+    setModalType: value => dispatch({type: ACTION_TYPE.MODAL_TYPE, value: {modalType: value, poolType}}),
     setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
 })
 
-export default connect(null, mapDispatchToProps)(RewardPool)
+export default connect(mapStateToProps, mapDispatchToProps)(RewardPool)

@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useRef} from 'react'
+import React, { useState, useContext, useEffect, useRef } from 'react'
 import MobileSidebar from '../Mobile/MobileSidebar';
 import appLogo from '../../assets/images/app-logo.svg';
 import noLossLotteryImg from '../../assets/images/no-loss-lottery.svg';
@@ -10,11 +10,11 @@ import networkImg from '../../assets/images/network.svg';
 import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
 import { capitalize, shortenEthereumAddress } from '../../helpers/format-utils';
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
-const Header = (props) => {
+const Header = ({ connected, provider, connectedWalletName, setSelectedMenuItem, connectedWalletAddress, connectedNetwork, setToggleSidebar, toggleSidebar }) => {
     const [openDropdown, setOpenDropdown] = useState(false);
-    const { connected, provider, connectedWalletName, setSelectedMenuItem, connectWalletHandler, connectedWalletAddress, connectedNetwork, disconnectWalletHandler } = useContext(AppContext);
+    const { connectWalletHandler, disconnectWalletHandler } = useContext(AppContext);
     const ref = useRef(null);
 
     const handleClickOutside = (event) => {
@@ -50,7 +50,7 @@ const Header = (props) => {
                         <button onClick={() => setOpenDropdown(!openDropdown)} className={openDropdown ? 'dropdownOpened' : ''}>
                             <img src={prizeImg} alt='Prize' /> {shortenEthereumAddress(connectedWalletAddress)}
                         </button>
-                        {openDropdown && 
+                        {openDropdown &&
                             <div ref={ref} className='dropdown'>
                                 <div className='dropdown-row'>
                                     <div className='dropdown-text'>
@@ -80,20 +80,36 @@ const Header = (props) => {
             </div>
 
             <div className='mobile-menu'>
-                <button className='open-sidebar' onClick={() => props.setToggleSidebar(!props.toggleSidebar)}>
+                <button className='open-sidebar' onClick={() => setToggleSidebar(!toggleSidebar)}>
                     <img src={hamburgerIcon} alt='Hamburger Icon' />
                 </button>
-                {props.toggleSidebar &&
+                {toggleSidebar &&
                     <MobileSidebar />
                 }
             </div>
         </header>
     )
 }
-const mapStateToProps = ({toggleSidebar}) => ({
-    toggleSidebar
+const mapStateToProps = (
+    {
+        toggleSidebar,
+        connected,
+        provider,
+        connectedWalletName,
+        setSelectedMenuItem,
+        connectedWalletAddress,
+        connectedNetwork,
+    }) =>
+({
+    toggleSidebar,
+    connected,
+    provider,
+    connectedWalletName,
+    setSelectedMenuItem,
+    connectedWalletAddress,
+    connectedNetwork,
 })
 const mapDispatchToProps = dispatch => ({
-    setToggleSidebar: (x) => dispatch({type: 'TOGGLE_SIDEBAR', value: x})
+    setToggleSidebar: (x) => dispatch({ type: 'TOGGLE_SIDEBAR', value: x })
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

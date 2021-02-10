@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
 import arrowToRight from '../../../assets/images/arrowToRight.svg';
@@ -7,7 +7,6 @@ import ProgressBar from '../Components/ProgressBar';
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import AboutPool from '../Components/AboutPool';
 import PoolBoxStats from '../Components/PoolBoxStats';
-import AppContext from '../../../ContextAPI';
 import presentImg from '../../../assets/images/present.svg';
 import timeImg from '../../../assets/images/time.svg';
 import bigWalletImg from '../../../assets/images/wallet-lg.svg';
@@ -17,17 +16,31 @@ import { formatToHumatReadableDate } from '../../../helpers/date';
 import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
+import { POOL_TYPE } from '../../../store/pool-type';
 
-const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, currentWeekPrice}) => {
-    const { setSelectedMenuItem, totalTicketAmount, previousAwards, allDeposits, allWithdraws } = useContext(AppContext);
+const RewardPoolDetails = (
+    {
+        percentageTimePassed, 
+        numberOfWinners, 
+        setSelectedMenuItem, 
+        totalTicketAmount, 
+        playerData, 
+        setPlayerData, 
+        previousAwards, 
+        currentWeekPrice, 
+        allDeposits, 
+        allWithdraws, 
+        poolType, 
+        POOL_TITLE, 
+        POOL_YIELD_SOURCE,
+        POOL_URL,
+        DESCRIPTION1,
+        DESCRIPTION2
+    }) => {
     const history = useHistory();
 
     const PLACEHOLDER_EARLY_EXIT_FEE = 10;
     const PLACEHOLDER_EXIT_FEE_DECAY_TIME = 7;
-    const PLACEHOLDER_YIELD_SOURCE = 'BarnBridge DAO Staking';
-    const PLACEHOLDER_DESCRIPTION1 = 'The Community Reward Pool is set up by BOND founders and the weekly prize in this pool is provided from BOND Community Rewards.';
-    const PLACEHOLDER_DESCRIPTION2 = 'Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.';
-
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Address',
@@ -44,16 +57,13 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
             Cell: ({ row }) => 
             (<div className='view-details'>{row.values.odds} 
               <button 
-                    onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.address.toLowerCase()}`) }}>View player
+                    onClick={() => { setSelectedMenuItem(0); history.push(`/${POOL_URL}/player/${row.values.address.toLowerCase()}`) }}>View player
               </button></div> )
         },
     ], [history, setSelectedMenuItem])
 
     useEffect(() => {
-        document.title = 'Community Reward Pool'
-    }, [])
 
-    useEffect(() => {
         if(allWithdraws && allDeposits && previousAwards) {
             const playerToCurrentTicketBalanceMap = new Map();
 
@@ -80,6 +90,7 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
         }) ;
 
         const playersWithMoreThanZeroTickets = [...playerToCurrentTicketBalanceMap.keys()].filter(x => playerToCurrentTicketBalanceMap.get(x).gt('0'))
+
         setPlayerData(playersWithMoreThanZeroTickets.map(x => ({
             address: x, 
             ticketsBalance: formatEtherWithDecimals(playerToCurrentTicketBalanceMap.get(x),2), 
@@ -95,14 +106,16 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
-                <img src={onlyLogo} alt='Community Reward Pool' /> Community Reward Pool
+                <img src={onlyLogo} alt={POOL_TITLE} /> {POOL_TITLE}
             </h1>
             <div className='breadcrumbs'>
                 <Link to='/'>Lottery Pools</Link>
                 <img src={arrowToRight} alt='Right Arrow' />
-                <label>Community Reward Pool</label>
+                <label>{POOL_TITLE}</label>
             </div>
 
+            {
+                poolType === POOL_TYPE.NEW_POOL ? 
             <div className='pools-box' style={{ marginBottom: '30px' }}>
                 <PoolBoxHeader title='WARNING' />
                 <div className='pools-box-content required-changes'>
@@ -111,7 +124,9 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                         <p className='pools-box-inner-description'>When users deposit, they are instantly eligible to win. To maintain the fairness a time decay early is enforced. <br/><span style={{ color: '#FF636B' }}>Early exit fee is 10%. Exit fee decay time - 7 days.</span> To avoid paying fees, stay in the pool for at least 7 days.</p>
                     </div>
                 </div>
-            </div>
+            </div> : null
+            }
+            
 
             <div className='pools-box-container'>
                 <div className='pools-box'>
@@ -138,8 +153,8 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                             <h1 className='pools-box-inner-title required-changes'>
                                 <img src={timeImg} alt='Time Left' /> Time Left
                             </h1>
-                            <ProgressBar percentageTimePassed={percentageTimePassed} />
-                            <Countdown />
+                            <ProgressBar percentageTimePassed={percentageTimePassed}  poolType={poolType} />
+                            <Countdown poolType={poolType} />
                         </div>
                     </div>
                 </div>
@@ -148,13 +163,15 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
             <div className='pools-box required-changes'>
                 <PoolBoxHeader title='Pool Information' />
                 <PoolBoxStats
-                    winners="1"
+                    winners={numberOfWinners.toString()}
                     players={playerData.length}
                     totalTickets={formatEtherWithDecimals(totalTicketAmount, 2)}
                 />
             </div>
 
-            <div className='pools-box-container'>
+{
+    poolType === POOL_TYPE.NEW_POOL ? <div>
+        <div className='pools-box-container'>
                 <div className='pools-box'>
                     <PoolBoxHeader title='Early exit fee' />
                     <div className='pools-box-content required-changes'>
@@ -183,6 +200,11 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                     </div>
                 </div>
             </div>
+        </div> 
+        : 
+        null
+}
+            
 
             <div className='pools-box-container'>
                 <div className='pools-box yield-source'>
@@ -194,7 +216,7 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                             </h1>
                             <div className='pools-box-screen required-changes'>
                                 <h1 className='yield-source-title'>
-                                    <img src={onlyLogo} alt='BarnBridge DAO Staking' /> {PLACEHOLDER_YIELD_SOURCE}
+                                    <img src={onlyLogo} alt={POOL_YIELD_SOURCE} /> {POOL_YIELD_SOURCE}
                                 </h1>
                             </div>
                         </div>
@@ -209,9 +231,9 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                                 <img src={presentImg} alt='Past 5 prizes' /> Past 5 prizes
                             </h1>
                             <div className='pools-box-screen required-changes'>
-                                {previousAwards.slice().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map(item => {
+                                {previousAwards.slice().sort((a, b) => b.timestamp - a.timestamp).slice(0, 5).map((item, index) => {
                                     return (
-                                        <div key={item.timestamp} className='past-prizes'>
+                                        <div key={index} className='past-prizes'>
                                             <div>{formatToHumatReadableDate(item.timestamp)}</div>
                                             <div></div>
                                             <div>{formatEtherWithDecimals(item.amount, 2)}</div>
@@ -232,16 +254,32 @@ const RewardPoolDetails = ({percentageTimePassed, playerData, setPlayerData, cur
                 <PoolBoxHeader title='About the Pool' />
                 <AboutPool
                     title='About the Pool'
-                    description={PLACEHOLDER_DESCRIPTION1}
-                    more={PLACEHOLDER_DESCRIPTION2}
+                    description={DESCRIPTION1}
+                    more={DESCRIPTION2}
                 />
             </div>
         </div>
     )
 }
-const mapStateToProps = ({percentageTimePassed, playerData, currentWeekPrice}) => 
-                        ({percentageTimePassed, playerData, currentWeekPrice})
-const mapDispatchToProps = (dispatch) => ({
-    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, value})
+const mapStateToProps = (state, {poolType}) => 
+                        (
+                            {
+                                percentageTimePassed:state[poolType].percentageTimePassed, 
+                                playerData:state[poolType].playerData, 
+                                currentWeekPrice:state[poolType].currentWeekPrice, 
+                                totalTicketAmount:state[poolType].totalTicketAmount, 
+                                previousAwards:state[poolType].previousAwards, 
+                                allDeposits:state[poolType].allDeposits, 
+                                allWithdraws:state[poolType].allWithdraws,
+                                numberOfWinners: state[poolType].numberOfWinners,
+                                POOL_TITLE: state[poolType].TITLE,
+                                POOL_YIELD_SOURCE: state[poolType].YIELD_SOURCE,
+                                POOL_URL: state[poolType].URL,
+                                DESCRIPTION1: state[poolType].DESCRIPTION1,
+                                DESCRIPTION2: state[poolType].DESCRIPTION2
+                             })
+const mapDispatchToProps = (dispatch, {poolType}) => ({
+    setPlayerData: (value) => dispatch({type: ACTION_TYPE.PLAYER_DATA, poolType, value}),
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
 export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolDetails)

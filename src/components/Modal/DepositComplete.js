@@ -4,9 +4,9 @@ import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import { ethers } from 'ethers';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
+import {connect}  from 'react-redux';
 
-const DepositComplete = () => {
-    const { ticketsBalance } = useContext(AppContext);
+const DepositComplete = ({ticketsBalance, poolType}) => {
 
 
     return (
@@ -18,12 +18,13 @@ const DepositComplete = () => {
                             <h1 className='modal-title'>Deposit Complete</h1>
                         {ticketsBalance ? <h4 className='modal-description'>You got total of {formatEtherWithDecimals(ticketsBalance, 2)} tickets</h4> : null}
                             <p className='prize-will-be-awarded-in'>The prize will be awarded in:</p>
-                            <Countdown/>
+                            <Countdown poolType={poolType}/>
                         </div>
                     </div>
                 </div>
 
     )
 }
+const mapStateToProps = (state, {poolType}) => ({ticketsBalance: state[poolType].ticketsBalance})
 
-export default DepositComplete
+export default connect(mapStateToProps)(DepositComplete)

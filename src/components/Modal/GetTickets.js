@@ -9,19 +9,11 @@ import validator from 'validator';
 import * as ethers from 'ethers';
 import EtherscanLink from '../Shared/EtherscanLink';
 import {connect} from 'react-redux'
+import { toFixed } from '../../helpers/format-utils';
 
 
 
-const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
-    const {
-        bondAllowance,
-        allowBondHandler,
-        bondBalance,
-        connected,
-        ticketDepositHandler,
-        totalTicketAmount,
-        ticketsBalance
-    } = useContext(AppContext);
+const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, getTicketsTxId, mainTokenAllowance,totalTicketAmount, ticketDepositHandler, ticketsBalance, connected}) => {
 
 	const [tokenIsEnabled, setTokenIsEnabled] = useState(false);
 	const [maxAmountSelected, setMaxAmountSelected] = useState(false);
@@ -29,19 +21,19 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
     const [depositAmount, setDepositAmount] = useState('');
 
     useEffect(() => {
-        if(bondAllowance ){
-            setTokenIsEnabled(bondAllowance.gt(0) )
+
+        if(mainTokenAllowance ){
+            setTokenIsEnabled(mainTokenAllowance.gt(0) )
         }
-    },[bondAllowance])
+    },[mainTokenAllowance])
     const handleTicketInputChange = (value) => {
-        
         if(value === '' || (validator.isNumeric(value) && !value.startsWith('0'))) {
             setDepositAmount(value);
             const balanceInBigNumber = ethers.utils.parseEther(value || '0');
-            const hasEnoughBond = ethers.utils.parseEther(value || '0').lte(bondBalance);
+            const hasEnoughBond = ethers.utils.parseEther(value || '0').lte(mainTokenBalance);
             setInputValid(balanceInBigNumber.gt('0') && hasEnoughBond);
             if(hasEnoughBond) {
-                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(bondBalance)));
+                setMaxAmountSelected(balanceInBigNumber.eq(ethers.BigNumber.from(mainTokenBalance)));
             }
         }
     
@@ -60,17 +52,19 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
                 <div className='box-inner'>
                     <h1 className='modal-title'>Get Tickets</h1>
                     <h4 className='modal-description'>1 BOND = 1 ticket</h4>
+                    <br/>
+                    {getTicketsLoading ? <EtherscanLink txId={getTicketsTxId}> </EtherscanLink> : null }
                     {connected &&
                         <div className='token'>
                             <h1>
                                 <img src={logo} alt='App Logo' /> Bond
                             </h1>
-                            {getTicketsLoading ? <EtherscanLink txId={getTicketsTxId}> </EtherscanLink> : null }
+                        
                             <h2>{ tokenIsEnabled ? 'Token enabled' : 'Enable token'}
                                 <input
                                     checked={tokenIsEnabled}
-                                    onChange={allowBondHandler}
-                                    disabled={tokenIsEnabled}
+                                    onChange={allowTicketHandler}
+                                    disabled={tokenIsEnabled || getTicketsLoading}
                                     className='switch-checkbox'
                                     id={'switch-new'+'RP'}
                                     type='checkbox'
@@ -94,7 +88,7 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
                             <div>Ticket amount:</div>
                             {connected &&
                                 <div>
-                                    <img src={walletIcon} alt='Wallet' /> {`${ethers.utils.formatEther(bondBalance)} BOND`}
+                                    <img src={walletIcon} alt='Wallet' /> {`${toFixed(ethers.utils.formatEther(mainTokenBalance), 4)} BOND`}
                                 </div>
                             }
                         </div>
@@ -112,10 +106,10 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
                                 }
                                 value={depositAmount}
                             />
-                            {connected && bondBalance.gt('0')?
+                            {connected && mainTokenBalance.gt('0')?
                                 (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { 
                                    
-                                        setDepositAmount(+ethers.utils.formatEther(bondBalance)); 
+                                        setDepositAmount(toFixed(+ethers.utils.formatEther(mainTokenBalance), 4)); 
                                         setInputValid(true); 
                                         setMaxAmountSelected(true) 
                               
@@ -142,6 +136,19 @@ const GetTickets = ({getTicketsLoading, getTicketsTxId}) => {
         </div>
     )
 }
-const mapStateToProps = ({getTicketsLoading, getTicketsTxId}) => ({getTicketsLoading, getTicketsTxId})
+const mapStateToProps = 
+(state, {poolType}) => 
+(
+    {
+        connected: state.connected, 
+        allowTicketHandler: state[poolType].allowTicketHandler,
+        getTicketsLoading: state[poolType].getTicketsLoading, 
+        getTicketsTxId: state[poolType].getTicketsTxId, 
+        totalTicketAmount: state[poolType].totalTicketAmount, 
+        ticketsBalance: state[poolType].ticketsBalance, 
+        mainTokenBalance: state.mainTokenBalance, 
+        mainTokenAllowance: state[poolType].mainTokenAllowance,
+        ticketDepositHandler: state[poolType].ticketDepositHandler
+    })
 
 export default connect(mapStateToProps)(GetTickets)

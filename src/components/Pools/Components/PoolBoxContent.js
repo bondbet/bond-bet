@@ -1,12 +1,11 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
-import AppContext from '../../../ContextAPI';
 import Countdown from './Countdown';
 import ProgressBar from './ProgressBar';
 import {connect} from 'react-redux';
 
 
-const PoolBoxContent = ({title, bonds}) => {
+const PoolBoxContent = ({title, bonds, poolType}) => {
 
     return (
         <div className='pools-box-inner'>
@@ -17,8 +16,8 @@ const PoolBoxContent = ({title, bonds}) => {
             <div className='pools-box-screen'>
                 <div className='pools-box-screen-inner'>{bonds}</div>
             </div>
-            <ProgressBar/>
-            <Countdown />
+            <ProgressBar poolType={poolType}/>
+            <Countdown poolType={poolType}/>
         </div>
     )
 }

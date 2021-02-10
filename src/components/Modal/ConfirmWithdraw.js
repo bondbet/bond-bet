@@ -1,13 +1,9 @@
-import React, {useContext} from 'react'
-import AppContext from '../../ContextAPI';
+import React from 'react';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import EtherscanLink from '../Shared/EtherscanLink';
+import {connect} from 'react-redux';
 
-const ConfirmWithdraw = () => {
-    const {
-        withdrawLoading, withdrawTxId
-    } = useContext(AppContext);
-
+const ConfirmWithdraw = ( {withdrawLoading, withdrawTxId}) => {
     return (
         <div className='pools-box'>
             <PoolBoxHeader title='Confirm' />
@@ -31,5 +27,5 @@ const ConfirmWithdraw = () => {
         </div>
     )
 }
-
-export default ConfirmWithdraw
+const mapStateToProps = (state, {poolType}) => ({ withdrawLoading: state[poolType].withdrawLoading, withdrawTxId: state[poolType].withdrawTxId})
+export default connect(mapStateToProps)(ConfirmWithdraw)

@@ -34,5 +34,6 @@ const ConfirmDeposit = ({getTicketsLoading, getTicketsTxId}) => {
         </div>
     )
 }
-const mapStateToProps = ({getTicketsLoading, getTicketsTxId}) => ({getTicketsLoading, getTicketsTxId})
+const mapStateToProps = (state, {poolType}) => 
+    ({getTicketsLoading: state[poolType].getTicketsLoading, getTicketsTxId: state[poolType].getTicketsTxId})
 export default connect(mapStateToProps)(ConfirmDeposit)

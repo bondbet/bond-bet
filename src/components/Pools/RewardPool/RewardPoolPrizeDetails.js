@@ -1,28 +1,24 @@
-import React, {useContext, useEffect} from 'react'
+import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import onlyLogo from '../../../assets/images/onlyLogo.svg'
 import arrowToRight from '../../../assets/images/arrowToRight.svg'
 import presentImg from '../../../assets/images/present.svg'
 import { Link } from 'react-router-dom'
-import AppContext from '../../../ContextAPI'
+
 import PoolBoxHeader from '../Components/PoolBoxHeader';
 import PoolBoxStats from '../Components/PoolBoxStats';
 import Table from '../../Table/Table'
+import { connect } from 'react-redux'
+import { ACTION_TYPE } from '../../../store/action-type'
 
-const RewardPoolPrizeDetails = () => {
+const RewardPoolPrizeDetails = ({ setSelectedMenuItem, POOL_URL, POOL_TITLE }) => {
     const { id } = useParams();
-    const { setSelectedMenuItem } = useContext(AppContext);
     const history = useHistory();
-
-    useEffect(() => {
-        document.title = 'Community Reward Pool'
-    }, [])
-
     const PLACEHOLDER_WINNERS_COLUMNS = React.useMemo(() => [
         {
             Header: 'Address',
             accessor: 'col1',
-            Cell: ({ row }) => (row.values.col1.substring(0,6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
+            Cell: ({ row }) => (row.values.col1.substring(0, 6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
         },
         {
             Header: 'Tickets',
@@ -31,7 +27,7 @@ const RewardPoolPrizeDetails = () => {
         {
             Header: 'Odds',
             accessor: 'col3',
-            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
+            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/${POOL_URL}/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div>)
         },
     ], [history, setSelectedMenuItem])
 
@@ -57,7 +53,7 @@ const RewardPoolPrizeDetails = () => {
         {
             Header: 'Address',
             accessor: 'col1',
-            Cell: ({ row }) => (row.values.col1.substring(0,6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
+            Cell: ({ row }) => (row.values.col1.substring(0, 6) + '..' + row.values.col1.substring(row.values.col1.length - 4))
         },
         {
             Header: 'Tickets',
@@ -66,7 +62,7 @@ const RewardPoolPrizeDetails = () => {
         {
             Header: 'Odds',
             accessor: 'col3',
-            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/community-reward-pool/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div> )
+            Cell: ({ row }) => (<div className='view-details'>{row.values.col3} <button onClick={() => { setSelectedMenuItem(0); history.push(`/${POOL_URL}/player/${row.values.col1.toLowerCase()}`) }}>View player</button></div>)
         },
     ], [history, setSelectedMenuItem])
 
@@ -132,7 +128,7 @@ const RewardPoolPrizeDetails = () => {
     return (
         <div className='reward-pool-details-section'>
             <h1 className='reward-pool-details-title'>
-                <img src={onlyLogo} alt='Community Reward Pool' /> Community Reward Pool
+                <img src={onlyLogo} alt={POOL_TITLE} /> {POOL_TITLE}
             </h1>
             <div className='breadcrumbs'>
                 <Link to='/leaderboard' onClick={() => setSelectedMenuItem(2)}>Leaderboard</Link>
@@ -169,5 +165,8 @@ const RewardPoolPrizeDetails = () => {
         </div>
     )
 }
-
-export default RewardPoolPrizeDetails
+const mapStateToProps = (state, { poolType }) => ({ POOL_URL: state[poolType].URL, POOL_TITLE: state[poolType].TITLE })
+const mapDispatchToProps = (dispatch) => ({
+    setSelectedMenuItem: value => dispatch({ type: ACTION_TYPE.SELECTED_MENU_ITEM, value })
+})
+export default connect(mapStateToProps, mapDispatchToProps)(RewardPoolPrizeDetails)

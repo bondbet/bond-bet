@@ -1,16 +1,12 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { useHistory } from 'react-router-dom';
-import AppContext from '../../ContextAPI';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import * as ethers from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type'
 
-const WithdrawComplete = ({ setOpenModal}) => {
-    const {
-        setSelectedMenuItem,
-        ticketsBalance,
-    } = useContext(AppContext);
+const WithdrawComplete = ({ setOpenModal,ticketsBalance,setSelectedMenuItem}) => {
+
     const history = useHistory();
     return (
         <div className='pools-box'>
@@ -27,7 +23,10 @@ const WithdrawComplete = ({ setOpenModal}) => {
         </div>
     )
 }
+const mapStateToProps = (state, {poolType}) =>  ({ticketsBalance: state[poolType].ticketsBalance});
+
 const mapDispatchToProps = dispatch => ({
-    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value})
+    setOpenModal: value => dispatch({type: ACTION_TYPE.MODAL_OPEN, value}),
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
 })
-export default connect(null, mapDispatchToProps)(WithdrawComplete)
+export default connect(mapStateToProps, mapDispatchToProps)(WithdrawComplete)

@@ -59,16 +59,21 @@
     background: none;
     border: 1px solid #EFEFEF;
     padding: 23px 0;
+    cursor: pointer;
 }
 
 .sidebar-copyright img {
     margin-right: 15px;
+    cursor: pointer;
+
 }
 
 .sidebar-copyright p {
     font-family: spaceGroteskBold;
     font-size: 18px;
     color: #000000;
+    cursor: pointer;
+
 }
 
 ul.sidebar-menu {
