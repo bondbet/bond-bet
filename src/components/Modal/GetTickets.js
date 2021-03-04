@@ -106,7 +106,7 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, ge
                                 }
                                 value={depositAmount}
                             />
-                            {connected && mainTokenBalance.gt('0')?
+                            {connected && mainTokenBalance.hasOwnProperty('gt') && mainTokenBalance.gt('0')?
                                 (tokenIsEnabled && !maxAmountSelected) && <button className='max-btn' onClick={() => { 
                                    
                                         setDepositAmount(toFixed(+ethers.utils.formatEther(mainTokenBalance), 4)); 
