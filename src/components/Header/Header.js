@@ -11,6 +11,7 @@ import { Link } from 'react-router-dom';
 import AppContext from '../../ContextAPI';
 import { capitalize, shortenEthereumAddress } from '../../helpers/format-utils';
 import { connect } from 'react-redux';
+import { ACTION_TYPE } from '../../store/action-type';
 
 const Header = ({ connected, provider, connectedWalletName, setSelectedMenuItem, connectedWalletAddress, connectedNetwork, setToggleSidebar, toggleSidebar }) => {
     const [openDropdown, setOpenDropdown] = useState(false);
@@ -110,6 +111,8 @@ const mapStateToProps = (
     connectedNetwork,
 })
 const mapDispatchToProps = dispatch => ({
-    setToggleSidebar: (x) => dispatch({ type: 'TOGGLE_SIDEBAR', value: x })
+    setToggleSidebar: (x) => dispatch({ type: 'TOGGLE_SIDEBAR', value: x }),
+    setSelectedMenuItem: value => dispatch({type: ACTION_TYPE.SELECTED_MENU_ITEM, value})
+   
 })
 export default connect(mapStateToProps, mapDispatchToProps)(Header);
