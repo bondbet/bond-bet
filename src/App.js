@@ -10,7 +10,7 @@ import { connect } from 'react-redux';
 import { ACTION_TYPE } from './store/action-type';
 import { POOL_TYPE } from './store/pool-type';
 import PoolContractsResolver from './components/PoolContractsResolver';
-import {BARN_PRIZE_POOL_RINKEBY_ADDRESS, BOND_TICKETS_RINKEBY_CONTRACT_ADDRESS, BOND_UNDELYING_TOKEN_ADDRESS, PRIZE_POOL_MAIN_NET_ADDRESS, PRIZE_STRATEGY_CONTRACT_ADDRESS, PRIZE_STRATEGY_MAIN_NET_ADDRESS, PRIZE_STRATEGY_RINKEBY_CONTRACT_ADDRESS, STAKE_POOL_RINKEBY_PRIZE_POOL_ADDRESS, STAKE_POOL_RINKEBY_PRIZE_STRATEGY_ADDRESS, STAKE_POOL_RINKEBY_TICKET_ADDRESS, STAKE_POOL_RINKEBY_UNDELYING_TOKEN_ADDRESS, TICKETS_MAIN_NET_ADDRESS, UNDERLYING_TOKEN_MAIN_NET } from './constants/contracts';
+import { PRIZE_POOL_MAIN_NET_ADDRESS, PRIZE_STRATEGY_MAIN_NET_ADDRESS, TICKETS_MAIN_NET_ADDRESS, UNDERLYING_TOKEN_MAIN_NET, BARN_PRIZE_POOL_MAINNET_ADDRESS, BOND_UNDERLYING_TOKEN_MAINNET_ADDRESS, PRIZE_STRATEGY_MAINNET_CONTRACT_ADDRESS, BOND_TICKETS_MAINNET_CONTRACT_ADDRESS } from './constants/contracts';
 import Router from './Router';
 import BarnPrizePool from './constants/abis/BarnPrizePool.json'
 import StakePrizePool from './constants/abis/StakePrizePool.json'
@@ -171,31 +171,22 @@ const App = (
 
 		<PoolContractsResolver 
 			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
-			prizePoolAddress={BARN_PRIZE_POOL_RINKEBY_ADDRESS}
-			
-			underlyingTokenAddress={BOND_UNDELYING_TOKEN_ADDRESS}
-			prizeStrategyAddress={PRIZE_STRATEGY_RINKEBY_CONTRACT_ADDRESS}
+			prizePoolAddress={BARN_PRIZE_POOL_MAINNET_ADDRESS}
+			underlyingTokenAddress={BOND_UNDERLYING_TOKEN_MAINNET_ADDRESS}
+			prizeStrategyAddress={PRIZE_STRATEGY_MAINNET_CONTRACT_ADDRESS}
 			prizePoolAbi={BarnPrizePool.abi}
-			ticketsAddress={BOND_TICKETS_RINKEBY_CONTRACT_ADDRESS}></PoolContractsResolver>
-
-<PoolContractsResolver 
-			poolType={POOL_TYPE.NEW_POOL}
-			prizePoolAddress={STAKE_POOL_RINKEBY_PRIZE_POOL_ADDRESS}
+			ticketsAddress={BOND_TICKETS_MAINNET_CONTRACT_ADDRESS}>
+		</PoolContractsResolver>
 			
-			underlyingTokenAddress={STAKE_POOL_RINKEBY_UNDELYING_TOKEN_ADDRESS}
-			prizeStrategyAddress={STAKE_POOL_RINKEBY_PRIZE_STRATEGY_ADDRESS}
-			prizePoolAbi={StakePrizePool.abi}
-			ticketsAddress={STAKE_POOL_RINKEBY_TICKET_ADDRESS}></PoolContractsResolver>
-
-
-				{/* <PoolContractsResolver 
+		<PoolContractsResolver 
 			poolType={POOL_TYPE.NEW_POOL}
 			prizePoolAddress={PRIZE_POOL_MAIN_NET_ADDRESS}
-			
 			underlyingTokenAddress={UNDERLYING_TOKEN_MAIN_NET}
 			prizePoolAbi={StakePrizePool.abi}
 			prizeStrategyAddress={PRIZE_STRATEGY_MAIN_NET_ADDRESS}
-			ticketsAddress={TICKETS_MAIN_NET_ADDRESS}></PoolContractsResolver> */}
+			ticketsAddress={TICKETS_MAIN_NET_ADDRESS}>
+		</PoolContractsResolver>
+
 					<Router />
 			    </AppContext.Provider>
 		
