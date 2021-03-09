@@ -1,43 +1,43 @@
 @font-face {
   font-family: pixChicago;
-  src: url("../fonts/pixChicago/pixChicago.woff");
+  src: url('../fonts/pixChicago/pixChicago.woff');
 }
 
 @font-face {
   font-family: silkscreen;
-  src: url("../fonts/silkscreen/slkscre.ttf");
+  src: url('../fonts/silkscreen/slkscre.ttf');
 }
 
 @font-face {
   font-family: spaceGroteskBold;
-  src: url("../fonts/spaceGrotesk/SpaceGrotesk-Bold.ttf");
+  src: url('../fonts/spaceGrotesk/SpaceGrotesk-Bold.ttf');
 }
 
 @font-face {
   font-family: spaceGroteskSemiBold;
-  src: url("../fonts/spaceGrotesk/SpaceGrotesk-SemiBold.ttf");
+  src: url('../fonts/spaceGrotesk/SpaceGrotesk-SemiBold.ttf');
 }
 
 @font-face {
   font-family: spaceGroteskRegular;
-  src: url("../fonts/spaceGrotesk/SpaceGrotesk-Regular.ttf");
+  src: url('../fonts/spaceGrotesk/SpaceGrotesk-Regular.ttf');
 }
 
 @font-face {
   font-family: spaceGroteskLight;
-  src: url("../fonts/spaceGrotesk/SpaceGrotesk-Light.ttf");
+  src: url('../fonts/spaceGrotesk/SpaceGrotesk-Light.ttf');
 }
 
 @font-face {
   font-family: spaceGroteskMedium;
-  src: url("../fonts/spaceGrotesk/SpaceGrotesk-Medium.ttf");
+  src: url('../fonts/spaceGrotesk/SpaceGrotesk-Medium.ttf');
 }
 
 @font-face {
   font-family: AdvancedPixel;
-  src: url("../fonts/advancedPixel/AdvancedPixelLCD-7.woff2") format("woff2"),
-    url("../fonts/advancedPixel/AdvancedPixelLCD-7.woff") format("woff"),
-    url("../fonts/advancedPixel/AdvancedPixelLCD-7.ttf") format("truetype");
+  src: url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff2') format('woff2'),
+    url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff') format('woff'),
+    url('../fonts/advancedPixel/AdvancedPixelLCD-7.ttf') format('truetype');
 }
 
 * {
@@ -100,11 +100,11 @@ body {
   }
 }
 
-@import "Header.css";
-@import "Sidebar.css";
-@import "Pools.css";
-@import "PoolDetails.css";
-@import "MyAccount.css";
-@import "Leaderboard.css";
-@import "Modal.css";
-@import "_buttons.css";
+@import 'Header.css';
+@import 'Sidebar.css';
+@import 'Pools.css';
+@import 'PoolDetails.css';
+@import 'MyAccount.css';
+@import 'Leaderboard.css';
+@import 'Modal.css';
+@import '_buttons.css';
