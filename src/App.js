@@ -157,7 +157,7 @@ const App = (
 
 			
 
-			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
+			poolType={POOL_TYPE.NEW_POOL}
 		></Main>
 		<Main
 				provider={provider}
@@ -166,11 +166,11 @@ const App = (
 				connectedWalletName={connectedWalletName}
 				connected={connected}
  
-			poolType={POOL_TYPE.NEW_POOL}
+			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
 		></Main>
 
 		<PoolContractsResolver 
-			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
+			poolType={POOL_TYPE.NEW_POOL}
 			prizePoolAddress={BARN_PRIZE_POOL_MAINNET_ADDRESS}
 			underlyingTokenAddress={BOND_UNDERLYING_TOKEN_MAINNET_ADDRESS}
 			prizeStrategyAddress={PRIZE_STRATEGY_MAINNET_CONTRACT_ADDRESS}
@@ -179,7 +179,7 @@ const App = (
 		</PoolContractsResolver>
 			
 		<PoolContractsResolver 
-			poolType={POOL_TYPE.NEW_POOL}
+			poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
 			prizePoolAddress={PRIZE_POOL_MAIN_NET_ADDRESS}
 			underlyingTokenAddress={UNDERLYING_TOKEN_MAIN_NET}
 			prizePoolAbi={StakePrizePool.abi}

@@ -26,6 +26,7 @@ const MyAccountDetails = (
         mainTokenBalance,
         connectedWalletAddress,
         setSelectedMenuItem,
+        numberOfWinners,
         POOL_URL,
         POOL_TITLE
     }) => {
@@ -146,7 +147,7 @@ const MyAccountDetails = (
                         <div><b>{formatEtherWithDecimals(ticketsBalance, 2)} Tickets /  {formatEtherWithDecimals(mainTokenBalance, 2)} BOND</b></div>
                         <div>Current week prize <b>{`${currentWeekPrice ? formatEtherWithDecimals(currentWeekPrice, 2) : 0} BOND`}</b></div>
                         <div>Odds <b>1</b> in <b>{odds}</b></div>
-                        <div><b>1</b> winner</div>
+                        <div><b>{numberOfWinners.toString()}</b> winners</div>
                         <div><b>Prize in {countdown.days + 'd:' + countdown.hours + 'h:' + countdown.minutes + 'm:' + countdown.seconds + 's'}</b></div>
                     </div>
                 </div>
@@ -198,7 +199,8 @@ const mapStateToProps = (state, {poolType}) =>
                                 allDeposits: state[poolType].allDeposits, 
                                 allWithdraws: state[poolType].allWithdraws, 
                                 mainTokenBalance: state.mainTokenBalance, 
-                                connectedWalletAddress: state.connectedWalletAddress
+                                connectedWalletAddress: state.connectedWalletAddress,
+                                numberOfWinners: state[poolType].numberOfWinners
                             })
 
 const mapDispatchToProps = (dispatch, {poolType}) => ({
