@@ -35,9 +35,9 @@
 
 @font-face {
     font-family: AdvancedPixel;
-    src: url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff2') format('woff2'), 
+    src: url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff2') format('woff2'),
         url('../fonts/advancedPixel/AdvancedPixelLCD-7.woff') format('woff'),
-        url('../fonts/advancedPixel/AdvancedPixelLCD-7.ttf')  format('truetype');
+        url('../fonts/advancedPixel/AdvancedPixelLCD-7.ttf') format('truetype');
 }
 
 * {
@@ -53,12 +53,10 @@ textarea:focus {
 
 body {
     background-size: 150px 150px;
-    background-image:
-        linear-gradient(to right, #5B5DB8 0.5px, transparent 1px),
-        linear-gradient(to bottom, #5B5DB8 0.5px, transparent 1px);
-    background-color: #6567CC;
+    background-image: linear-gradient(to right, #5b5db8 0.5px, transparent 1px),
+        linear-gradient(to bottom, #5b5db8 0.5px, transparent 1px);
+    background-color: #6567cc;
     overflow-x: hidden;
-    
 }
 
 #root {
@@ -67,9 +65,8 @@ body {
 
 .app-wrapper {
     display: flex;
-    min-height:calc(100vh - 90px);
+    min-height: calc(100vh - 90px);
     height: calc(100% - 90px);
-   
 }
 
 .app-sidebar {
@@ -81,14 +78,15 @@ body {
     min-height: 100%;
     left: 0;
     top: 0;
-    background: #EFEFEF;
+    background: #efefef;
     padding: 84px 10px 40px;
-    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5), inset 3px 3px 0px rgba(255, 255, 255, 0.7);
+    box-shadow: inset -1px -1px 0px 1px rgba(0, 0, 0, 0.5),
+        inset 3px 3px 0px rgba(255, 255, 255, 0.7);
     border-right: 3px solid #000;
 }
 
 .app-content {
-    padding: 47px 108px;
+    padding: 47px 45px;
     width: 100%;
     overflow: auto;
 }
@@ -102,11 +100,11 @@ body {
     }
 }
 
-@import "Header.css";
-@import "Sidebar.css";
-@import "Pools.css";
-@import "PoolDetails.css";
-@import "MyAccount.css";
-@import "Leaderboard.css";
-@import "Modal.css";
-@import "_buttons.css";
+@import 'Header.css';
+@import 'Sidebar.css';
+@import 'Pools.css';
+@import 'PoolDetails.css';
+@import 'MyAccount.css';
+@import 'Leaderboard.css';
+@import 'Modal.css';
+@import '_buttons.css';
