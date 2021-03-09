@@ -12,13 +12,6 @@ const Pools = () => {
         <RewardPool poolType={POOL_TYPE.COMMUNITY_REWARD_POOL} />
         <RewardPool poolType={POOL_TYPE.NEW_POOL} />
       </div>
-
-      <Description
-        title="Bond.Bet No Loss Lottery Pools"
-        description="No loss pools build on top of Pool Together where 3 random persons
-              earn the interest from the pool and everyone keeps their
-              principal. Get a chance to win!"
-      />
     </div>
   );
 };
