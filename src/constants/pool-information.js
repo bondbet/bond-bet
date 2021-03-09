@@ -1,6 +1,6 @@
 export const POOL_INFORMATION = {
   COMMUNITY_REWARD_POOL: {
-    TITLE: "Community Reward Pool - Bond.Bet",
+    TITLE: "Community Reward Pool",
     URL: "community-reward-pool",
     YIELD_SOURCE: "BarnBridge DAO Staking",
     DESCRIPTION1:
@@ -9,7 +9,7 @@ export const POOL_INFORMATION = {
       "Each week the protocol randomly chooses one winner who gets all the sum of the prize. The staked amount of BOND tokens can be withdrawn at any time without any time lockups.",
   },
   STAKE_POOL: {
-    TITLE: "BB DAO Staking Pool - Bond.Bet",
+    TITLE: "BB DAO Staking Pool",
     URL: "staked-pool",
     YIELD_SOURCE: "BarnBridge DAO Staking",
     DESCRIPTION1:

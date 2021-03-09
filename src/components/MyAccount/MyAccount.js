@@ -6,7 +6,7 @@ import { POOL_TYPE } from "../../store/pool-type";
 const MyAccount = () => {
   return (
     <div className="my-account-section">
-      <h1 className="my-account-title">My Account - Bond.Bet</h1>
+      <h1 className="my-account-title">My Account</h1>
 
       <div className="my-account-container">
         <MyAccountDetails

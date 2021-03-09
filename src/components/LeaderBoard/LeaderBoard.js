@@ -7,7 +7,7 @@ import Description from "../Shared/Descrption/Description";
 const LeaderBoard = () => {
   return (
     <div className="leaderboard-section">
-      <h1 className="leaderboard-title">Leaderboard - Bond.Bet</h1>
+      <h1 className="leaderboard-title">Leaderboard</h1>
 
       <LeaderBoardDetails
         poolType={POOL_TYPE.COMMUNITY_REWARD_POOL}
