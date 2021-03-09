@@ -50,7 +50,7 @@ const PoolContractsResolver = (
 					
 					let mainAssetTokenAddress;
 	
-					mainAssetTokenAddress = poolType === POOL_TYPE.COMMUNITY_REWARD_POOL ? await newBarnPrizePoolContract.barn() : underlyingTokenAddress;
+					mainAssetTokenAddress = poolType === POOL_TYPE.NEW_POOL ? await newBarnPrizePoolContract.barn() : underlyingTokenAddress;
 					const newMainAssetContract = getContract(mainAssetTokenAddress, BarnFacetMock.abi, library, connectedWalletAddress);
 
 					setMainAssetContract(newMainAssetContract);

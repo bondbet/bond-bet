@@ -155,7 +155,7 @@ const Main = (
 
         let currentWeekPrize;
 
-        if(poolType === POOL_TYPE.COMMUNITY_REWARD_POOL) {
+        if(poolType === POOL_TYPE.NEW_POOL) {
             const totalBalance = await mainAssetContract.balanceOf(prizePoolContract.address);
             const owedAward = await prizePoolContract.owedReward();
             currentWeekPrize = totalBalance.add(owedAward).sub(totalTickets);
