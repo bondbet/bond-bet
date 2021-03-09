@@ -115,7 +115,6 @@ const RewardPoolDetails = (
             </div>
 
             {
-                poolType === POOL_TYPE.NEW_POOL ? 
             <div className='pools-box' style={{ marginBottom: '30px' }}>
                 <PoolBoxHeader title='WARNING' />
                 <div className='pools-box-content required-changes'>
@@ -124,7 +123,7 @@ const RewardPoolDetails = (
                         <p className='pools-box-inner-description'>When users deposit, they are instantly eligible to win. To maintain the fairness a time decay early is enforced. <br/><span style={{ color: '#FF636B' }}>Early exit fee is 10%. Exit fee decay time - 7 days.</span> To avoid paying fees, stay in the pool for at least 7 days.</p>
                     </div>
                 </div>
-            </div> : null
+            </div>
             }
             
 
@@ -170,7 +169,7 @@ const RewardPoolDetails = (
             </div>
 
 {
-    poolType === POOL_TYPE.NEW_POOL ? <div>
+    <div>
         <div className='pools-box-container'>
                 <div className='pools-box'>
                     <PoolBoxHeader title='Early exit fee' />
@@ -201,8 +200,6 @@ const RewardPoolDetails = (
                 </div>
             </div>
         </div> 
-        : 
-        null
 }
             
 
