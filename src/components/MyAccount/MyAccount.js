@@ -21,11 +21,6 @@ const MyAccount = () => {
         ></MyAccountDetails>
       </div>
 
-      <Description
-        title="My Account - Bond.Bet"
-        description="My account page displays all the details about your pool entries,
-        transactions, rewards and winnings."
-      />
     </div>
   );
 };

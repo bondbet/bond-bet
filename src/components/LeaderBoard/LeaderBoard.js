@@ -14,10 +14,6 @@ const LeaderBoard = () => {
       ></LeaderBoardDetails>
       <LeaderBoardDetails poolType={POOL_TYPE.NEW_POOL}></LeaderBoardDetails>
 
-      <Description
-        title="Leaderboard - Bond.Bet"
-        description="Leaderboard displays winners, date details, and their winnings."
-      />
     </div>
   );
 };
