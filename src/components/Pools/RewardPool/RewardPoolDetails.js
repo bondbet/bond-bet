@@ -120,7 +120,7 @@ const RewardPoolDetails = (
                 <div className='pools-box-content required-changes'>
                     <div className='pools-box-inner required-changes'>
                         <h1 className='pools-box-inner-title required-changes'>Early exit fee</h1>
-                        <p className='pools-box-inner-description'>When users deposit, they are instantly eligible to win. To maintain the fairness a time decay early is enforced. <br/><span style={{ color: '#FF636B' }}>Early exit fee is 10%. Exit fee decay time - 7 days.</span> To avoid paying fees, stay in the pool for at least 7 days.</p>
+                        <p className='pools-box-inner-description'>When users deposit, they are instantly eligible to win. To maintain fairness, a time decay mechanism has been implemented where exiting the pool <span style={{ color: '#FF636B' }}>before 7 days</span> have elapsed will result in a <span style={{ color: '#FF636B' }}>10% early exit fee</span> being charged. To avoid paying this fee, stay in the pool for at least 7 days.</p>
                     </div>
                 </div>
             </div>
