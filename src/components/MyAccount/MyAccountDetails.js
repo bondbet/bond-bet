@@ -152,37 +152,6 @@ const MyAccountDetails = (
                     </div>
                 </div>
             </div>
-
-            <div className='my-account-totals'>
-                <div>
-                    <div className='pools-box'>
-                        <PoolBoxHeader title='Total Rewards' />
-                        <div className='pools-box-content required-changes'>
-                            <div className='pools-box-inner required-changes'>
-                                <div className='pools-box-screen required-changes'>
-                                    <div className='pools-box-screen-inner required-changes'>{`${formatEtherWithDecimals(totalAwards, 2)} bond`}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <div className='pools-box'>
-                        <PoolBoxHeader title='Total Winnings' />
-                        <div className='pools-box-content required-changes'>
-                            <div className='pools-box-inner required-changes'>
-                                <div className='pools-box-screen required-changes'>
-                                    <div className='pools-box-screen-inner required-changes'>{`${numberOfAwards} times`}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div className='transactions'>
-                <Table title='My Transactions' data={userTxData} columns={PLACEHOLDER_COLUMNS} pageSize={4} />
-            </div>
         </div>
     )
 }
