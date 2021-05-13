@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect} from 'react'
 import { Link, useHistory } from 'react-router-dom';
 import onlyLogo from '../../../assets/images/onlyLogo.svg';
@@ -16,7 +17,6 @@ import { formatToHumatReadableDate } from '../../../helpers/date';
 import { BigNumber, ethers } from 'ethers';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../../store/action-type';
-import { POOL_TYPE } from '../../../store/pool-type';
 
 const RewardPoolDetails = (
     {

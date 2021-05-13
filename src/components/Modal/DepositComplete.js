@@ -1,8 +1,6 @@
-import React, {useContext, useState, useEffect} from 'react';
-import AppContext from '../../ContextAPI';
+import React from 'react';
 import Countdown from '../Pools/Components/Countdown';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
-import { ethers } from 'ethers';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
 import {connect}  from 'react-redux';
 

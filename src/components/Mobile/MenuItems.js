@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom';
 import poolsImg from '../../assets/images/pools.svg';
 import myAccountImg from '../../assets/images/my-account.svg';

@@ -1,6 +1,5 @@
 import React from "react";
 import { POOL_TYPE } from "../../store/pool-type";
-import Description from "../Shared/Descrption/Description";
 import RewardPool from "./RewardPool/RewardPool";
 
 const Pools = () => {

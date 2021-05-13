@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from 'react';
 import { BigNumber } from 'ethers';
 import * as ethers from 'ethers';
@@ -219,6 +221,7 @@ const Main = (
             const depositTx = await prizePoolContract.depositTo(connectedWalletAddress, depositAmount, ticketsContract.address, "0x0000000000000000000000000000000000000000");
             setGetTicketsLoading(true);
             setGetTicketsTxId(depositTx.hash)
+            
             const deposit = await depositTx.wait();
             setTicketsBalance(ticketsBalance.add(depositAmount + ''))
             setMainTokenBalance(mainTokenBalance.sub(depositAmount + ''));

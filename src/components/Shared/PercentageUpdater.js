@@ -1,5 +1,5 @@
-import React, {useEffect, useState, useContext} from 'react'
-import AppContext from '../../ContextAPI';
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useEffect} from 'react'
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
 

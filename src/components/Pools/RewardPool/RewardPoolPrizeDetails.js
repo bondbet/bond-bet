@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React from 'react'
 import { useHistory, useParams } from 'react-router-dom'
 import onlyLogo from '../../../assets/images/onlyLogo.svg'

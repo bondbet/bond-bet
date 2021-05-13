@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {  useEffect } from 'react';
 import BarnBridgeToken from '../constants/abis/BarnBridgeToken.json'
 import { getContract } from '../helpers/ethers'

@@ -1,4 +1,4 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import metamask from '../../assets/images/metamask.svg';
 import walletConnect from '../../assets/images/wallet-connect.svg';
@@ -6,7 +6,6 @@ import ledger from '../../assets/images/ledger.svg';
 import trezor from '../../assets/images/trezor.svg';
 import coinbase from '../../assets/images/coinbase.svg';
 import portis from '../../assets/images/portis.svg';
-import AppContext from '../../ContextAPI';
 import {connect} from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
 
