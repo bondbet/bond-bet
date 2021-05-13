@@ -1,5 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
-import AppContext from '../../../ContextAPI';
+import React, { useEffect, useState } from 'react'
 import { setNewTime } from '../../../helpers/countdown-setter';
 import {connect} from 'react-redux';
 

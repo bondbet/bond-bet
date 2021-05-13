@@ -1,10 +1,9 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import walletIcon from '../../assets/images/wallet-sm.svg';
 import logo from '../../assets/images/onlyLogo.svg';
 import closeIcon from '../../assets/images/close.svg';
 import minusIcon from '../../assets/images/minus.svg';
-import AppContext from '../../ContextAPI';
 import validator from 'validator';
 import * as ethers from 'ethers';
 import EtherscanLink from '../Shared/EtherscanLink';
@@ -66,13 +65,13 @@ const GetTickets = ({getTicketsLoading, mainTokenBalance, allowTicketHandler, ge
                                     onChange={allowTicketHandler}
                                     disabled={tokenIsEnabled || getTicketsLoading}
                                     className='switch-checkbox'
-                                    id={'switch-new'+'RP'}
+                                    id={'switch-newRP'}
                                     type='checkbox'
                                 />
                                 <label
                                     style={{ background:  tokenIsEnabled  && '#28D879' }}
                                     className='switch-label'
-                                    htmlFor={'switch-new'+"RP"}
+                                    htmlFor={'switch-newRP'}
                                 >
                                     <span className='switch-button'>
                                         {

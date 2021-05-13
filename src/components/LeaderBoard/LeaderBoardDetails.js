@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Table from '../Table/Table'
 import logo from '../../assets/images/onlyLogo.svg'
 import { useHistory } from 'react-router-dom'
-import AppContext from '../../ContextAPI'
 import { formatToHumatReadableDate } from '../../helpers/date'
 import { formatEtherWithDecimals } from '../../helpers/format-utils'
 import {connect} from 'react-redux';
@@ -45,6 +44,7 @@ const LeaderBoardDetails = ({previousAwards, setSelectedMenuItem, POOL_TITLE}) =
             Header: 'Winner',
             accessor: 'col4'
         },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     ], [history, setSelectedMenuItem])
 
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useCallback } from 'react';
 import './assets/css/App.css';
 import './assets/css/Responsive.css';

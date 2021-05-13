@@ -3,7 +3,7 @@ import en from 'javascript-time-ago/locale/en'
 
 TimeAgo.addLocale(en)
 export const getUtcTimestamp = () => {
-    let now = new Date;
+    let now = new Date();
     return Date.UTC(now.getUTCFullYear(),now.getUTCMonth(), now.getUTCDate() , 
       now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds(), now.getUTCMilliseconds()) / 1000;
 }

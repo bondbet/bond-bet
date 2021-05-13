@@ -1,16 +1,15 @@
-import React, { useContext, useState, useEffect } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { useState, useEffect } from 'react';
 import * as ethers from 'ethers';
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader';
 import logo from '../../assets/images/onlyLogo.svg';
 import diamond from '../../assets/images/diamond.svg';
 import { useHistory } from 'react-router-dom';
-import Table from '../Table/Table';
 import { formatEtherWithDecimals } from '../../helpers/format-utils';
 import { setNewTime } from '../../helpers/countdown-setter';
 import { formatTimestampToTimeAgo } from '../../helpers/date';
 import { connect } from 'react-redux';
 import { ACTION_TYPE } from '../../store/action-type';
-import { POOL_TYPE } from '../../store/pool-type';
 
 const MyAccountDetails = (
     {
@@ -42,10 +41,10 @@ const MyAccountDetails = (
         seconds: 0,
     });
 
-    const [userTxData, setUserTxData] = useState([]);
+    const [, setUserTxData] = useState([]);
 
-    const [totalAwards, setTotalAwards] = useState(0);
-    const [numberOfAwards, setNumberOfAwards] = useState(0);
+    const [, setTotalAwards] = useState(0);
+    const [, setNumberOfAwards] = useState(0);
 
     useEffect(() => {
         if (previousAwards && connectedWalletAddress) {
@@ -101,6 +100,7 @@ const MyAccountDetails = (
 
     }
 
+    // eslint-disable-next-line no-unused-vars
     const PLACEHOLDER_COLUMNS = React.useMemo(() => [
         {
             Header: 'Tickets / BOND',

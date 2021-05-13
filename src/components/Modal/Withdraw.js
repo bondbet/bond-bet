@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react'
 import PoolBoxHeader from '../Pools/Components/PoolBoxHeader'
 import walletIcon from '../../assets/images/wallet-sm.svg';
@@ -81,7 +82,7 @@ const Withdraw = ({ticketsBalance, connected, ticketWithdrawHandler, calculateEa
             </div> 
             
        <div className='continue-btn'>
-            {<button onClick={() => ticketWithdrawHandler(withdrawAmount, maxAmountSelected, exitFee)} disabled={!inputValid || !exitFeeCalculated && poolType === POOL_TYPE.NEW_POOL}>Withdraw</button>}
+            {<button onClick={() => ticketWithdrawHandler(withdrawAmount, maxAmountSelected, exitFee)} disabled={(!inputValid || !exitFeeCalculated) && poolType === POOL_TYPE.NEW_POOL}>Withdraw</button>}
         </div>
        {exitFeeCalculated ?  <div className='fee-info'> Exit fee: {formatEtherWithDecimals(exitFee, 2) }</div> : null}
         </div>

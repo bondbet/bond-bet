@@ -1,6 +1,5 @@
 import React from "react";
 import MyAccountDetails from "./MyAccountDetails";
-import Description from "../Shared/Descrption/Description";
 import { POOL_TYPE } from "../../store/pool-type";
 
 const MyAccount = () => {
